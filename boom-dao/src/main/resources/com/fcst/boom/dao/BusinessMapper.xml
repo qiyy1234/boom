@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fcst.boom.dao.BusinessDao" >
+  <resultMap id="BaseResultMap" type="com.fcst.boom.domain.Business" >
+      <id  column="ID" property="id" jdbcType="VARCHAR"  />
+<result  column="PHONE" property="phone" jdbcType="VARCHAR"  />
+<result  column="IDINT" property="idint" jdbcType="VARCHAR"  />
+<result  column="MONETARY" property="monetary" jdbcType="REAL"  />
+<result  column="REMARK" property="remark" jdbcType="VARCHAR"  />
+<result  column="ENDTIME" property="endtime" jdbcType="VARCHAR"  />
+<result  column="STARTTIME" property="starttime" jdbcType="VARCHAR"  />
+<result  column="ROOMCODE" property="roomcode" jdbcType="VARCHAR"  />
+<result  column="DURATION" property="duration" jdbcType="INTEGER"  />
+
+  </resultMap>
+  <!--删除记录-->
+  <delete id="delete" parameterType="com.fcst.boom.domain.Business" >
+      delete from T_BUSINESS  where ID=#{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!--插入记录-->
+  <insert id="insert" parameterType="com.fcst.boom.domain.Business" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  select uuid() 
+</selectKey>
+ insert into T_BUSINESS ( ID
+ , PHONE
+ , IDINT
+ , MONETARY
+ , REMARK
+ , ENDTIME
+ , STARTTIME
+ , ROOMCODE
+ , DURATION
+)values(#{id,jdbcType=VARCHAR}
+ , #{phone,jdbcType=VARCHAR}
+ , #{idint,jdbcType=VARCHAR}
+ , #{monetary,jdbcType=REAL}
+ , #{remark,jdbcType=VARCHAR}
+ , #{endtime,jdbcType=VARCHAR}
+ , #{starttime,jdbcType=VARCHAR}
+ , #{roomcode,jdbcType=VARCHAR}
+ , #{duration,jdbcType=INTEGER}
+)
+  </insert>
+
+<!--更新记录-->
+<update id="update" parameterType="com.fcst.boom.domain.Business" >
+    update  T_BUSINESS
+<set>
+<trim prefix="" suffix="" suffixOverrides=",">
+<if test="phone!=null and phone!=''">
+PHONE=#{phone,jdbcType=VARCHAR},
+</if>
+<if test="idint!=null and idint!=''">
+IDINT=#{idint,jdbcType=VARCHAR},
+</if>
+<if test="monetary!=null and monetary!=''">
+MONETARY=#{monetary,jdbcType=REAL},
+</if>
+<if test="remark!=null and remark!=''">
+REMARK=#{remark,jdbcType=VARCHAR},
+</if>
+<if test="endtime!=null and endtime!=''">
+ENDTIME=#{endtime,jdbcType=VARCHAR},
+</if>
+<if test="starttime!=null and starttime!=''">
+STARTTIME=#{starttime,jdbcType=VARCHAR},
+</if>
+<if test="roomcode!=null and roomcode!=''">
+ROOMCODE=#{roomcode,jdbcType=VARCHAR},
+</if>
+<if test="duration!=null and duration!=''">
+DURATION=#{duration,jdbcType=INTEGER},
+</if>
+</trim>
+</set>
+  where ID=#{id,jdbcType=VARCHAR}
+</update>
+
+ <!--查询单条记录-->
+ <select id="get" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.Business" >
+    select  PHONE , IDINT , MONETARY , ID , REMARK , ENDTIME , STARTTIME , ROOMCODE , DURATION from T_BUSINESS  where ID=#{id,jdbcType=VARCHAR}
+</select>
+
+<!--查询记录-->
+<select id="query" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.Business">
+      select  PHONE , IDINT , MONETARY , ID , REMARK , ENDTIME , STARTTIME , ROOMCODE , DURATION from T_BUSINESS 
+<where>
+<if test="phone!=null and phone!=''">
+<![CDATA[ and PHONE=#{phone,jdbcType=VARCHAR}]]>
+</if>
+<if test="idint!=null and idint!=''">
+<![CDATA[ and IDINT=#{idint,jdbcType=VARCHAR}]]>
+</if>
+<if test="monetary!=null and monetary!=''">
+<![CDATA[ and MONETARY=#{monetary,jdbcType=REAL}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="endtime!=null and endtime!=''">
+<![CDATA[ and ENDTIME=#{endtime,jdbcType=VARCHAR}]]>
+</if>
+<if test="starttime!=null and starttime!=''">
+<![CDATA[ and STARTTIME=#{starttime,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomcode!=null and roomcode!=''">
+<![CDATA[ and ROOMCODE=#{roomcode,jdbcType=VARCHAR}]]>
+</if>
+<if test="duration!=null and duration!=''">
+<![CDATA[ and DURATION=#{duration,jdbcType=INTEGER}]]>
+</if>
+</where>
+   limit #{start},#{limit} 
+</select>
+
+<!--查询记录数-->
+<select id="queryCount"   resultType="int"   parameterType="com.fcst.boom.domain.Business">
+      select count(1) from T_BUSINESS 
+<where>
+<if test="phone!=null and phone!=''">
+<![CDATA[ and PHONE=#{phone,jdbcType=VARCHAR}]]>
+</if>
+<if test="idint!=null and idint!=''">
+<![CDATA[ and IDINT=#{idint,jdbcType=VARCHAR}]]>
+</if>
+<if test="monetary!=null and monetary!=''">
+<![CDATA[ and MONETARY=#{monetary,jdbcType=REAL}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="endtime!=null and endtime!=''">
+<![CDATA[ and ENDTIME=#{endtime,jdbcType=VARCHAR}]]>
+</if>
+<if test="starttime!=null and starttime!=''">
+<![CDATA[ and STARTTIME=#{starttime,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomcode!=null and roomcode!=''">
+<![CDATA[ and ROOMCODE=#{roomcode,jdbcType=VARCHAR}]]>
+</if>
+<if test="duration!=null and duration!=''">
+<![CDATA[ and DURATION=#{duration,jdbcType=INTEGER}]]>
+</if>
+</where>
+
+</select>
+</mapper>

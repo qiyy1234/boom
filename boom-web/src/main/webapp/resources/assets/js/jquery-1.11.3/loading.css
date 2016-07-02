@@ -1,0 +1,21 @@
+.loading-backdrop
+{
+	position: absolute;
+	z-index: 1040;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background:#fff url(loading.gif) no-repeat;
+	background-position: center;
+}
+.loading-backdrop.fade
+{
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.loading-backdrop.in
+{
+	opacity: .5;
+	filter: alpha(opacity=50);
+}

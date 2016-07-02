@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fcst.boom.dao.RoomDao" >
+  <resultMap id="BaseResultMap" type="com.fcst.boom.domain.Room" >
+      <id  column="ID" property="id" jdbcType="VARCHAR"  />
+<result  column="USESTATE" property="usestate" jdbcType="VARCHAR"  />
+<result  column="ROOMTYPE" property="roomtype" jdbcType="VARCHAR"  />
+<result  column="REMARK" property="remark" jdbcType="VARCHAR"  />
+<result  column="ROOMSSTATE" property="roomsstate" jdbcType="VARCHAR"  />
+<result  column="ROOMCODE" property="roomcode" jdbcType="VARCHAR"  />
+
+  </resultMap>
+  <!--删除记录-->
+  <delete id="delete" parameterType="com.fcst.boom.domain.Room" >
+      delete from T_ROOM  where ID=#{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!--插入记录-->
+  <insert id="insert" parameterType="com.fcst.boom.domain.Room" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  select uuid() 
+</selectKey>
+ insert into T_ROOM ( ID
+ , USESTATE
+ , ROOMTYPE
+ , REMARK
+ , ROOMSSTATE
+ , ROOMCODE
+)values(#{id,jdbcType=VARCHAR}
+ , #{usestate,jdbcType=VARCHAR}
+ , #{roomtype,jdbcType=VARCHAR}
+ , #{remark,jdbcType=VARCHAR}
+ , #{roomsstate,jdbcType=VARCHAR}
+ , #{roomcode,jdbcType=VARCHAR}
+)
+  </insert>
+
+<!--更新记录-->
+<update id="update" parameterType="com.fcst.boom.domain.Room" >
+    update  T_ROOM
+<set>
+<trim prefix="" suffix="" suffixOverrides=",">
+<if test="usestate!=null and usestate!=''">
+USESTATE=#{usestate,jdbcType=VARCHAR},
+</if>
+<if test="roomtype!=null and roomtype!=''">
+ROOMTYPE=#{roomtype,jdbcType=VARCHAR},
+</if>
+<if test="remark!=null and remark!=''">
+REMARK=#{remark,jdbcType=VARCHAR},
+</if>
+<if test="roomsstate!=null and roomsstate!=''">
+ROOMSSTATE=#{roomsstate,jdbcType=VARCHAR},
+</if>
+<if test="roomcode!=null and roomcode!=''">
+ROOMCODE=#{roomcode,jdbcType=VARCHAR},
+</if>
+</trim>
+</set>
+  where ID=#{id,jdbcType=VARCHAR}
+</update>
+
+ <!--查询单条记录-->
+ <select id="get" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.Room" >
+    select  USESTATE , ROOMTYPE , ID , REMARK , ROOMSSTATE , ROOMCODE from T_ROOM  where ID=#{id,jdbcType=VARCHAR}
+</select>
+
+<!--查询记录-->
+<select id="query" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.Room">
+      select  USESTATE , ROOMTYPE , ID , REMARK , ROOMSSTATE , ROOMCODE from T_ROOM 
+<where>
+<if test="usestate!=null and usestate!=''">
+<![CDATA[ and USESTATE=#{usestate,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomtype!=null and roomtype!=''">
+<![CDATA[ and ROOMTYPE=#{roomtype,jdbcType=VARCHAR}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomsstate!=null and roomsstate!=''">
+<![CDATA[ and ROOMSSTATE=#{roomsstate,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomcode!=null and roomcode!=''">
+<![CDATA[ and ROOMCODE=#{roomcode,jdbcType=VARCHAR}]]>
+</if>
+</where>
+    order BY CREATE DESC
+    limit #{start},#{limit}
+</select>
+
+<!--查询记录数-->
+<select id="queryCount"   resultType="int"   parameterType="com.fcst.boom.domain.Room">
+      select count(1) from T_ROOM 
+<where>
+<if test="usestate!=null and usestate!=''">
+<![CDATA[ and USESTATE=#{usestate,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomtype!=null and roomtype!=''">
+<![CDATA[ and ROOMTYPE=#{roomtype,jdbcType=VARCHAR}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomsstate!=null and roomsstate!=''">
+<![CDATA[ and ROOMSSTATE=#{roomsstate,jdbcType=VARCHAR}]]>
+</if>
+<if test="roomcode!=null and roomcode!=''">
+<![CDATA[ and ROOMCODE=#{roomcode,jdbcType=VARCHAR}]]>
+</if>
+</where>
+
+    order BY CREATE DESC
+</select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- <typeHandlers>
+		时间戳与字符串类型转换
+		<typeHandler handler="com.boco.security.core.utils.mybatis.TimestampTypeHandler" javaType="String" jdbcType="TIMESTAMP"/>
+	</typeHandlers> -->
+	<plugins>
+		<plugin interceptor="com.fcst.boom.common.mybatis.MyBatisPageInterceptor" ><!-- 分页插件 -->
+			<property name="mybatis.dialect" value="mysql"/><!-- 数据库方言 -->
+		</plugin>
+	</plugins>
+	
+</configuration>
+

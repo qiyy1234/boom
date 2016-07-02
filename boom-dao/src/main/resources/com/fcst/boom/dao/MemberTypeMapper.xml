@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fcst.boom.dao.MemberTypeDao" >
+  <resultMap id="BaseResultMap" type="com.fcst.boom.domain.MemberType" >
+      <id  column="ID" property="id" jdbcType="VARCHAR"  />
+<result  column="TYPENAME" property="typename" jdbcType="VARCHAR"  />
+<result  column="REMARK" property="remark" jdbcType="VARCHAR"  />
+<result  column="REBATE" property="rebate" jdbcType="REAL"  />
+<result  column="TYPE" property="type" jdbcType="VARCHAR"  />
+
+  </resultMap>
+  <!--删除记录-->
+  <delete id="delete" parameterType="com.fcst.boom.domain.MemberType" >
+      delete from T_MEMBER_TYPE  where ID=#{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!--插入记录-->
+  <insert id="insert" parameterType="com.fcst.boom.domain.MemberType" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  select uuid() 
+</selectKey>
+ insert into T_MEMBER_TYPE ( ID
+ , TYPENAME
+ , REMARK
+ , REBATE
+ , TYPE
+)values(#{id,jdbcType=VARCHAR}
+ , #{typename,jdbcType=VARCHAR}
+ , #{remark,jdbcType=VARCHAR}
+ , #{rebate,jdbcType=REAL}
+ , #{type,jdbcType=VARCHAR}
+)
+  </insert>
+
+<!--更新记录-->
+<update id="update" parameterType="com.fcst.boom.domain.MemberType" >
+    update  T_MEMBER_TYPE
+<set>
+<trim prefix="" suffix="" suffixOverrides=",">
+<if test="typename!=null and typename!=''">
+TYPENAME=#{typename,jdbcType=VARCHAR},
+</if>
+<if test="remark!=null and remark!=''">
+REMARK=#{remark,jdbcType=VARCHAR},
+</if>
+<if test="rebate!=null and rebate!=''">
+REBATE=#{rebate,jdbcType=REAL},
+</if>
+<if test="type!=null and type!=''">
+TYPE=#{type,jdbcType=VARCHAR},
+</if>
+</trim>
+</set>
+  where ID=#{id,jdbcType=VARCHAR}
+</update>
+
+ <!--查询单条记录-->
+ <select id="get" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.MemberType" >
+    select  TYPENAME , ID , REMARK , REBATE , TYPE from T_MEMBER_TYPE  where ID=#{id,jdbcType=VARCHAR}
+</select>
+
+<!--查询记录-->
+<select id="query" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.MemberType">
+      select  TYPENAME , ID , REMARK , REBATE , TYPE from T_MEMBER_TYPE 
+<where>
+<if test="typename!=null and typename!=''">
+<![CDATA[ and TYPENAME=#{typename,jdbcType=VARCHAR}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="rebate!=null and rebate!=''">
+<![CDATA[ and REBATE=#{rebate,jdbcType=REAL}]]>
+</if>
+<if test="type!=null and type!=''">
+<![CDATA[ and TYPE=#{type,jdbcType=VARCHAR}]]>
+</if>
+</where>
+   limit #{start},#{limit} 
+</select>
+
+<!--查询记录数-->
+<select id="queryCount"   resultType="int"   parameterType="com.fcst.boom.domain.MemberType">
+      select count(1) from T_MEMBER_TYPE 
+<where>
+<if test="typename!=null and typename!=''">
+<![CDATA[ and TYPENAME=#{typename,jdbcType=VARCHAR}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="rebate!=null and rebate!=''">
+<![CDATA[ and REBATE=#{rebate,jdbcType=REAL}]]>
+</if>
+<if test="type!=null and type!=''">
+<![CDATA[ and TYPE=#{type,jdbcType=VARCHAR}]]>
+</if>
+</where>
+
+</select>
+</mapper>

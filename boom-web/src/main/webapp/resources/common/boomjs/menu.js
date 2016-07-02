@@ -1,0 +1,2 @@
+$("#menutreeTable").treeTable({ expandable: true });
+

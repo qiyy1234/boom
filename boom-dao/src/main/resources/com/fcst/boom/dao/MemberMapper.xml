@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fcst.boom.dao.MemberDao" >
+  <resultMap id="BaseResultMap" type="com.fcst.boom.domain.Member" >
+      <id  column="ID" property="id" jdbcType="VARCHAR"  />
+<result  column="PHONE" property="phone" jdbcType="VARCHAR"  />
+<result  column="BALANCE" property="balance" jdbcType="REAL"  />
+<result  column="STATE" property="state" jdbcType="VARCHAR"  />
+<result  column="NAME" property="name" jdbcType="VARCHAR"  />
+<result  column="IDINT" property="idint" jdbcType="VARCHAR"  />
+<result  column="SEX" property="sex" jdbcType="VARCHAR"  />
+<result  column="REMARK" property="remark" jdbcType="VARCHAR"  />
+<result  column="ACTIVESTATE" property="activestate" jdbcType="VARCHAR"  />
+<result  column="CREATED" property="created" jdbcType="TIMESTAMP"  />
+<result  column="CARDINT" property="cardint" jdbcType="VARCHAR"  />
+<result  column="TYPE" property="type" jdbcType="VARCHAR"  />
+
+  </resultMap>
+  <!--删除记录-->
+  <delete id="delete" parameterType="com.fcst.boom.domain.Member" >
+      delete from T_MEMBER  where ID=#{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!--插入记录-->
+  <insert id="insert" parameterType="com.fcst.boom.domain.Member" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  select uuid() 
+</selectKey>
+ insert into T_MEMBER ( ID
+ , PHONE
+ , BALANCE
+ , STATE
+ , NAME
+ , IDINT
+ , SEX
+ , REMARK
+ , ACTIVESTATE
+ , CREATED
+ , CARDINT
+ , TYPE
+)values(#{id,jdbcType=VARCHAR}
+ , #{phone,jdbcType=VARCHAR}
+ , #{balance,jdbcType=REAL}
+ , #{state,jdbcType=VARCHAR}
+ , #{name,jdbcType=VARCHAR}
+ , #{idint,jdbcType=VARCHAR}
+ , #{sex,jdbcType=VARCHAR}
+ , #{remark,jdbcType=VARCHAR}
+ , #{activestate,jdbcType=VARCHAR}
+ , #{created,jdbcType=TIMESTAMP}
+ , #{cardint,jdbcType=VARCHAR}
+ , #{type,jdbcType=VARCHAR}
+)
+  </insert>
+
+<!--更新记录-->
+<update id="update" parameterType="com.fcst.boom.domain.Member" >
+    update  T_MEMBER
+<set>
+<trim prefix="" suffix="" suffixOverrides=",">
+<if test="phone!=null and phone!=''">
+PHONE=#{phone,jdbcType=VARCHAR},
+</if>
+<if test="balance!=null and balance!=''">
+BALANCE=#{balance,jdbcType=REAL},
+</if>
+<if test="state!=null and state!=''">
+STATE=#{state,jdbcType=VARCHAR},
+</if>
+<if test="name!=null and name!=''">
+NAME=#{name,jdbcType=VARCHAR},
+</if>
+<if test="idint!=null and idint!=''">
+IDINT=#{idint,jdbcType=VARCHAR},
+</if>
+<if test="sex!=null and sex!=''">
+SEX=#{sex,jdbcType=VARCHAR},
+</if>
+<if test="remark!=null and remark!=''">
+REMARK=#{remark,jdbcType=VARCHAR},
+</if>
+<if test="activestate!=null and activestate!=''">
+ACTIVESTATE=#{activestate,jdbcType=VARCHAR},
+</if>
+<if test="created!=null and created!=''">
+CREATED=#{created,jdbcType=TIMESTAMP},
+</if>
+<if test="cardint!=null and cardint!=''">
+CARDINT=#{cardint,jdbcType=VARCHAR},
+</if>
+<if test="type!=null and type!=''">
+TYPE=#{type,jdbcType=VARCHAR},
+</if>
+</trim>
+</set>
+  where ID=#{id,jdbcType=VARCHAR}
+</update>
+
+ <!--查询单条记录-->
+ <select id="get" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.Member" >
+    select  PHONE , BALANCE , STATE , NAME , IDINT , SEX , ID , REMARK , ACTIVESTATE , CREATED , CARDINT , TYPE from T_MEMBER  where ID=#{id,jdbcType=VARCHAR}
+</select>
+
+<!--查询记录-->
+<select id="query" resultMap="BaseResultMap" parameterType="com.fcst.boom.domain.Member">
+      select  PHONE , BALANCE , STATE , NAME , IDINT , SEX , ID , REMARK , ACTIVESTATE , CREATED , CARDINT , TYPE from T_MEMBER 
+<where>
+<if test="phone!=null and phone!=''">
+<![CDATA[ and PHONE=#{phone,jdbcType=VARCHAR}]]>
+</if>
+<if test="balance!=null and balance!=''">
+<![CDATA[ and BALANCE=#{balance,jdbcType=REAL}]]>
+</if>
+<if test="state!=null and state!=''">
+<![CDATA[ and STATE=#{state,jdbcType=VARCHAR}]]>
+</if>
+<if test="name!=null and name!=''">
+<![CDATA[ and NAME=#{name,jdbcType=VARCHAR}]]>
+</if>
+<if test="idint!=null and idint!=''">
+<![CDATA[ and IDINT=#{idint,jdbcType=VARCHAR}]]>
+</if>
+<if test="sex!=null and sex!=''">
+<![CDATA[ and SEX=#{sex,jdbcType=VARCHAR}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="activestate!=null and activestate!=''">
+<![CDATA[ and ACTIVESTATE=#{activestate,jdbcType=VARCHAR}]]>
+</if>
+<if test="created!=null and created!=''">
+<![CDATA[ and CREATED=#{created,jdbcType=TIMESTAMP}]]>
+</if>
+<if test="cardint!=null and cardint!=''">
+<![CDATA[ and CARDINT=#{cardint,jdbcType=VARCHAR}]]>
+</if>
+<if test="type!=null and type!=''">
+<![CDATA[ and TYPE=#{type,jdbcType=VARCHAR}]]>
+</if>
+</where>
+   limit #{start},#{limit} 
+</select>
+
+<!--查询记录数-->
+<select id="queryCount"   resultType="int"   parameterType="com.fcst.boom.domain.Member">
+      select count(1) from T_MEMBER 
+<where>
+<if test="phone!=null and phone!=''">
+<![CDATA[ and PHONE=#{phone,jdbcType=VARCHAR}]]>
+</if>
+<if test="balance!=null and balance!=''">
+<![CDATA[ and BALANCE=#{balance,jdbcType=REAL}]]>
+</if>
+<if test="state!=null and state!=''">
+<![CDATA[ and STATE=#{state,jdbcType=VARCHAR}]]>
+</if>
+<if test="name!=null and name!=''">
+<![CDATA[ and NAME=#{name,jdbcType=VARCHAR}]]>
+</if>
+<if test="idint!=null and idint!=''">
+<![CDATA[ and IDINT=#{idint,jdbcType=VARCHAR}]]>
+</if>
+<if test="sex!=null and sex!=''">
+<![CDATA[ and SEX=#{sex,jdbcType=VARCHAR}]]>
+</if>
+<if test="id!=null and id!=''">
+<![CDATA[ and ID=#{id,jdbcType=VARCHAR}]]>
+</if>
+<if test="remark!=null and remark!=''">
+<![CDATA[ and REMARK=#{remark,jdbcType=VARCHAR}]]>
+</if>
+<if test="activestate!=null and activestate!=''">
+<![CDATA[ and ACTIVESTATE=#{activestate,jdbcType=VARCHAR}]]>
+</if>
+<if test="created!=null and created!=''">
+<![CDATA[ and CREATED=#{created,jdbcType=TIMESTAMP}]]>
+</if>
+<if test="cardint!=null and cardint!=''">
+<![CDATA[ and CARDINT=#{cardint,jdbcType=VARCHAR}]]>
+</if>
+<if test="type!=null and type!=''">
+<![CDATA[ and TYPE=#{type,jdbcType=VARCHAR}]]>
+</if>
+</where>
+
+</select>
+</mapper>
