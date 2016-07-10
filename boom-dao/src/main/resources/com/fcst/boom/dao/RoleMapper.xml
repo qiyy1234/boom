@@ -5,46 +5,70 @@
 		<id property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="enname" column="enname" />
-		<result property="dataScope" column="dataScope" />
-		<result property="createBy" column="createBy" />
-		<result property="createDate" column="create_date" />
+		<result property="createUser" column="createUser" />
+		<result property="createDateStr" column="createDate" />
+		<result property="updateUser" column="updateUser" />
+		<result property="updateDateStr" column="updateDate" />
 	</resultMap>
-	
-	<sql id="roleColumns">
-    	r.id,
-    	r.name,
-    	r.enname,
-		r.data_scope AS dataScope,
-		r.create_by AS createBy,
-		r.create_date,
-    </sql>
   
-  	<select id="findList" resultMap="roleResult">
+  	<select id="getRoleList" resultMap="roleResult"  parameterType="com.fcst.boom.dao.RoleDao">
 		SELECT 
 			r.id,
     		r.name,
     		r.enname,
-			r.data_scope AS dataScope,
-			r.create_by AS createBy,
-			r.create_date
+			r.create_user AS createUser,
+			DATE_FORMAT(r.create_date,'%Y-%m-%d %H:%i:%s') as createDate
 		FROM sys_role r
+		where 1=1 
+			<if test="role.name!=null and role.name != ''">
+				and r.name = #{role.name}
+			</if>
+		order by r.create_date desc
 	</select>
 	
 	<insert id="addRole" parameterType="com.fcst.boom.dao.RoleDao">
-		INSERT INTO sys_role (id,name,enname,role_type,data_scope,is_sys,useable,create_by,create_date,update_by,update_date,del_flag) 
-		values (#{id},#{name},#{enname},#{roleType},'1',#{sysData},#{useable},#{createBy},#{createDate},#{createBy},#{createDate},0)
+		INSERT INTO sys_role (id,name,enname,create_user,create_date,update_user,update_date,remark) 
+		values (#{id},#{name},#{enname},#{createUser},#{createDate},#{createUser},#{createDate},#{remark})
 	</insert>
 	
-	<select id="detailRole" resultMap="roleResult">
+	<select id="getRoleById" resultMap="roleResult">
 		SELECT 
 			r.id,
     		r.name,
     		r.enname,
-			r.data_scope AS dataScope,
-			r.create_by AS createBy,
-			r.create_date
+    		r.remark,
+			r.create_user AS createUser,
+			DATE_FORMAT(r.create_date,'%Y-%m-%d %H:%i:%s') AS createDate,
+			r.update_user AS updateUser,
+			DATE_FORMAT(r.update_date,'%Y-%m-%d %H:%i:%s') AS updateDate
 		FROM sys_role r
 		WHERE r.id = #{id}
 	</select>
+	
+	<update id="updateRole" parameterType="com.fcst.boom.dao.RoleDao">
+		UPDATE sys_role 
+		<set>
+			<if test="name!=null and name != ''">
+				name=#{name},
+			</if>
+			<if test="enname and enname != ''">
+				enname=#{enname},
+			</if>
+			<if test="remark and remark != ''">
+				remark=#{remark},
+			</if>
+			<if test="updateUser and updateUser != ''">
+				update_user=#{updateUser},
+			</if>
+			<if test="updateDate and updateDate != ''">
+				update_date=#{updateDate}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteRole" parameterType="java.lang.String">
+		delete from sys_role where id=#{id}
+	</delete>
 		
 </mapper>

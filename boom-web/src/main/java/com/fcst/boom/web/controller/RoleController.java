@@ -47,9 +47,8 @@ public class RoleController {
 		PageArg pageArg = PageUtils.getPageArg(role.getStart(), role.getLength());
 		PageList<Role> roleList = null; 
 		try {
-			roleList = roleService.query(role,pageArg);
+			roleList = roleService.findRolePageList(role,pageArg);
 			if(roleList!=null){
-				System.out.println("-----------------controller总数："+roleList.getTotalRow());
 				result.put("data", roleList);
 				result.put("recordsTotal", roleList.getTotalRow());
 				result.put("recordsFiltered", roleList.getTotalRow());
@@ -70,16 +69,33 @@ public class RoleController {
 	public JsonResult add(@RequestBody Role role){
 		JsonResult result = new JsonResult();
 		try {
-			role.setId("222");
-			role.setCreateBy("qiyy");
+			role.setCreateUser("qiyy");
 			role.setCreateDate(new Date());
-			roleService.add(role);
+			roleService.addRole(role);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		result.put("msg", "保存成功");
 		result.put("result", true);
+		return result;
+	}
+	
+	@RequestMapping("/update")
+	@ResponseBody
+	public JsonResult update(@RequestBody Role role){
+		JsonResult result = new JsonResult();
+		try {
+			role.setUpdateUser("qiyy");
+			role.setUpdateDate(new Date());
+			roleService.updateRole(role);
+			result.put("msg", "修改成功");
+			result.put("result", true);
+		} catch (Exception e) {
+			result.put("msg", "修改失败");
+			result.put("result", false);
+			e.printStackTrace();
+		}
 		return result;
 	}
 	
@@ -94,6 +110,25 @@ public class RoleController {
 			e.printStackTrace();
 		}
 		return role;
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public JsonResult delete(String roleId){
+		JsonResult result = new JsonResult();
+		try {
+			int resultVal = roleService.deleteRole(roleId);
+			if(resultVal!=0){
+				result.put("msg", "删除成功");
+				result.put("result", true);
+			}
+			
+		} catch (Exception e) {
+			result.put("msg", "删除失败");
+			result.put("result", false);
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	public RoleService getRoleService() {

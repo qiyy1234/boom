@@ -17,7 +17,7 @@ Purchase: http://wrapbootstrap.com
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/assets/img/favicon.png" type="image/x-icon">
 
 	
     <!--Basic Styles-->
@@ -58,7 +58,7 @@ Purchase: http://wrapbootstrap.com
                 <div class="navbar-header pull-left">
                     <a href="#" class="navbar-brand">
                         <small>
-                            <img src="assets/img/logo.png" alt="" />
+                            <img src="<%=request.getContextPath()%>/resources/assets/img/logo.png" alt="" />
                         </small>
                     </a>
                 </div>
@@ -163,7 +163,7 @@ Purchase: http://wrapbootstrap.com
                                 <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
                                     <li>
                                         <a href="#">
-                                            <img src="assets/img/avatars/divyia.jpg" class="message-avatar" alt="Divyia Austin">
+                                            <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/divyia.jpg" class="message-avatar" alt="Divyia Austin">
                                             <div class="message">
                                                 <span class="message-sender">
                                                     Divyia Austin
@@ -182,7 +182,7 @@ Purchase: http://wrapbootstrap.com
                                     </li>
                                     <li>
                                         <a href="#">
-                                            <img src="assets/img/avatars/bing.png" class="message-avatar" alt="Microsoft Bing">
+                                            <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/bing.png" class="message-avatar" alt="Microsoft Bing">
                                             <div class="message">
                                                 <span class="message-sender">
                                                     Bing.com
@@ -201,7 +201,7 @@ Purchase: http://wrapbootstrap.com
                                     </li>
                                     <li>
                                         <a href="#">
-                                            <img src="assets/img/avatars/adam-jansen.jpg" class="message-avatar" alt="Divyia Austin">
+                                            <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/adam-jansen.jpg" class="message-avatar" alt="Divyia Austin">
                                             <div class="message">
                                                 <span class="message-sender">
                                                     Nicolas
@@ -297,7 +297,7 @@ Purchase: http://wrapbootstrap.com
                             <li>
                                 <a class="login-area dropdown-toggle" data-toggle="dropdown">
                                     <div class="avatar" title="View your public profile">
-                                        <img src="assets/img/avatars/adam-jansen.jpg">
+                                        <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/adam-jansen.jpg">
                                     </div>
                                     <section>
                                         <h2><span class="profile"><span>David Stevenson</span></span></h2>
@@ -310,7 +310,7 @@ Purchase: http://wrapbootstrap.com
                                     <!--Avatar Area-->
                                     <li>
                                         <div class="avatar-area">
-                                            <img src="assets/img/avatars/adam-jansen.jpg" class="avatar">
+                                            <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/adam-jansen.jpg" class="avatar">
                                             <span class="caption">Change Photo</span>
                                         </div>
                                     </li>
@@ -449,7 +449,7 @@ Purchase: http://wrapbootstrap.com
                     <ul class="contacts-list">
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="assets/img/avatars/divyia.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/divyia.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Divyia Philips</div>
@@ -464,7 +464,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/Nicolai-Larson.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/resources/assets/img/avatars/Nicolai-Larson.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Adam Johnson</div>
@@ -479,7 +479,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/John-Smith.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/John-Smith.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">John Smith</div>
@@ -494,7 +494,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/Osvaldus-Valutis.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/Osvaldus-Valutis.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Osvaldus Valutis</div>
@@ -509,7 +509,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/Javi-Jimenez.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/Javi-Jimenez.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Javi Jimenez</div>
@@ -524,7 +524,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/Stephanie-Walter.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/Stephanie-Walter.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Stephanie Walter</div>
@@ -539,7 +539,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/Sergey-Azovskiy.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/Sergey-Azovskiy.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Sergey Azovskiy</div>
@@ -554,7 +554,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/Lee-Munroe.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/Lee-Munroe.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Lee Munroe</div>
@@ -569,7 +569,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="resources/assets/img/avatars/divyia.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/divyia.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Divyia Philips</div>
@@ -587,7 +587,7 @@ Purchase: http://wrapbootstrap.com
                 <div class="chatbar-messages" style="display: none;">
                     <div class="messages-contact">
                         <div class="contact-avatar">
-                            <img src="resources/assets/img/avatars/divyia.jpg" />
+                            <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/divyia.jpg" />
                         </div>
                         <div class="contact-info">
                             <div class="contact-name">Divyia Philips</div>
@@ -677,7 +677,7 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Content -->
             <div class="page-content">
             <div class="widget-body">
-               <iframe id="mainframe" name="mainframe" width="100%" height="650" frameborder="no"></iframe>
+               <iframe id="mainframe" name="mainframe" width="100%" height="650" frameborder="no" scrolling="yes" ></iframe>
             </div>
             <!-- /Page Content -->
 

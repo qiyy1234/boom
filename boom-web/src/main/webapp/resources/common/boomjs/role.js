@@ -8,6 +8,9 @@ var InitiateRoleDataTable = function () {
             //Datatable Initiating
         	oTableInitiateRole = $('#roledatatable').dataTable({
                 "sDom": "t<'row DTTTFooter'<'col-sm-6'i><'col-sm-6'p>>",
+                "language": {
+                    url: basePath+'resources/assets/internation/message_zh_CN.txt'
+                },
                 //自动列宽
                 "bAutoWidth": false,
                 //加载数据时显示正在加载信息
@@ -22,6 +25,7 @@ var InitiateRoleDataTable = function () {
                     "dataSrc": "data",
                     "data": function ( d ) {
                     	//查询条件
+                    	d.name = $("#find_name").val();
                     }
                 },
                 //本地搜索
@@ -33,20 +37,17 @@ var InitiateRoleDataTable = function () {
                 "columns": [
                     {"data": "name"},
                     {"data": "enname"},
-                    {"data": "officeName"},
-                    {"data": "dataScope"},
-                    {"data": "createBy"},
-                    {"data": "createDate"},
+                    {"data": "createUser"},
+                    {"data": "createDateStr"},
                     {"data":"id"}
                 ],
                 "columnDefs": [
                     {
-                        "targets": 6,
+                        "targets": 4,
                         "render": function ( data, type, full, meta ) {
-                        	//alert("id--"+full.id);
                         	var operation = '<a href="#" class="btn btn-blue btn-sm" onclick="detailRole(\''+full.id+'\')"><i class="fa fa-search-plus"></i>查看</a>&nbsp;'+
-                            '<a href="#" class="btn btn-success btn-sm" onclick="updateRole();"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
-                            '<a href="#" class="btn btn-danger btn-sm" onclick=""><i class="fa fa-trash-o"></i>删除</a>';
+                            '<a href="#" class="btn btn-success btn-sm" onclick="goUpdateRole(\''+full.id+'\');"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
+                            '<a href="#" class="btn btn-danger btn-sm" onclick="deleteRole(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
                         	return operation;
                         }
                     }
@@ -59,10 +60,46 @@ var InitiateRoleDataTable = function () {
     };
 }();
 
+function findRoleList(){
+	oTableInitiateRole.fnDraw();
+}
+
+
+function goUpdateRole(roleId){
+	$.ajax({
+		  url: basePath+"boom/role/detail?timestamp="+Date.parse(new Date()),
+		  data: {"roleId":roleId},
+		  success: function(resultData){
+			  $("#update_role_id").val(resultData.id);
+			  $("#update_role_name").val(resultData.name);
+			  $("#update_role_enname").val(resultData.enname);
+			  $("#update_role_remark").val(resultData.remark);
+			  $("#update_role_create_user").val(resultData.createUser);
+			  $("#update_role_create_date").val(resultData.createDateStr);
+			  
+		  },
+		  dataType: "json"
+		});
+	$('#roleUpdateDiv').modal();
+}
 
 function updateRole(){
-	alert("修改role");
-	$('#roleAddDiv').modal();
+	var formData=JSON.stringify($('#updateRoleForm').serializeObject());
+	$.ajax({
+		type:"post",
+		url:basePath+"boom/role/update",
+		data:formData,
+		contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success:function(resultData){
+        	alert(resultData.msg);
+        	if(resultData.result){
+        		cleanUpdateForm();
+            	$('#roleUpdateDiv').modal('hide');
+            	oTableInitiateRole.fnDraw();
+        	}
+		}
+	});
 }
 
 function detailRole(id){
@@ -70,27 +107,48 @@ function detailRole(id){
 		  url: basePath+"boom/role/detail?timestamp="+Date.parse(new Date()),
 		  data: {"roleId":id},
 		  success: function(resultData){
-			  $("#roleName").text(resultData.name);
-			  $("#roleEnName").text(resultData.enname);
-			  $("#roleOfficeId").text(resultData.officeName);
-			  $("#roleDataScope").text(resultData.dataScope);
+			  $("#detail_role_name").val(resultData.name);
+			  $("#detail_role_enname").val(resultData.enname);
+			  $("#detail_role_remark").val(resultData.remark);
+			  $("#detail_role_create_user").val(resultData.createUser);
+			  $("#detail_role_create_date").val(resultData.createDateStr);
+			  $("#detail_role_update_user").val(resultData.updateUser);
+			  $("#detail_role_update_date").val(resultData.updateDateStr);
 		  },
 		  dataType: "json"
 		});
 	$('#roleDetailDiv').modal();
 }
 
+function deleteRole(id){
+	$.ajax({
+		  url: basePath+"boom/role/delete",
+		  data: {"roleId":id},
+		  success: function(resultData){
+			  alert(resultData.msg);
+	          if(resultData.result){
+	              oTableInitiateRole.fnDraw();
+	          }
+		  },
+		  dataType: "json"
+	});
+}
 
-function cleanForm(){
-	$('#role_name').val('');
-	$('#role_enname').val('');
-	$('#role_office_id').val('');
-	$('#role_data_scope').val('');
+function cleanAddForm(){
+	$('#add_role_name').val('');
+	$('#add_role_enname').val('');
+	$('#add_role_remark').val('');
+}
+
+function cleanUpdateForm(){
+	$("#update_role_id").val('');
+	  $("#update_role_name").val('');
+	  $("#update_role_enname").val('');
+	  $("#update_role_remark").val('');
 }
 
 function closeDetailDiv(){
 	$("#roleName").text('');
 	$("#roleEnName").text('');
-	$("#roleOfficeId").text('');
-	$("#roleDataScope").text('');
+	$("#roleRemark").text('');
 }

@@ -69,9 +69,9 @@ Purchase: http://wrapbootstrap.com
             	<div class="widget-body">
                 	<table width="100%">
                     	<tr>
-                        	<td>名称：<input></td>
+                        	<td>名称：<input type="text" name="find_name" id="find_name"></td>
                             <td align="right">
-                            	<a href="#" class="btn btn-blue btn-sm" onclick="">查询</a>&nbsp;
+                            	<a href="#" class="btn btn-blue btn-sm" onclick="findRoleList()">查询</a>&nbsp;
                                 <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv">添加</a>
                                 
                             </td>
@@ -83,11 +83,9 @@ Purchase: http://wrapbootstrap.com
                         	<tr>
                             	<th width="15%">角色名称</th>
                                 <th width="10%">英文名称</th>
-                                <th width="15%">所属机构</th>
-                                <th width="10%">数据范围</th>
                                 <th width="10%">创建人</th>
-                                <th width="10%">创建时间</th>
-                                <th width="35%">操作</th>
+                                <th width="15%">创建时间</th>
+                                <th width="30%">操作</th>
                              </tr>
                          </thead>
                          <tbody>
@@ -116,39 +114,101 @@ Purchase: http://wrapbootstrap.com
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
-                            <form class="form-horizontal form-bordered" role="form" id="roleForm">
-                                <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色名称</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="role_name" name="name" />
-                                    </div>
+                            <form class="form-horizontal" role="form" id="roleForm">
+                            	<div class="form-group">
+		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="add_role_name" name="name" />
+		                            </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">英文名称</label>
-                                    <div class="col-sm-10">
-                                       <input type="text" class="form-control" id="role_enname" name="enname" />
-                                    </div>
-                                </div>
+		                        	<label class="col-sm-2 control-label no-padding-right">英文名称：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="add_role_enname" name="enname" />
+		                            </div>
+		                        </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">所属机构</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="role_office_id" name="officeName" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">数据范围 </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="role_data_scope" name="dataScope"/>
-                                    </div>
+		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
+		                            <div class="col-sm-9">
+		                            	<textarea class="form-control" id="add_role_remark" name="remark">
+		                            	</textarea>
+		                            </div>
                                 </div>
 
-                                
+                               <table class="table" >
+                               		<tr>
+                                    	<td align="center">
+                                        	<a href="#" id="roleAddBtn" onclick="addRole()"  class="btn btn-azure">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                       		<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
+                                        </td>
+                                    </tr>
+                               </table>
+                                   
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    
+    <!--角色修改-->
+    <div class="modal fade" id="roleUpdateDiv" tabindex="-1" role="dialog" aria-labelledby="roleUpdateDiv" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="widget-header bg-themeprimary">
+                    <span class="widget-caption">角色修改</span>
+                    <div class="widget-buttons">
+                        <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <form class="form-horizontal" role="form" id="updateRoleForm">
                                 <div class="form-group">
+                                    <label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
                                     <div class="col-sm-9">
-                                        <a href="#" onclick="addRole()"  class="btn btn-azure">保存</a>
-                                        <a href="#" onclick="closeUpdateDiv()"  class="btn btn-azure">取消</a>
+                                    	<input type="text" class="form-control" id="update_role_id" name="id" style="display: none"/>
+                                        <input type="text" class="form-control" id="update_role_name" name="name" />
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">英文名称：</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" id="update_role_enname" name="enname" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">创建人：</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" id="update_role_create_user" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">创建时间：</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" id="update_role_create_date" disabled="disabled"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
+		                            <div class="col-sm-9">
+		                            	<textarea class="form-control" id="update_role_remark" name="remark">
+		                            	</textarea>
+		                            </div>
+                                </div>
+
+                                <table class="table">
+                                	<tr>
+                                    	<td align="center">
+                                        	<a href="#" id="roleUpdateBtn" onclick="updateRole()"  class="btn btn-azure">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                       		<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                               
 
                             </form>
                         </div>
@@ -171,38 +231,58 @@ Purchase: http://wrapbootstrap.com
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
-                            <form class="form-horizontal form-bordered" role="form" id="roleForm">
+                            <form class="form-horizontal" role="form" id="roleForm">
                                 <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色名称</label>
-                                    <div class="col-sm-10">
-                                        <span id="roleName"></span>
+		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+		                        	<div class="col-sm-9">
+                                        <input type="text" class="form-control" id="detail_role_name" name="name" disabled="disabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">英文名称</label>
-                                    <div class="col-sm-10">
-                                       <span id="roleEnName"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">所属机构</label>
-                                    <div class="col-sm-10">
-                                        <span id="roleOfficeId"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">数据范围 </label>
-                                    <div class="col-sm-10">
-                                        <span id="roleDataScope"></span>
-                                    </div>
-                                </div>
-
-                                
-                                <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">英文名称：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="detail_role_enname" name="name" disabled="disabled" />
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">创建人：</label>
                                     <div class="col-sm-9">
-                                        <a href="#" data-dismiss="modal" aria-hidden="true" onclick="closeDetailDiv()"  class="btn btn-azure">取消</a>
+                                       <input type="text" class="form-control" id="detail_role_create_user" name="enname" />
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">创建时间：</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" id="detail_role_create_date" name="enname" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">修改人：</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" id="detail_role_update_user" name="enname" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">修改时间：</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" id="detail_role_update_date" name="enname" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
+		                            <div class="col-sm-9" >
+		                            	<textarea class="form-control" id="detail_role_remark" name="remark" disabled="disabled">
+		                            	</textarea>
+		                            </div>
+                                </div>
+                                
+                                <table class="table">
+                                	<tr>
+                                    	<td align="center">
+                                        	<a href="#" data-dismiss="modal" aria-hidden="true" onclick="closeDetailDiv()"  class="btn btn-azure">取消</a>
+                                        </td>
+                                    </tr>
+                                </table>
 
                             </form>
                         </div>
@@ -254,7 +334,6 @@ InitiateRoleDataTable.init();
  });
  
  function addRole(){
-		alert("保存角色");
 		var formData=JSON.stringify($('#roleForm').serializeObject());
 		$.ajax({
 			type:"post",
@@ -265,7 +344,8 @@ InitiateRoleDataTable.init();
 	        success:function(resultData){
 	        	alert(resultData.msg);
 	        	if(resultData.result){
-	            	cleanForm();
+	        		cleanAddForm();
+	            	$('#roleAddDiv').modal('hide');
 	            	oTableInitiateRole.fnDraw();
 	        	}
 			}

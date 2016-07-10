@@ -2,6 +2,7 @@ package com.fcst.boom.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.dao.RoleDao;
@@ -14,16 +15,32 @@ public class RoleServiceImpl implements RoleService {
 	private RoleDao roleDao;
 
 	@Override
-	public PageList<Role> query(Role role,PageArg pageArg) throws Exception {
-		PageList<Role> result = roleDao.findList(role,pageArg);
+	public PageList<Role> findRolePageList(Role role,PageArg pageArg) throws Exception {
+		PageList<Role> result = roleDao.getRoleList(role,pageArg);
 		return result;
 	}
 	
 	@Override
-	public int add(Role role) throws Exception {
+	public int addRole(Role role) throws Exception {
+		role.setId(GenerationUUID.getUUID());
 		return roleDao.addRole(role);
 	}
 
+	@Override
+	public Role detailRole(String roleId) throws Exception {
+		return roleDao.getRoleById(roleId);
+	}
+
+	@Override
+	public int updateRole(Role role) throws Exception {
+		return roleDao.updateRole(role);
+	}
+	
+	@Override
+	public int deleteRole(String roleId) throws Exception {
+		return roleDao.deleteRole(roleId);
+	}
+	
 	public RoleDao getRoleDao() {
 		return roleDao;
 	}
@@ -32,10 +49,7 @@ public class RoleServiceImpl implements RoleService {
 		this.roleDao = roleDao;
 	}
 
-	@Override
-	public Role detailRole(String roleId) throws Exception {
-		return roleDao.detailRole(roleId);
-	}
+	
 
 	
 	

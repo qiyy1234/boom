@@ -18,22 +18,26 @@ public class BaseEntity implements Serializable {
 	/**
 	 * 创建人
 	 */
-	private String createBy;
+	private String createUser;
 	
 	/**
 	 * 创建时间
 	 */
 	private Date createDate;
 	
+	private String createDateStr;
+	
 	/**
 	 * 修改人
 	 */
-	private String updateBy;
+	private String updateUser;
 	
 	/**
 	 * 修改时间
 	 */
 	private Date updateDate;
+	
+	private String updateDateStr;
 	
 	/**
 	 * 备注
@@ -52,6 +56,22 @@ public class BaseEntity implements Serializable {
     
     
 
+
+	public String getCreateDateStr() {
+		return createDateStr;
+	}
+
+	public void setCreateDateStr(String createDateStr) {
+		this.createDateStr = createDateStr;
+	}
+
+	public String getUpdateDateStr() {
+		return updateDateStr;
+	}
+
+	public void setUpdateDateStr(String updateDateStr) {
+		this.updateDateStr = updateDateStr;
+	}
 
 	public String getStart() {
 		return start;
@@ -77,13 +97,6 @@ public class BaseEntity implements Serializable {
 		this.id = id;
 	}
 
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
-	}
 
 	public Date getCreateDate() {
 		return createDate;
@@ -93,13 +106,6 @@ public class BaseEntity implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public String getUpdateBy() {
-		return updateBy;
-	}
-
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
-	}
 
 	public Date getUpdateDate() {
 		return updateDate;
@@ -115,6 +121,22 @@ public class BaseEntity implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
 	}
 	
 	

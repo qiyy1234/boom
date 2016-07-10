@@ -29,7 +29,6 @@ import org.springframework.util.StringUtils;
 
 import com.fcst.boom.common.RegexTools;
 import com.fcst.boom.common.page.PageArg;
-import com.fcst.boom.common.page.PageEntity;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.common.thread.ThreadVariableTools;
 
@@ -133,12 +132,6 @@ public class MyBatisPageInterceptor implements Interceptor {
 				try{
 					System.out.println("------------------------返回PageList");
 					return new PageList<Object>((List<Object>)result, page.getCurPage(), page.getPageSize(), page.getTotalRow());
-					/*PageArg page11  = new PageArg();
-					
-					PageEntity<Object> pageEntity = new PageEntity<Object>();
-					pageEntity.setTotalNum(page.getTotalRow());
-					pageEntity.setResultList((List<Object>)result);
-					return pageEntity;*/
 				}catch(Exception e){
 					e.printStackTrace();
 				}
