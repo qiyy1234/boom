@@ -417,6 +417,11 @@ Purchase: http://wrapbootstrap.com
                                 </a>
                             </li>
                             <li>
+                                <a href="boom/user/index" target="mainframe">
+                                    <span value="user.html" class="menu_a menu-text">用户管理</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="boom/role/index" target="mainframe">
                                     <span value="role.html" class="menu-text">角色管理</span>
                                 </a>
@@ -426,11 +431,7 @@ Purchase: http://wrapbootstrap.com
                                     <span value="organization.html" class="menu_a menu-text">机构管理</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span value="user.html" class="menu_a menu-text">用户管理</span>
-                                </a>
-                            </li>
+                            
                         </ul>
                     </li>
 

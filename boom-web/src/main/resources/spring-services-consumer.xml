@@ -21,5 +21,7 @@
 <dubbo:reference id="roomService"   interface="com.fcst.boom.service.RoomService" />
 <dubbo:reference id="roomTypeService"   interface="com.fcst.boom.service.RoomTypeService" />
 <dubbo:reference id="roleService"   interface="com.fcst.boom.service.RoleService" />
+<dubbo:reference id="userService"   interface="com.fcst.boom.service.UserService" />
+
 
 </beans>
