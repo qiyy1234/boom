@@ -22,7 +22,7 @@ var InitiateUserDataTable = function () {
                 "bServerSide": true,
                 //查询请求action url
                 "ajax": {
-                    "url": basePath+"boom/user/list",
+                    "url": basePath+"boom/user/list?timestamp="+new Date(),
                     "dataSrc": "data",
                     "data": function ( d ) {
                     	//查询条件
@@ -87,11 +87,11 @@ $('#userdatatable').on('click', ' tbody td .row-details', function () {
 function fnFormatDetails(oTable, nTr) {
     var aData = oTable.fnGetData(nTr);
     var sOut = '<table>';
-    sOut += '<tr><td rowspan="5" style="padding:0 10px 0 0;"><img width="120px" height="160px" src="assets/img/avatars/' + aData[4] + '.jpg"/></td><td>登录名:</td><td>' + aData.username + '</td><td>姓名:</td><td>' + aData.name + '</td></tr>';
+    sOut += '<tr><td rowspan="5" style="padding:0 10px 0 0;"><img width="120px" height="160px" src="'+basePath+'resources/fileupload/' + aData.photoName + '"/></td><td>登录名:</td><td>' + aData.loginName + '</td><td>姓名:</td><td>' + aData.name + '</td></tr>';
     sOut += '<tr><td>性别:</td><td>' + aData.sex + '</td><td>出生日期:</td><td>'+ aData.birthday +'</td></tr>';
     sOut += '<tr><td>邮箱:</td><td>'+ aData.email +'</td><td>状态:</td><td>'+ aData.state +'</td></tr>';
-    sOut += '<tr><td>电话:</td><td>'+ aData.phone +'</td><td>手机:</td><td>'+ aData.mobile +'</td></tr>';
-    sOut += '<tr><td>登录ip:</td><td>'+ aData.phone +'</td><td>登录时间:</td><td>'+ aData.mobile +'</td></tr>';
+    sOut += '<tr><td>手机:</td><td>'+ aData.mobile +'</td><td>备注:</td><td>'+ aData.remark +'</td></tr>';
+    sOut += '<tr><td>登录ip:</td><td>'+ aData.loginIp +'</td><td>最近登录时间:</td><td>'+ aData.lastDate +'</td></tr>';
     sOut += '</table>';
     return sOut;
 }

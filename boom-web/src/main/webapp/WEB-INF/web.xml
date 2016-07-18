@@ -12,7 +12,7 @@
         <url-pattern>/resources/images/*</url-pattern>
         <url-pattern>/resources/fonts/*</url-pattern>
     </servlet-mapping> -->
-
+    
 
     <!--  Spring 上下文参数 加载Spring配置文件 -->
     <context-param>

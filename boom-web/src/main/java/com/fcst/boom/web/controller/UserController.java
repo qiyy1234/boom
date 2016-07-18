@@ -1,6 +1,5 @@
 package com.fcst.boom.web.controller;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +20,6 @@ import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.common.page.PageUtils;
-import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
 import com.fcst.boom.service.UserService;
 
@@ -92,9 +90,11 @@ public class UserController {
 	    // 判断文件是否为空  
         if (!file.isEmpty()) {  
             try {  
+            	String timestamp = DateTools.getDateStr(DateTools.COMMON_DATE_FORMAT_TRIM);
                 // 文件保存路径  
-                String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/" +
-                         DateTools.getDateStr(DateTools.COMMON_DATE_FORMAT_TRIM)+ file.getOriginalFilename();  
+                String filePath = request.getSession().getServletContext().getRealPath("/") + "resources/fileupload/" +
+                		timestamp + file.getOriginalFilename();  
+                String photoName = timestamp + file.getOriginalFilename();
                 // 转存文件  
                 System.out.println("----------------filePath："+filePath);
                 
@@ -102,6 +102,7 @@ public class UserController {
                 result.put("result", true);
         	    result.put("msg", "上传成功");
         	    result.put("filePath", filePath);
+        	    result.put("photoName", photoName);
             } catch (Exception e) {  
                 e.printStackTrace();  
                 result.put("result", false);

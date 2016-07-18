@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fcst.boom.dao.DictionaryDao" >
+  <resultMap id="dictionaryResult" type="com.fcst.boom.domain.Dictionary">
+		<id property="id" column="id" />
+		<result property="dictName" column="dict_name" />
+		<result property="dictValue" column="dict_value" />
+		<result property="dictParentId" column="dict_parent_id" />
+		<result property="dictSort" column="dict_sort" />
+		<result property="dictType" column="dict_type" />
+		<result property="createUser" column="create_user" />
+		<result property="createDateStr" column="create_date" />
+		<result property="updateUser" column="update_user" />
+		<result property="updateDateStr" column="update_date" />
+	</resultMap>
+  
+  	<select id="getDictionaryListByType" resultType="Map"  parameterType="String">
+		SELECT 
+			dict_name,
+			dict_value
+		FROM sys_dictionary
+		where dict_type = #{dictType}
+		order by id
+	</select>
+	
+	<insert id="addUser" parameterType="com.fcst.boom.domain.User">
+		INSERT INTO sys_user (id,login_name,password,name,email,mobile,state,sex,birthday,create_user,create_date,update_user,update_date,remark,photo_url,photo_name) 
+		values (#{id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark},#{photoUrl},#{photoName})
+	</insert>
+	
+	<select id="getRoleById" resultMap="dictionaryResult">
+		SELECT 
+			r.id,
+    		r.name,
+    		r.enname,
+    		r.remark,
+			r.create_user AS createUser,
+			DATE_FORMAT(r.create_date,'%Y-%m-%d %H:%i:%s') AS createDate,
+			r.update_user AS updateUser,
+			DATE_FORMAT(r.update_date,'%Y-%m-%d %H:%i:%s') AS updateDate
+		FROM sys_role r
+		WHERE r.id = #{id}
+	</select>
+	
+	<update id="updateRole" parameterType="com.fcst.boom.dao.RoleDao">
+		UPDATE sys_role 
+		<set>
+			<if test="name!=null and name != ''">
+				name=#{name},
+			</if>
+			<if test="enname and enname != ''">
+				enname=#{enname},
+			</if>
+			<if test="remark and remark != ''">
+				remark=#{remark},
+			</if>
+			<if test="updateUser and updateUser != ''">
+				update_user=#{updateUser},
+			</if>
+			<if test="updateDate and updateDate != ''">
+				update_date=#{updateDate}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteRole" parameterType="java.lang.String">
+		delete from sys_role where id=#{id}
+	</delete>
+		
+</mapper>

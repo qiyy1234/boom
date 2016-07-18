@@ -7,12 +7,18 @@
 		<result property="loginName" column="login_name" />
 		<result property="sex" column="sex" />
 		<result property="birthday" column="birthday" />
+		<result property="photoUrl" column="photo_url" />
+		<result property="photoName" column="photo_name" />
+		<result property="loginIp" column="login_ip" />
+		<result property="remark" column="remark" />
 		<result property="mobile" column="mobile" />
 		<result property="state" column="state" />
+		<result property="email" column="email" />
 		<result property="createUser" column="createUser" />
 		<result property="createDateStr" column="createDate" />
 		<result property="updateUser" column="updateUser" />
 		<result property="updateDateStr" column="updateDate" />
+		<result property="lastDate" column="last_date" />
 	</resultMap>
   
   	<select id="getUserList" resultMap="roleResult"  parameterType="com.fcst.boom.domain.User">
@@ -21,11 +27,17 @@
     		u.login_name,
     		u.name,
     		(select dict_name from sys_dictionary where dict_value= u.sex and dict_type='sex') as sex,
-    		u.birthday,
+    		DATE_FORMAT(u.birthday,'%Y-%m-%d %H:%i:%s') as birthday,
     		u.mobile,
     		(select dict_name from sys_dictionary where dict_value = u.sex and dict_type='user_status') as state,
 			u.create_user AS createUser,
-			DATE_FORMAT(u.create_date,'%Y-%m-%d %H:%i:%s') as createDate
+			DATE_FORMAT(u.create_date,'%Y-%m-%d %H:%i:%s') as createDate,
+			u.photo_url,
+			u.login_ip,
+			u.remark,
+			u.email,
+			DATE_FORMAT(u.last_date,'%Y-%m-%d %H:%i:%s') as last_date,
+			u.photo_name
 		FROM sys_user u
 		where 1=1 
 			<if test="user.name!=null and user.name != ''">
@@ -35,8 +47,8 @@
 	</select>
 	
 	<insert id="addUser" parameterType="com.fcst.boom.domain.User">
-		INSERT INTO sys_user (id,login_name,password,name,email,mobile,state,sex,birthday,create_user,create_date,update_user,update_date,remark) 
-		values (#{id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark})
+		INSERT INTO sys_user (id,login_name,password,name,email,mobile,state,sex,birthday,create_user,create_date,update_user,update_date,remark,photo_url,photo_name) 
+		values (#{id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark},#{photoUrl},#{photoName})
 	</insert>
 	
 	<select id="getRoleById" resultMap="roleResult">

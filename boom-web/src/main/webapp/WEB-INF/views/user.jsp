@@ -44,6 +44,9 @@ Purchase: http://wrapbootstrap.com
 
 	<!--fileInput用到是css-->
     <link href="<%=basePath %>resources/assets/css/fileInput/fileinput.min.css" rel="stylesheet" />
+    
+    <!-- datatimepicker用到的css -->
+    <link href="<%=basePath %>resources/assets/css/datatimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=basePath %>resources/assets/js/skins.min.js"></script>
@@ -124,19 +127,19 @@ Purchase: http://wrapbootstrap.com
                             	<div class="form-group">
 		                        	<label  class="col-sm-2 control-label no-padding-right">登录用户名：</label>
 		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="add_user_loginname" name="loginName" />
+		                            	<input type="text" class="form-control" id="add_user_loginname" name="loginName" data-bv-field="loginName" />
 		                            </div>
                                 </div>
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">密码：</label>
 		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="add_user_password" name="password" />
+		                            	<input type="password" class="form-control" id="add_user_password" name="password" />
 		                            </div>
 		                        </div>
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">确认密码：</label>
 		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="add_user_confirm_password" name="confirmpassword" />
+		                            	<input type="password" class="form-control" id="add_user_confirm_password" name="confirmpassword" />
 		                            </div>
                                 </div>
                                 <div class="form-group">
@@ -147,16 +150,18 @@ Purchase: http://wrapbootstrap.com
                                 </div>
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">性别：</label>
-		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="add_user_sex" name="sex" />
+		                            <div class="col-sm-9" id="add_user_sex">
 		                            </div>
                                 </div>
                                 <div class="form-group">
-		                        	<label class="col-sm-2 control-label no-padding-right">出生日期：</label>
-		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="add_user_birthday" name="confirmpassword" />
-		                            </div>
-                                </div>
+					                <label class="col-sm-2 control-label no-padding-right">出生日期：</label>
+					                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+					                    <input class="form-control" size="16" type="text" value="" readonly>
+					                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+										<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					                </div>
+									<input type="hidden" id="dtp_input2" value="" name="birthday" /><br/>
+					            </div>
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">邮箱：</label>
 		                            <div class="col-sm-9">
@@ -179,6 +184,7 @@ Purchase: http://wrapbootstrap.com
 		                        	<label class="col-sm-2 control-label no-padding-right">上传照片：</label>
 		                            <div class="col-sm-9">
 		                            	<input id="filePath" name="photoUrl" />
+		                            	<input id="photoName" name="photoName" />
 		                            	<input id="pdFile" name="file" type="file">
 								        <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过2.0M</p>
 								
@@ -374,11 +380,193 @@ Purchase: http://wrapbootstrap.com
 	<script src="<%=basePath %>resources/assets/js/fileInput/fileinput.min.js"></script>
 	<script type="text/javascript" src="<%=basePath %>resources/assets/js/fileInput/locales/zh.js"></script>
 
+	<!--datatimepicker用到的js-->
+	<script src="<%=basePath %>resources/assets/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="<%=basePath %>resources/assets/js/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+	<!--validation用到的js-->
+	<script src="<%=basePath %>resources/assets/js/validation/bootstrapValidator.js"></script>
+
 
 	<script src="<%=basePath %>resources/common/boomjs/user.js"></script>
+	
+	<script src="<%=basePath %>resources/common/boomjs/dictUtil.js"></script>
 
 <script>
 InitiateUserDataTable.init();
+
+
+getDictionaryListByType('add_user_sex','sex','select','sex',null);
+
+
+$(function(){/* 文档加载，执行一个函数*/
+    $("#addUserForm").bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {/*input状态样式图片*/
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {/*验证：规则*/
+            loginName: {//验证input项：验证规则
+                message: 'The username is not valid',
+               
+                validators: {
+                    notEmpty: {//非空验证：提示消息
+                        message: '用户名不能为空'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: '用户名长度必须在6到30之间'
+                    },
+                    threshold :  6 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
+                    remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}  
+                        url: 'exist2.do',//验证地址
+                        message: '用户已存在',//提示消息
+                        delay :  2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+                        type: 'POST'//请求方式
+                        /**自定义提交数据，默认值提交当前input value
+                         *  data: function(validator) {
+                              return {
+                                  password: $('[name="passwordNameAttributeInYourForm"]').val(),
+                                  whatever: $('[name="whateverNameAttributeInYourForm"]').val()
+                              };
+                           }
+                         */
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        message: '用户名由数字字母下划线和.组成'
+                    }
+                }
+            },
+            password: {
+                message:'密码无效',
+                validators: {
+                    notEmpty: {
+                        message: '密码不能为空'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: '用户名长度必须在6到30之间'
+                    },
+                    identical: {//相同
+                        field: 'password', //需要进行比较的input name值
+                        message: '两次密码不一致'
+                    },
+                    different: {//不能和用户名相同
+                        field: 'username',//需要进行比较的input name值
+                        message: '不能和用户名相同'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        message: 'The username can only consist of alphabetical, number, dot and underscore'
+                    }
+                }
+            },
+            repassword: {
+                message: '密码无效',
+                validators: {
+                    notEmpty: {
+                        message: '用户名不能为空'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: '用户名长度必须在6到30之间'
+                    },
+                    identical: {//相同
+                        field: 'password',
+                        message: '两次密码不一致'
+                    },
+                    different: {//不能和用户名相同
+                        field: 'username',
+                        message: '不能和用户名相同'
+                    },
+                    regexp: {//匹配规则
+                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        message: 'The username can only consist of alphabetical, number, dot and underscore'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: '邮件不能为空'
+                    },
+                    emailAddress: {
+                        message: '请输入正确的邮件地址如：123@qq.com'
+                    }
+                }
+            },
+            phone: {
+                message: 'The phone is not valid',
+                validators: {
+                    notEmpty: {
+                        message: '手机号码不能为空'
+                    },
+                    stringLength: {
+                        min: 11,
+                        max: 11,
+                        message: '请输入11位手机号码'
+                    },
+                    regexp: {
+                        regexp: /^1[3|5|8]{1}[0-9]{9}$/,
+                        message: '请输入正确的手机号码'
+                    }
+                }
+            },
+            invite: {
+                message: '邀请码',
+                validators: {
+                    notEmpty: {
+                        message: '邀请码不能为空'
+                    },
+                    stringLength: {
+                        min: 8,
+                        max: 8,
+                        message: '请输入正确长度的邀请码'
+                    },
+                    regexp: {
+                        regexp: /^[\w]{8}$/,
+                        message: '请输入正确的邀请码(包含数字字母)'
+                    }
+                }
+            },
+        }
+    })
+    .on("#userAddBtn", function(e) {//点击提交之后
+    	alert("点击保存");
+        // Prevent form submission
+        e.preventDefault();
+
+        // Get the form instance
+        var $form = $(e.target);
+
+        // Get the BootstrapValidator instance
+        var bv = $form.data('bootstrapValidator');
+
+        /* // Use Ajax to submit form data 提交至form标签中的action，result自定义
+        $.post($form.attr('action'), $form.serialize(), function(result) {
+			//do something...
+		}); */
+    });
+});
+
+
+
+$('.form_date').datetimepicker({
+    language:  'zh-CN',
+    weekStart: 1,
+    todayBtn:  1,
+	autoclose: 1,
+	todayHighlight: 1,
+	startView: 2,
+	minView: 2,
+	forceParse: 0
+});
 
 /**
  * 将from转换为json格式封装
@@ -403,6 +591,9 @@ InitiateUserDataTable.init();
  });
  
  function addUser(){
+	 /* if ($('.form-horizontal').validate().form()) {  
+         $('.form-horizontal').submit();  
+     }   */
 		var formData=JSON.stringify($('#addUserForm').serializeObject());
 		$.ajax({
 			type:"post",
@@ -475,6 +666,8 @@ InitiateUserDataTable.init();
              if (data.result) {
                  alert(data.msg);
                  $("#filePath").val(data.filePath);
+                 
+                 $("#photoName").val(data.photoName);
 
              } else {
             	 alert(data.msg);

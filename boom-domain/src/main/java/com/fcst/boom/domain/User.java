@@ -25,7 +25,7 @@ public class User extends BaseEntity implements Serializable {
 	
 	private String mobile;
 	
-	private String login_ip;
+	private String loginIp;
 	
 	private String lastDate;//最后登录时间
 	
@@ -33,7 +33,17 @@ public class User extends BaseEntity implements Serializable {
 	
 	private String photoUrl;//照片路径
 	
+	private String photoName;//照片名称
 	
+	
+
+	public String getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
 
 	public String getBirthday() {
 		return birthday;
@@ -93,12 +103,14 @@ public class User extends BaseEntity implements Serializable {
 		this.mobile = mobile;
 	}
 
-	public String getLogin_ip() {
-		return login_ip;
+	
+
+	public String getLoginIp() {
+		return loginIp;
 	}
 
-	public void setLogin_ip(String login_ip) {
-		this.login_ip = login_ip;
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
 	}
 
 	public String getLastDate() {
