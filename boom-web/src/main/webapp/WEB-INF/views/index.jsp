@@ -719,7 +719,6 @@ InitiateRoleDataTable.init();
 
             $(".menu_a").click(function(){
                 var loadHtml = $(this).attr("value");
-                alert("loadHTML"+loadHtml);
                 $("#page_body_div").load(loadHtml);
             });
         });

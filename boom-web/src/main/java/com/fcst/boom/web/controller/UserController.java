@@ -46,7 +46,6 @@ public class UserController {
     public String index() {
         return "/user";
     }
-
 	
 	/**
 	 * 查询所有用用
@@ -131,6 +130,15 @@ public class UserController {
 	       stream.close();      
 	}       
 	
+	@RequestMapping("/isExistLoginName")
+	@ResponseBody
+	public JsonResult isExistLoginName(String loginName){
+		System.out.println("-----------------------验证登录名："+loginName);
+		JsonResult result = new JsonResult();
+		//TODO 去数据库查询
+		result.put("valid", true);//true为验证通过
+		return result;
+	}
 	
 	@RequestMapping("/add")
 	@ResponseBody

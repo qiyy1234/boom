@@ -12,9 +12,10 @@ var basePath = local.protocol+"//"+local.host+"/"+contextPath+"/";
  * @returns {String}
  */
 function getDictionaryListByType(displaydivId,dictType,viewType,viewName,viewValue) {
-	typelist=$.ajax({url:basePath+"boom/dictionary/typelist?viewName="+viewname+"&viewType="+viewType+"&dictType="+dictType+"&viewValue="+viewValue,async:false});
-    alert("typelist----"+typelist.message);
-	$("#"+displaydivId).html(typelist.message);
+	$.ajax({url:basePath+"boom/dictionary/typelist",data:{"viewName":viewName,"viewType":viewType,"dictType":dictType,"viewValue":viewValue},dataType: "json",async:false,success:function(resultData){
+    	$("#"+displaydivId).html(resultData.msg);
+	}});
+    
 }
 
 

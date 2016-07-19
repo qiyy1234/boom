@@ -155,12 +155,14 @@ Purchase: http://wrapbootstrap.com
                                 </div>
                                 <div class="form-group">
 					                <label class="col-sm-2 control-label no-padding-right">出生日期：</label>
-					                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+					                <div class="col-sm-9">
+					                <div class="input-group date form_date col-sm-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
 					                    <input class="form-control" size="16" type="text" value="" readonly>
 					                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 										<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					                </div>
 									<input type="hidden" id="dtp_input2" value="" name="birthday" /><br/>
+									</div>
 					            </div>
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">邮箱：</label>
@@ -177,14 +179,14 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
 		                            <div class="col-sm-9">
-		                            	<textarea id="add_user_remark" name="remark"></textarea>
+		                            	<textarea id="add_user_remark" cols="80" rows="5" name="remark"></textarea>
 		                            </div>
                                 </div>
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">上传照片：</label>
 		                            <div class="col-sm-9">
-		                            	<input id="filePath" name="photoUrl" />
-		                            	<input id="photoName" name="photoName" />
+		                            	<input id="filePath" name="photoUrl" style="display:none" />
+		                            	<input id="photoName" name="photoName" style="display:none" />
 		                            	<input id="pdFile" name="file" type="file">
 								        <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过2.0M</p>
 								
@@ -196,7 +198,7 @@ Purchase: http://wrapbootstrap.com
                                <table class="table" >
                                		<tr>
                                     	<td align="center">
-                                        	<a href="#" id="userAddBtn" onclick="addUser()"  class="btn btn-azure">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        	<a href="#" id="userAddBtn" onclick="addUser()" class="btn btn-azure">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                        		<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
                                         </td>
                                     </tr>
@@ -400,20 +402,19 @@ getDictionaryListByType('add_user_sex','sex','select','sex',null);
 
 
 $(function(){/* 文档加载，执行一个函数*/
-    $("#addUserForm").bootstrapValidator({
+	
+	var bootstrapValidator = $('#addUserForm').bootstrapValidator({
         message: 'This value is not valid',
-        feedbackIcons: {/*input状态样式图片*/
+        feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
             validating: 'glyphicon glyphicon-refresh'
         },
-        fields: {/*验证：规则*/
-            loginName: {//验证input项：验证规则
-                message: 'The username is not valid',
-               
+        fields: {
+        	loginName: {
                 validators: {
-                    notEmpty: {//非空验证：提示消息
-                        message: '用户名不能为空'
+                    notEmpty: {
+                        message: '请输入用户名'
                     },
                     stringLength: {
                         min: 6,
@@ -422,7 +423,7 @@ $(function(){/* 文档加载，执行一个函数*/
                     },
                     threshold :  6 , //有6字符以上才发送ajax请求，（input中输入一个字符，插件会向服务器发送一次，设置限制，6字符以上才开始）
                     remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}  
-                        url: 'exist2.do',//验证地址
+                        url: basePath+'boom/user/isExistLoginName',//验证地址
                         message: '用户已存在',//提示消息
                         delay :  2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
                         type: 'POST'//请求方式
@@ -434,7 +435,7 @@ $(function(){/* 文档加载，执行一个函数*/
                               };
                            }
                          */
-                    },
+                    }, 
                     regexp: {
                         regexp: /^[a-zA-Z0-9_\.]+$/,
                         message: '用户名由数字字母下划线和.组成'
@@ -442,23 +443,16 @@ $(function(){/* 文档加载，执行一个函数*/
                 }
             },
             password: {
-                message:'密码无效',
                 validators: {
                     notEmpty: {
-                        message: '密码不能为空'
-                    },
-                    stringLength: {
+                        message: '请输入密码'
+                    },stringLength: {
                         min: 6,
                         max: 30,
-                        message: '用户名长度必须在6到30之间'
-                    },
-                    identical: {//相同
-                        field: 'password', //需要进行比较的input name值
-                        message: '两次密码不一致'
-                    },
-                    different: {//不能和用户名相同
-                        field: 'username',//需要进行比较的input name值
-                        message: '不能和用户名相同'
+                        message: '密码长度必须在6到30之间'
+                    },different: {//不能和用户名相同
+                        field: 'loginName',//需要进行比较的input name值
+                        message: '不能和登录名相同'
                     },
                     regexp: {
                         regexp: /^[a-zA-Z0-9_\.]+$/,
@@ -466,24 +460,22 @@ $(function(){/* 文档加载，执行一个函数*/
                     }
                 }
             },
-            repassword: {
-                message: '密码无效',
+            confirmpassword: {
                 validators: {
                     notEmpty: {
-                        message: '用户名不能为空'
-                    },
-                    stringLength: {
+                        message: '请输入确认密码'
+                    }, stringLength: {
                         min: 6,
                         max: 30,
-                        message: '用户名长度必须在6到30之间'
+                        message: '确认密码长度必须在6到30之间'
                     },
                     identical: {//相同
                         field: 'password',
                         message: '两次密码不一致'
                     },
                     different: {//不能和用户名相同
-                        field: 'username',
-                        message: '不能和用户名相同'
+                        field: 'loginName',
+                        message: '不能和登录名相同'
                     },
                     regexp: {//匹配规则
                         regexp: /^[a-zA-Z0-9_\.]+$/,
@@ -491,68 +483,57 @@ $(function(){/* 文档加载，执行一个函数*/
                     }
                 }
             },
-            email: {
+            name: {
                 validators: {
                     notEmpty: {
-                        message: '邮件不能为空'
-                    },
-                    emailAddress: {
-                        message: '请输入正确的邮件地址如：123@qq.com'
+                        message: '请输入姓名'
                     }
                 }
             },
-            phone: {
-                message: 'The phone is not valid',
-                validators: {
+            birthday:{
+            	 validators: {
+                     notEmpty: {
+                         message: '请输入出生年月'
+                     }
+                 }
+            },
+            email:{
+           	 validators: {
+                 notEmpty: {
+                     message: '请输入电子邮箱'
+                 },
+                 emailAddress: {
+                     message: '请输入正确的邮件地址如：123@qq.com'
+                 }
+             }
+        	},
+        	mobile:{
+              	 validators: {
+                     notEmpty: {
+                         message: '请输入手机号码'
+                     },
+                     stringLength: {
+                         min: 11,
+                         max: 11,
+                         message: '请输入11位手机号码'
+                     },
+                     regexp: {
+                         regexp: /^1[3|5|8]{1}[0-9]{9}$/,
+                         message: '请输入正确的手机号码'
+                     }
+                 }
+            },
+            photoName:{
+            	validators: {
                     notEmpty: {
-                        message: '手机号码不能为空'
-                    },
-                    stringLength: {
-                        min: 11,
-                        max: 11,
-                        message: '请输入11位手机号码'
-                    },
-                    regexp: {
-                        regexp: /^1[3|5|8]{1}[0-9]{9}$/,
-                        message: '请输入正确的手机号码'
+                        message: '请上传照片'
                     }
                 }
-            },
-            invite: {
-                message: '邀请码',
-                validators: {
-                    notEmpty: {
-                        message: '邀请码不能为空'
-                    },
-                    stringLength: {
-                        min: 8,
-                        max: 8,
-                        message: '请输入正确长度的邀请码'
-                    },
-                    regexp: {
-                        regexp: /^[\w]{8}$/,
-                        message: '请输入正确的邀请码(包含数字字母)'
-                    }
-                }
-            },
+            }
         }
-    })
-    .on("#userAddBtn", function(e) {//点击提交之后
-    	alert("点击保存");
-        // Prevent form submission
-        e.preventDefault();
-
-        // Get the form instance
-        var $form = $(e.target);
-
-        // Get the BootstrapValidator instance
-        var bv = $form.data('bootstrapValidator');
-
-        /* // Use Ajax to submit form data 提交至form标签中的action，result自定义
-        $.post($form.attr('action'), $form.serialize(), function(result) {
-			//do something...
-		}); */
     });
+	
+	
 });
 
 
@@ -590,28 +571,29 @@ $('.form_date').datetimepicker({
 		
  });
  
- function addUser(){
-	 /* if ($('.form-horizontal').validate().form()) {  
-         $('.form-horizontal').submit();  
-     }   */
-		var formData=JSON.stringify($('#addUserForm').serializeObject());
-		$.ajax({
-			type:"post",
-			url:basePath+"boom/user/add",
-			data:formData,
-			contentType:"application/json; charset=utf-8",
-	        dataType:"json",
-	        success:function(resultData){
-	        	alert(resultData.msg);
-	        	if(resultData.result){
-	        		//cleanAddForm();
-	            	$('#addUserDiv').modal('hide');
-	            	oTableInitiateUser.fnDraw();
-	        	}
-			}
-		});
+   function addUser(){
+	  $('#addUserForm').bootstrapValidator('validate');
+	  var isValid = $('#addUserForm').data('bootstrapValidator').isValid();
+	  if(isValid){
+		  var formData=JSON.stringify($('#addUserForm').serializeObject());
+			$.ajax({
+				type:"post",
+				url:basePath+"boom/user/add",
+				data:formData,
+				contentType:"application/json; charset=utf-8",
+		        dataType:"json",
+		        success:function(resultData){
+		        	alert(resultData.msg);
+		        	if(resultData.result){
+		        		//cleanAddForm();
+		            	$('#addUserDiv').modal('hide');
+		            	oTableInitiateUser.fnDraw();
+		        	}
+				}
+			});
+	  }
 		
-	}	
+	}	 
  
  $("#pdFile").fileinput({
 

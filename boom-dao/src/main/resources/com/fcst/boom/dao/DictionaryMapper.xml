@@ -18,9 +18,7 @@
 		SELECT 
 			dict_name,
 			dict_value
-		FROM sys_dictionary
-		where dict_type = #{dictType}
-		order by id
+		FROM sys_dictionary where dict_type = #{dictType} and dict_level=1  order by id  
 	</select>
 	
 	<insert id="addUser" parameterType="com.fcst.boom.domain.User">
