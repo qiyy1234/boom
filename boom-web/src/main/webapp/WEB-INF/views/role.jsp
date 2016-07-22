@@ -39,9 +39,6 @@ Purchase: http://wrapbootstrap.com
     <!--ztree用到的css-->
     <link rel="stylesheet" href="<%=basePath %>resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css">
 
-    <!--treeTable用到是js-->
-    <link href="<%=basePath %>resources/assets/js/treeTable/themes/vsStyle/treeTable.min.css" rel="stylesheet" />
-
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=basePath %>resources/assets/js/skins.min.js"></script>
 </head>

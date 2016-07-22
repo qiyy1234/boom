@@ -22,8 +22,6 @@
     <!--ztree用到的css-->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css">
 
-    <!--treeTable用到是js-->
-    <link href="<%=request.getContextPath()%>/resources/assets/js/treeTable/themes/vsStyle/treeTable.min.css" rel="stylesheet" />
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=request.getContextPath()%>/resources/assets/js/skins.min.js"></script>

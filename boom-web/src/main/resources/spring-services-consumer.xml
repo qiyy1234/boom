@@ -23,6 +23,5 @@
 <dubbo:reference id="roleService"   interface="com.fcst.boom.service.RoleService" />
 <dubbo:reference id="userService"   interface="com.fcst.boom.service.UserService" />
 <dubbo:reference id="dictionaryService"   interface="com.fcst.boom.service.DictionarySerivce" />
-
-
+<dubbo:reference id="menuService"   interface="com.fcst.boom.service.MenuService" />
 </beans>

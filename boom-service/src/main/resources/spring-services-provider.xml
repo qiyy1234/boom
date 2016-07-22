@@ -28,6 +28,7 @@
     <bean id="roleService" class="com.fcst.boom.service.impl.RoleServiceImpl"/>
     <bean id="userService" class="com.fcst.boom.service.impl.UserServiceImpl"/>
     <bean id="dictionaryService" class="com.fcst.boom.service.impl.DictionaryServiceImpl"/>
+    <bean id="menuService" class="com.fcst.boom.service.impl.MenuServiceImpl"/>
     <!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="com.fcst.boom.service.BusinessService" ref="businessService"/>
     <dubbo:service interface="com.fcst.boom.service.MemberService" ref="memberService"/>
@@ -37,5 +38,6 @@
 	<dubbo:service interface="com.fcst.boom.service.RoleService" ref="roleService"/>
 	<dubbo:service interface="com.fcst.boom.service.UserService" ref="userService"/>
 	<dubbo:service interface="com.fcst.boom.service.DictionarySerivce" ref="dictionaryService"/>
+	<dubbo:service interface="com.fcst.boom.service.MenuService" ref="menuService"/>
 
 </beans>
