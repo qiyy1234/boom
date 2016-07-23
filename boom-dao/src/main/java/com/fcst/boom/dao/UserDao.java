@@ -1,10 +1,8 @@
 package com.fcst.boom.dao;
 
 import org.apache.ibatis.annotations.Param;
-
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
-import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
 
 public interface UserDao {
