@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fcst.boom.dao.UserDao" >
-  <resultMap id="roleResult" type="com.fcst.boom.domain.User">
+  <resultMap id="userResult" type="com.fcst.boom.domain.User">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="loginName" column="login_name" />
@@ -21,7 +21,7 @@
 		<result property="lastDate" column="last_date" />
 	</resultMap>
   
-  	<select id="getUserList" resultMap="roleResult"  parameterType="com.fcst.boom.domain.User">
+  	<select id="getUserList" resultMap="userResult"  parameterType="com.fcst.boom.domain.User">
 		SELECT 
 			u.id,
     		u.login_name,
@@ -40,8 +40,8 @@
 			u.photo_name
 		FROM sys_user u
 		where 1=1 
-			<if test="user.name!=null and user.name != ''">
-				and u.name = #{user.name}
+			<if test="user.loginName!=null and user.loginName != ''">
+				and u.login_name = #{user.loginName}
 			</if>
 		order by u.create_date desc
 	</select>
@@ -51,44 +51,43 @@
 		values (#{id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark},#{photoUrl},#{photoName})
 	</insert>
 	
-	<select id="getRoleById" resultMap="roleResult">
-		SELECT 
-			r.id,
-    		r.name,
-    		r.enname,
-    		r.remark,
-			r.create_user AS createUser,
-			DATE_FORMAT(r.create_date,'%Y-%m-%d %H:%i:%s') AS createDate,
-			r.update_user AS updateUser,
-			DATE_FORMAT(r.update_date,'%Y-%m-%d %H:%i:%s') AS updateDate
-		FROM sys_role r
-		WHERE r.id = #{id}
+	<select id="getUserById" resultMap="userResult">
+      SELECT
+	s.id,
+	s.login_name loginName,
+	s.name,
+	(select dict_name from sys_dictionary where dict_value= s.sex and dict_type='sex') as sex,
+    DATE_FORMAT(s.birthday,'%Y-%m-%d') as birthday,
+    s.mobile,
+    s.email
+      FROM
+	sys_user s
+      WHERE
+	s.id =  #{id}
 	</select>
 	
-	<update id="updateRole" parameterType="com.fcst.boom.dao.RoleDao">
-		UPDATE sys_role 
+	<update id="updateUser" parameterType="com.fcst.boom.dao.UserDao">
+		UPDATE sys_user 
 		<set>
 			<if test="name!=null and name != ''">
 				name=#{name},
 			</if>
-			<if test="enname and enname != ''">
-				enname=#{enname},
+			<if test="loginName and loginName != ''">
+				login_name=#{loginName},
 			</if>
-			<if test="remark and remark != ''">
-				remark=#{remark},
+			<if test="mobile and mobile != ''">
+				mobile=#{mobile},
 			</if>
-			<if test="updateUser and updateUser != ''">
-				update_user=#{updateUser},
-			</if>
-			<if test="updateDate and updateDate != ''">
-				update_date=#{updateDate}
+			<if test="email and email != ''">
+				email=#{email}
 			</if>
 		</set>
 		where id=#{id}
 	</update>
 	
-	<delete id="deleteRole" parameterType="java.lang.String">
-		delete from sys_role where id=#{id}
+	<delete id="deleteUser" parameterType="java.lang.String">
+		delete from sys_user where id=#{id}
 	</delete>
+	
 		
 </mapper>
