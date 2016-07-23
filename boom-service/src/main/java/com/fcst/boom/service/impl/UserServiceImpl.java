@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public int deleteUser(String userId) throws Exception {
+		System.out.println("-- -- --");
 		return userDao.deleteUser(userId);
 	}
 
