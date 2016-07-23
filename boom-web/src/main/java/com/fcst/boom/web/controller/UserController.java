@@ -58,6 +58,7 @@ public class UserController {
 		PageArg pageArg = PageUtils.getPageArg(user.getStart(), user.getLength());
 		PageList<User> userList = null; 
 		try {
+			System.out.println("----- --------"+user.getLoginName());
 			userList = userService.findUserPageList(user,pageArg);
 			if(userList!=null){
 				result.put("data", userList);
@@ -74,6 +75,52 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 删除用户
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public JsonResult delete(String userId){
+		JsonResult result = new JsonResult();
+		try {
+			int resultVal = userService.deleteUser(userId);
+			if(resultVal!=0){
+				result.put("msg", "删除成功");
+				result.put("result", true);
+			}
+			
+		} catch (Exception e) {
+			result.put("msg", "删除失败");
+			result.put("result", false);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 修改用户
+	 * @return
+	 */
+	@RequestMapping("/update")
+	@ResponseBody
+	public JsonResult update(@RequestBody User user){
+		JsonResult result = new JsonResult();
+		try {
+			user.setUpdateUser("qiyy");
+			user.setUpdateDate(new Date());
+			userService.updateUser(user);
+			result.put("msg", "修改成功");
+			result.put("result", true);
+		} catch (Exception e) {
+			result.put("msg", "修改失败");
+			result.put("result", false);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	
 	
 	/**
@@ -112,6 +159,27 @@ public class UserController {
 	    
 		return result;
 	}
+	
+	/**
+	 * 根据ID查询用用
+	 * @return
+	 */
+	@RequestMapping("/detail")
+	@ResponseBody
+	public User detail(String userId){
+		User user = null;
+		try {
+			user = userService.detailUser(userId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
+	
+	
+	
 	
 	public void SaveFileFromInputStream(InputStream stream,String filepath) throws IOException
 	{      
