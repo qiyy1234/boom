@@ -26,7 +26,7 @@ var InitiateUserDataTable = function () {
                     "dataSrc": "data",
                     "data": function ( d ) {
                     	//查询条件
-                    	d.name = $("#find_name").val();
+                    	d.loginName = $("#loginName").val();
                     }
                 },
                 //本地搜索
@@ -55,9 +55,9 @@ var InitiateUserDataTable = function () {
                     {
                         "targets": 7,
                         "render": function ( data, type, full, meta ) {
-                        	var operation = '<a href="#" class="btn btn-blue btn-sm" onclick="detailRole(\''+full.id+'\')"><i class="fa fa-search-plus"></i>查看</a>&nbsp;'+
+                        	var operation = '<a href="#" class="btn btn-blue btn-sm" onclick="detailUser(\''+full.id+'\')"><i class="fa fa-search-plus"></i>查看</a>&nbsp;'+
                             '<a href="#" class="btn btn-success btn-sm" onclick="goUpdateRole(\''+full.id+'\');"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
-                            '<a href="#" class="btn btn-danger btn-sm" onclick="deleteRole(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
+                            '<a href="#" class="btn btn-danger btn-sm" onclick="deleteUser(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
                         	return operation;
                         }
                     }
@@ -75,7 +75,7 @@ $('#userdatatable').on('click', ' tbody td .row-details', function () {
     if (oTableInitiateUser.fnIsOpen(nTr)) {
         /* This row is already open - close it */
         $(this).addClass("fa-plus-square-o").removeClass("fa-minus-square-o");
-        oTable.fnClose(nTr);
+        oTableInitiateUser.fnClose(nTr);
     }
     else {
         /* Open this row */
@@ -96,4 +96,72 @@ function fnFormatDetails(oTable, nTr) {
     return sOut;
 }
 
+function detailUser(id){
+	$.ajax({
+		  url: basePath+"boom/user/detail?timestamp="+Date.parse(new Date()),
+		  data: {"userId":id},
+		  success: function(resultData){
+			  $("#detail_user_name").val(resultData.name);
+			  $("#detail_user_loginName").val(resultData.loginName);
+			  $("#detail_user_sex").val(resultData.sex);
+			  $("#detail_user_birthday").val(resultData.birthday);
+			  $("#detail_user_mobile").val(resultData.mobile);
+			  $("#detail_user_email").val(resultData.email);
+		  },
+		  dataType: "json"
+		});
+	$('#userDetailDiv').modal();
+}
+
+function deleteUser(id){
+	$.ajax({
+		  url: basePath+"boom/user/delete",
+		  data: {"userId":id},
+		  success: function(resultData){
+			  alert(resultData.msg);
+	          if(resultData.result){
+	        	  oTableInitiateUser.fnDraw();
+	          }
+		  },
+		  dataType: "json"
+	});
+}
+
+function goUpdateRole(userId){
+	$.ajax({
+		  url: basePath+"boom/user/detail?timestamp="+Date.parse(new Date()),
+		  data: {"userId":userId},
+		  success: function(resultData){
+			  $("#update_user_id").val(resultData.id);
+			  $("#update_user_name").val(resultData.name);
+			  $("#update_user_loginName").val(resultData.loginName);
+			  $("#update_user_mobile").val(resultData.mobile);
+			  $("#update_user_email").val(resultData.email);
+		  },
+		  dataType: "json"
+		});
+	$('#userUpdateDiv').modal();
+}
+
+function updateUser(){
+	var formData=JSON.stringify($('#updateUserForm').serializeObject());
+	$.ajax({
+		type:"post",
+		url:basePath+"boom/user/update",
+		data:formData,
+		contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success:function(resultData){
+        	alert(resultData.msg);
+        	if(resultData.result){
+            	$('#userUpdateDiv').modal('hide');
+            	oTableInitiateUser.fnDraw();
+        	}
+		}
+	});
+}
+
+function findUserList(){
+	oTableInitiateUser.fnDraw();
+}
 
