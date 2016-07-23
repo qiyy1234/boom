@@ -28,7 +28,7 @@ public interface UserService {
 	  * @return
 	  * @throws Exception
 	  */
-	 public User detailUser(String roleId) throws Exception;
+	 public User detailUser(String userId) throws Exception;
 	 
 	 /**
 	  * 修改用户
@@ -45,5 +45,6 @@ public interface UserService {
 	  * @throws Exception
 	  */
 	 public int deleteUser(String userId) throws Exception;
+	 
 
 }
