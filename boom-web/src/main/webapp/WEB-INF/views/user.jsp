@@ -75,9 +75,9 @@ Purchase: http://wrapbootstrap.com
             	<div class="widget-body">
                 	<table width="100%">
                     	<tr>
-                        	<td>名称：<input type="text" name="find_name" id="find_name"></td>
+                        	<td>登录名：<input type="text" name="loginName" id="loginName"></td>
                             <td align="right">
-                            	<a href="#" class="btn btn-blue btn-sm" onclick="findRoleList()">查询</a>&nbsp;
+                            	<a href="#" class="btn btn-blue btn-sm" onclick="findUserList()">查询</a>&nbsp;
                                 <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#addUserDiv">添加</a>
                                 
                             </td>
@@ -228,11 +228,11 @@ Purchase: http://wrapbootstrap.com
         </div>
     
     <!--角色修改-->
-    <div class="modal fade" id="roleUpdateDiv" tabindex="-1" role="dialog" aria-labelledby="roleUpdateDiv" aria-hidden="true">
+    <div class="modal fade" id="userUpdateDiv" tabindex="-1" role="dialog" aria-labelledby="userUpdateDiv" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="widget-header bg-themeprimary">
-                    <span class="widget-caption">角色修改</span>
+                    <span class="widget-caption">用户修改</span>
                     <div class="widget-buttons">
                         <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
                     </div>
@@ -240,50 +240,41 @@ Purchase: http://wrapbootstrap.com
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
-                            <form class="form-horizontal" role="form" id="updateRoleForm">
+                            <form class="form-horizontal" role="form" id="updateUserForm">
                                 <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+                                    <label  class="col-sm-2 control-label no-padding-right">用户名称：</label>
                                     <div class="col-sm-9">
-                                    	<input type="text" class="form-control" id="update_role_id" name="id" style="display: none"/>
-                                        <input type="text" class="form-control" id="update_role_name" name="name" />
+                                    	<input type="text" class="form-control" id="update_user_id" name="id" style="display: none"/>
+                                        <input type="text" class="form-control" id="update_user_name" name="name" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">英文名称：</label>
+                                    <label class="col-sm-2 control-label no-padding-right">登录账号：</label>
                                     <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="update_role_enname" name="enname" />
+                                       <input type="text" class="form-control" id="update_user_loginName" name="loginName" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">创建人：</label>
-                                    <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="update_role_create_user" disabled="disabled" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">创建时间：</label>
-                                    <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="update_role_create_date" disabled="disabled"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
+		                        	<label class="col-sm-2 control-label no-padding-right">移动-电话：</label>
 		                            <div class="col-sm-9">
-		                            	<textarea class="form-control" id="update_role_remark" name="remark">
-		                            	</textarea>
+                                    <input type="text" class="form-control" id="update_user_mobile" name="mobile" />
+		                            </div>
+                                </div>
+                                <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">EMAIL：</label>
+		                            <div class="col-sm-9">
+                                     <input type="text" class="form-control" id="update_user_email" name="email" />
 		                            </div>
                                 </div>
 
                                 <table class="table">
                                 	<tr>
                                     	<td align="center">
-                                        	<a href="#" id="roleUpdateBtn" onclick="updateRole()"  class="btn btn-azure">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        	<a href="#" id="userUpdateBtn" onclick="updateUser()"  class="btn btn-azure">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                        		<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
                                         </td>
                                     </tr>
                                 </table>
-                               
-
                             </form>
                         </div>
                     </div>
@@ -292,12 +283,12 @@ Purchase: http://wrapbootstrap.com
         </div>
     </div>
     
-    <!--角色详情-->
-    <div class="modal fade" id="roleDetailDiv" tabindex="-1" role="dialog" aria-labelledby="roleDetailDiv" aria-hidden="true">
+    <!--用户详情-->
+    <div class="modal fade" id="userDetailDiv" tabindex="-1" role="dialog" aria-labelledby="userDetailDiv" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="widget-header bg-themeprimary">
-                    <span class="widget-caption">角色详情</span>
+                    <span class="widget-caption">用户详情</span>
                     <div class="widget-buttons">
                         <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
                     </div>
@@ -307,49 +298,41 @@ Purchase: http://wrapbootstrap.com
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" id="roleForm">
                                 <div class="form-group">
-		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+		                        	<label  class="col-sm-2 control-label no-padding-right">用户名称：</label>
 		                        	<div class="col-sm-9">
-                                        <input type="text" class="form-control" id="detail_role_name" name="name" disabled="disabled" />
+                                        <input type="text" class="form-control" id="detail_user_name" name="name" disabled="disabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-		                        	<label class="col-sm-2 control-label no-padding-right">英文名称：</label>
+		                        	<label class="col-sm-2 control-label no-padding-right">登录账号：</label>
 		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="detail_role_enname" name="name" disabled="disabled" />
+		                            	<input type="text" class="form-control" id="detail_user_loginName" name="name" disabled="disabled" />
 		                            </div>
 		                        </div>
 		                        <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">创建人：</label>
+                                    <label class="col-sm-2 control-label no-padding-right">性别：</label>
                                     <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="detail_role_create_user" name="enname" />
+                                       <input type="text" class="form-control" id="detail_user_sex" name="disabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">创建时间：</label>
+                                    <label class="col-sm-2 control-label no-padding-right">生日：</label>
                                     <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="detail_role_create_date" name="enname" />
+                                       <input type="text" class="form-control" id="detail_user_birthday" name="disabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">修改人：</label>
+                                    <label class="col-sm-2 control-label no-padding-right">移动-电话：</label>
                                     <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="detail_role_update_user" name="enname" />
+                                       <input type="text" class="form-control" id="detail_user_mobile" name="disabled" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">修改时间：</label>
+                                    <label class="col-sm-2 control-label no-padding-right">EMAIL：</label>
                                     <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="detail_role_update_date" name="enname" />
+                                       <input type="text" class="form-control" id="detail_user_email" name="disabled" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
-		                            <div class="col-sm-9" >
-		                            	<textarea class="form-control" id="detail_role_remark" name="remark" disabled="disabled">
-		                            	</textarea>
-		                            </div>
-                                </div>
-                                
                                 <table class="table">
                                 	<tr>
                                     	<td align="center">
