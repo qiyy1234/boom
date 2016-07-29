@@ -34,11 +34,12 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=request.getContextPath()%>/resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
     <!--ztree用到的css-->
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css">
-
+<%--     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css"> --%>
+    <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/resources/assets/zTree/2.6/zTreeStyle.css"/>
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=request.getContextPath()%>/resources/assets/js/skins.min.js"></script>
+  
 </head>
 <!-- /Head -->
 <!-- Body -->
@@ -698,13 +699,15 @@ Purchase: http://wrapbootstrap.com
     <script src="<%=request.getContextPath()%>/resources/assets/js/datatable/jquery.dataTables.min.js"></script>
     <script src="<%=request.getContextPath()%>/resources/assets/js/datatable/dataTables.bootstrap.min.js"></script>
 
+     
+<%--<script src="<%=request.getContextPath()%>/resources/assets/js/ztree/jquery.ztree.core-3.5.min.js"></script> --%>
     <!--ztree用到的js-->
-    <script src="<%=request.getContextPath()%>/resources/assets/js/ztree/jquery.ztree.core-3.5.min.js"></script>
-
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
+    
     <!--treeTable用到的js-->
     <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script>
 
-<script src="<%=request.getContextPath()%>/resources/common/boomjs/role.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/common/boomjs/role.js"></script>
 
 <script>
 InitiateRoleDataTable.init();
