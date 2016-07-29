@@ -47,7 +47,8 @@ var InitiateRoleDataTable = function () {
                         "render": function ( data, type, full, meta ) {
                         	var operation = '<a href="#" class="btn btn-blue btn-sm" onclick="detailRole(\''+full.id+'\')"><i class="fa fa-search-plus"></i>查看</a>&nbsp;'+
                             '<a href="#" class="btn btn-success btn-sm" onclick="goUpdateRole(\''+full.id+'\');"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
-                            '<a href="#" class="btn btn-danger btn-sm" onclick="deleteRole(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
+                            '<a href="#" class="btn btn-danger btn-sm" onclick="deleteRole(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>&nbsp;'+
+                            '<a href="#" class="btn btn-primary btn-sm" onclick="powerRole(\''+full.id+'\')"><i class="fa fa-gift"></i>菜单赋权限</a>&nbsp;';
                         	return operation;
                         }
                     }
@@ -63,7 +64,6 @@ var InitiateRoleDataTable = function () {
 function findRoleList(){
 	oTableInitiateRole.fnDraw();
 }
-
 
 function goUpdateRole(roleId){
 	$.ajax({
@@ -152,3 +152,6 @@ function closeDetailDiv(){
 	$("#roleEnName").text('');
 	$("#roleRemark").text('');
 }
+
+
+
