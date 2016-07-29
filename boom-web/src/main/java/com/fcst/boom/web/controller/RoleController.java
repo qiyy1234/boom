@@ -1,6 +1,7 @@
 package com.fcst.boom.web.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.common.page.PageUtils;
+import com.fcst.boom.domain.Permission;
 import com.fcst.boom.domain.Role;
+import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.service.RoleService;
 
 /**
@@ -27,6 +31,9 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 	
+	@Autowired
+	private PermissionService permissionService;
+	
 	/**
 	 * 跳转到角色管理页面
 	 * @return
@@ -35,6 +42,25 @@ public class RoleController {
     public String index() {
         return "/role";
     }
+	
+	/**
+	 * 跳转权限菜单
+	 * @return
+	 */
+	@RequestMapping("/powerRole")
+	@ResponseBody
+	public JsonResult powerRole(Long roleId){
+		JsonResult result = new JsonResult();
+		System.out.println("-- -- --"+roleId);
+		List<Permission> permissionList=permissionService.getAllPermission(roleId);
+		String jsonStr=JSON.toJSONString(permissionList);
+		jsonStr=jsonStr.replaceAll("subsetPermission", "nodes");
+		System.out.println("--- jsonStr ---"+jsonStr);
+		result.put("zTreeNodes", permissionList);
+		result.put("roleId", roleId);
+		return result;
+	}
+	
 	
 	/**
 	 * 查询所有角色
@@ -64,6 +90,10 @@ public class RoleController {
 		return result;
 	}
 	
+	/**
+	 * 新增角色
+	 * @return
+	 */
 	@RequestMapping("/add")
 	@ResponseBody
 	public JsonResult add(@RequestBody Role role){
@@ -138,6 +168,15 @@ public class RoleController {
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
 	}
+
+	public PermissionService getPermissionService() {
+		return permissionService;
+	}
+
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
+	}
+	
 	
 	
 
