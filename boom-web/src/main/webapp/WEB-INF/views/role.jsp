@@ -27,7 +27,7 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link id="bootstrap-rtl-link" href="#" rel="stylesheet" />
     <link href="<%=basePath %>resources/assets/css/font-awesome.min.css" rel="stylesheet" />
-
+    
     <!--Beyond styles-->
     <link id="beyond-link" href="<%=basePath %>resources/assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath %>resources/assets/css/typicons.min.css" rel="stylesheet" />
@@ -37,10 +37,12 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
     <!--ztree用到的css-->
-    <link rel="stylesheet" href="<%=basePath %>resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<%--     <link rel="stylesheet" href="<%=basePath %>resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css"> --%>
+    <link type="text/css" rel="stylesheet" href="<%=basePath %>resources/assets/zTree/2.6/zTreeStyle.css"/>
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=basePath %>resources/assets/js/skins.min.js"></script>
+    
 </head>
 <!-- /Head -->
 <!-- Body -->
@@ -288,9 +290,50 @@ Purchase: http://wrapbootstrap.com
             </div>
         </div>
     </div>
+    
+    
+    <!--POWER ZTREE -->
+    <div class="modal fade" id="powerDetailDiv">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="widget-header bg-themeprimary">
+                    <span class="widget-caption">权限菜单TREE</span>
+                    <div class="widget-buttons">
+                        <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <form class="form-horizontal" role="form" id="roleForm">
+                            
+                                <div class="form-group">
+		                        	<label  class="col-sm-2 control-label no-padding-right"></label>
+		                        	<div class="col-sm-9" id="sload">
+                                        <ul id="tree" class="tree" style="overflow:auto;"></ul>
+                                    </div>
+                                </div>
+                                
+                                <table class="table">
+                                	<tr>
+                                    	<td align="center">
+                                        	<a href="#" data-dismiss="modal" aria-hidden="true" onclick="closeDetailDiv()"  class="btn btn-azure">保存</a>
+                                        	<a href="#" data-dismiss="modal" aria-hidden="true" onclick="closeDetailDiv()"  class="btn btn-azure">取消</a>
+                                        </td>
+                                    </tr>
+                                </table>
 
-    <!--Basic Scripts-->
-    <script src="<%=basePath %>resources/assets/js/jquery-1.11.3/jquery.min.js"></script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--Basic Scripts-->     
+    
+    <script src="<%=basePath %>resources/assets/js/jquery-1.11.3/jquery.min.js"></script> 
     <script src="<%=basePath %>resources/assets/js/bootstrap.min.js"></script>
     <script src="<%=basePath %>resources/assets/js/slimscroll/jquery.slimscroll.min.js"></script>
 
@@ -301,9 +344,13 @@ Purchase: http://wrapbootstrap.com
     <script src="<%=basePath %>resources/assets/js/datatable/jquery.dataTables.min.js"></script>
     <script src="<%=basePath %>resources/assets/js/datatable/dataTables.bootstrap.min.js"></script>
 
-
 	<script src="<%=basePath %>resources/common/boomjs/role.js"></script>
-
+	
+ 	<!--ztree用到的js-->
+<%--<script src="<%=basePath %>resources/assets/js/ztree/jquery.ztree.core-3.5.min.js"></script> --%>
+<%--<script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script> --%>
+    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
+    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
 <script>
 
 InitiateRoleDataTable.init();
@@ -349,6 +396,28 @@ InitiateRoleDataTable.init();
 		});
 		
 	}	
+ 
+  function powerRole(roleId){
+		$.ajax({
+			type:"post",
+			url:basePath+"boom/role/powerRole",
+			data: {"roleId":roleId},
+		    success:function(resultData){
+		    //var zTreeNodes = eval(resultData.zTreeNodes);
+			var zTreeNodes = JSON.stringify(resultData.zTreeNodes);
+		    var zT  = zTreeNodes.replace(/subsetPermission/gm,'nodes');  
+			var zTree;
+		 	var setting = {
+				    showLine: true,
+				    checkable: true
+				    };
+		  	var zTreeNodess = eval(zT);
+		 	zTree = $("#tree").zTree(setting, zTreeNodess); 
+			},
+		}); 
+		$('#powerDetailDiv').modal();
+	} 
+ 
 
 </script>
 
