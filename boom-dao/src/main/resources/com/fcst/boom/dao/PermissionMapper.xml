@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fcst.boom.dao.PermissionDao" >
+  <resultMap id="permissionResult" type="Permission">
+	 		<result column="id" property="id"></result>
+	 		<result column="name" property="name"></result>
+	 		<result column="type" property="type"></result>
+	 		<result column="url" property="url"></result>
+	 		<result column="percode" property="percode"></result>
+	 		<result column="parentid" property="parentid"></result>
+	 		<result column="parentids" property="parentids"></result>
+	 		<result column="sortstring" property="sortstring"></result>
+	 		<result column="available" property="available"></result>
+	 		<result column="create_date" property="createDate"></result>
+	 		<result column="update_date" property="updateDate"></result>
+	 		<result column="creater" property="creater"></result>
+	 		<result column="mender" property="mender"></result>
+	</resultMap>
+  
+  	<sql id="permissionCloumn">
+	 id,name,type,url,percode,parentid,parentids,sortstring,available,create_date,update_date,creater,mender
+	</sql>
+  
+	<select id="selectPermissionByRoleId" resultMap="permissionResult" parameterType="hashMap">
+		SELECT <include refid="permissionCloumn"></include> FROM sys_permission WHERE id in(SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id=#{roleId})
+	</select>
+	
+	<select id="selectPermissionByParentid" resultMap="permissionResult" parameterType="hashMap">
+		SELECT <include refid="permissionCloumn"></include> FROM sys_permission WHERE parentid=#{parentid}
+	</select>
+		
+</mapper>
