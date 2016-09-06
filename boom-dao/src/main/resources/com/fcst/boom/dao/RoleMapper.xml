@@ -68,7 +68,15 @@
 	</update>
 	
 	<delete id="deleteRole" parameterType="java.lang.String">
-		delete from sys_role where id=#{id}
+		DELETE FROM sys_role where id=#{id}
 	</delete>
+	
+	<delete id="deleteRolePermissionByRoleId" parameterType="java.lang.String">
+		DELETE FROM sys_role_permission WHERE sys_role_id=#{roleId}
+	</delete>
+	
+	<insert id="insertRolePermission" parameterType="java.util.HashMap">
+		INSERT INTO sys_role_permission(sys_role_id,sys_permission_id) VALUES (#{roleId},#{permissionId})
+	</insert>
 		
 </mapper>
