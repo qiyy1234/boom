@@ -1,5 +1,7 @@
 package com.fcst.boom.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.fcst.boom.common.page.PageArg;
@@ -48,4 +50,22 @@ public interface RoleDao {
 	 * @throws Exception
 	 */
 	public int deleteRole(String id) throws Exception;
+	
+	/**
+	 * 删除权限菜单Id
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public void deleteRolePermissionByRoleId(String roleId) throws Exception;
+
+	/**
+	 * 新增权限菜单Id
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public void insertRolePermission(HashMap map);
+	
+	
 }
