@@ -12,7 +12,7 @@ import com.fcst.boom.domain.Permission;
  */
 public interface PermissionDao {
 
-	public List<Permission> selectPermissionByRoleId(Long roleId);
+	public List<Permission> selectPermissionByRoleId(String roleId);
 
 	public List<Permission> selectPermissionByParentid(String parentid);
 
