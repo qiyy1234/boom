@@ -3,6 +3,7 @@ package com.fcst.boom.web.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,18 +45,41 @@ public class RoleController {
     }
 	
 	/**
+	 * doAuthSave 保存权限菜单
+	 * @return 
+	 */
+	
+	@RequestMapping("/doAuthSave")
+	@RequiresPermissions("role:add")
+	public void doAuthSave(String roleId,String ids){
+		try {
+			
+	        roleService.deleteRolePermissionByRoleId(roleId);
+		
+		String[] idStr=ids.split(",");
+		for(int i=0;i<idStr.length;i++){
+			roleService.addRolePermission(roleId, Long.parseLong(idStr[i]));
+		}
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	/**
 	 * 跳转权限菜单
 	 * @return
 	 */
 	@RequestMapping("/powerRole")
 	@ResponseBody
-	public JsonResult powerRole(Long roleId){
+	public JsonResult powerRole(String roleId){
 		JsonResult result = new JsonResult();
-		System.out.println("-- -- --"+roleId);
 		List<Permission> permissionList=permissionService.getAllPermission(roleId);
 		String jsonStr=JSON.toJSONString(permissionList);
 		jsonStr=jsonStr.replaceAll("subsetPermission", "nodes");
-		System.out.println("--- jsonStr ---"+jsonStr);
 		result.put("zTreeNodes", permissionList);
 		result.put("roleId", roleId);
 		return result;
