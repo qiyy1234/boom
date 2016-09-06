@@ -44,4 +44,25 @@ public interface RoleService {
 	  * @throws Exception
 	  */
 	 public int deleteRole(String roleId) throws Exception;
+
+	 /**
+	  * 增加权限的时候（之前） 是走删除的逻辑
+	  * @param roleId
+	  * @return
+	  * @throws Exception
+	  */
+	public void deleteRolePermissionByRoleId(String roleId) throws Exception;
+	
+	 /**
+	  * 增加权限菜单
+	  * @param roleId
+	  * @return
+	  * @throws Exception
+	  */
+	public void addRolePermission(String roleId, Long permissionId) throws Exception;
+	
+	
+	
+	
+	
 }
