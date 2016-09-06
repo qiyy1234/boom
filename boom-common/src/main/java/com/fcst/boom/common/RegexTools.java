@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * Modified By：
  * Modified Date：
  * Why & What is modified：
- * Version 1.0
+ * Version 1.0 
  */
 public class RegexTools {
 	
