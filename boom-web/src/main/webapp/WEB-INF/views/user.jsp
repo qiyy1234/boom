@@ -78,7 +78,7 @@ Purchase: http://wrapbootstrap.com
                         	<td>登录名：<input type="text" name="loginName" id="loginName"></td>
                             <td align="right">
                             	<a href="#" class="btn btn-blue btn-sm" onclick="findUserList()">查询</a>&nbsp;
-                                <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#addUserDiv">添加</a>
+                                <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#addUserDiv" onClick="addRoleReady()">添加</a>
                                 
                             </td>
                         </tr>
@@ -130,6 +130,20 @@ Purchase: http://wrapbootstrap.com
 		                            	<input type="text" class="form-control" id="add_user_loginname" name="loginName" data-bv-field="loginName" />
 		                            </div>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label no-padding-right">角色选择：</label>
+                                      <div class="col-sm-9">
+                                      <select class="form-control" id="roId" name="roId">
+                                       <option>总经理</option>
+                                       <option>经理</option>
+                                       <option>秘书</option>
+                                       <option>组长</option>
+                                       <option>员工</option>
+                                     </select>
+                                             </div>
+                                       </div>
+                                       
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">密码：</label>
 		                            <div class="col-sm-9">
@@ -382,6 +396,34 @@ InitiateUserDataTable.init();
 
 
 getDictionaryListByType('add_user_sex','sex','select','sex',null);
+
+
+function addRoleReady(){
+	 var html = "";  
+	    $.ajax({  
+	        type: "post",  
+	        async: false,  
+	        url: "user/initUserForm.do",  
+	        data: "method=GetProvince",  
+	        dataType: "json",  
+	        success: function(data) {  
+	            if (data != 0) {  
+	                var temp = eval(data);  
+	                for (var i = 0; i < temp.length; i++) {  
+	                    html += "<option value='" + temp[i].netid + "'>" + temp[i].netcode + "</option>";  
+	                }  
+	            }  
+	            else {  
+	                html = "<option>网络异常</option>";  
+	            }  
+	        }  
+	    });  
+	    alert(html);  
+	    $(html).appendTo("#roId");
+	
+	
+
+}
 
 
 $(function(){/* 文档加载，执行一个函数*/
