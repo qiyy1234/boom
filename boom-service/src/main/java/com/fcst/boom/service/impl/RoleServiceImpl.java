@@ -1,5 +1,7 @@
 package com.fcst.boom.service.impl;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fcst.boom.common.mybatis.GenerationUUID;
@@ -13,6 +15,13 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleDao roleDao;
+	
+	public RoleDao getRoleDao() {
+		return roleDao;
+	}
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
 
 	@Override
 	public PageList<Role> findRolePageList(Role role,PageArg pageArg) throws Exception {
@@ -40,19 +49,21 @@ public class RoleServiceImpl implements RoleService {
 	public int deleteRole(String roleId) throws Exception {
 		return roleDao.deleteRole(roleId);
 	}
-	
-	public RoleDao getRoleDao() {
-		return roleDao;
+
+	@Override
+	public void deleteRolePermissionByRoleId(String roleId) throws Exception {
+		// TODO Auto-generated method stub
+		roleDao.deleteRolePermissionByRoleId(roleId);
 	}
 
-	public void setRoleDao(RoleDao roleDao) {
-		this.roleDao = roleDao;
+	@Override
+	public void addRolePermission(String roleId, Long permissionId) throws Exception {
+		// TODO Auto-generated method stub
+		HashMap map=new HashMap();
+		map.put("roleId", roleId);
+		map.put("permissionId", permissionId);
+		roleDao.insertRolePermission(map);
+		
 	}
-
-	
-
-	
-	
-	
 
 }
