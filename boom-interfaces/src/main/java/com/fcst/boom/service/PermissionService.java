@@ -14,7 +14,7 @@ import com.fcst.boom.domain.Permission;
 
 public interface PermissionService {
 
-	List<Permission> getAllPermission(Long roleId);
+	List<Permission> getAllPermission(String roleId);
 
  
 }
