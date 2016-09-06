@@ -299,13 +299,13 @@ Purchase: http://wrapbootstrap.com
                                         <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/adam-jansen.jpg">
                                     </div>
                                     <section>
-                                        <h2><span class="profile"><span>David Stevenson</span></span></h2>
+                                        <h2><span class="profile"><span>Jay Zhou</span></span></h2>
                                     </section>
                                 </a>
                                 <!--Login Area Dropdown-->
                                 <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                                    <li class="username"><a>David Stevenson</a></li>
-                                    <li class="email"><a>David.Stevenson@live.com</a></li>
+                                    <li class="username"><a>Jay Zhou</a></li>
+                                    <li class="email"><a>JayZhou@163.com</a></li>
                                     <!--Avatar Area-->
                                     <li>
                                         <div class="avatar-area">
@@ -426,8 +426,13 @@ Purchase: http://wrapbootstrap.com
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#"  target="mainframe">
                                     <span value="organization.html" class="menu_a menu-text">机构管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                    <a href="boom/lot/index"  target="mainframe">
+                                    <span value="lot.html" class="menu_a menu-text">3D数据分析</span>
                                 </a>
                             </li>
                             
@@ -464,7 +469,7 @@ Purchase: http://wrapbootstrap.com
                         </li>
                         <li class="contact">
                             <div class="contact-avatar">
-                                <img src="<%=request.getContextPath()%>/resources/resources/assets/img/avatars/Nicolai-Larson.jpg" />
+                                <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/Nicolai-Larson.jpg" />
                             </div>
                             <div class="contact-info">
                                 <div class="contact-name">Adam Johnson</div>
