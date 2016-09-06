@@ -37,7 +37,6 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
     <!--ztree用到的css-->
-<%--     <link rel="stylesheet" href="<%=basePath %>resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css"> --%>
     <link type="text/css" rel="stylesheet" href="<%=basePath %>resources/assets/zTree/2.6/zTreeStyle.css"/>
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
@@ -293,7 +292,7 @@ Purchase: http://wrapbootstrap.com
     
     
     <!--POWER ZTREE -->
-    <div class="modal fade" id="powerDetailDiv">
+<!--     <div class="modal fade" id="powerDetailDiv">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="widget-header bg-themeprimary">
@@ -329,7 +328,73 @@ Purchase: http://wrapbootstrap.com
                 </div>
             </div>
         </div>
+    </div> -->
+    
+    
+    <div class="modal fade" id="powerDetailDiv">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="widget-header bg-themeprimary">
+                    <span class="widget-caption">权限菜单TREE</span>
+                    <div class="widget-buttons">
+                        <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                        
+                            <form class="form-horizontal" role="form" id="roleForm">
+                                <div class="form-group">
+		                        	<label  class="col-sm-2 control-label no-padding-right"></label>
+		                        	<div class="col-sm-9" id="sload">
+                                        <ul id="tree" class="tree" style="overflow:auto;"></ul>
+                                    </div>
+                                    <input type="hidden" class="form-control" id="roleId" name="roleId" />
+                                </div>
+                                
+                                <table class="table">
+                                	<tr>
+                                    	<td align="center">
+                                        	<a href="#" data-dismiss="modal" aria-hidden="true" onclick="savePower()"  class="btn btn-azure">保存</a>
+                                        	<a href="#" data-dismiss="modal" aria-hidden="true" onclick="closeDetailDiv()"  class="btn btn-azure">取消</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    
+    <!-- 测试页  -->
+    <div class="col-lg-8 col-sm-8 col-xs-12">
+                                    <div class="widget">
+                                        <div class="widget-header bordered-bottom bordered-white bg-sky">
+                                            <span class="widget-caption">Bordered and Colored Widget</span>
+                                            <div class="widget-buttons">
+                                                <a href="#" data-toggle="maximize">
+                                                    <i class="fa fa-expand"></i>
+                                                </a>
+                                                <a href="#" data-toggle="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                                </a>
+                                            </div><!--Widget Buttons-->
+                                        </div><!--Widget Header-->
+                                        <div class="widget-body bg-sky bordered-bottom bordered-white">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        </div><!--Widget Body-->
+                                    </div><!--Widget-->
+                                </div>
+    
+    
+    
+    
+    
     
     <!--Basic Scripts-->     
     
@@ -345,12 +410,14 @@ Purchase: http://wrapbootstrap.com
     <script src="<%=basePath %>resources/assets/js/datatable/dataTables.bootstrap.min.js"></script>
 
 	<script src="<%=basePath %>resources/common/boomjs/role.js"></script>
+	<!--treeTable用到的js-->
+    <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script>
 	
  	<!--ztree用到的js-->
 <%--<script src="<%=basePath %>resources/assets/js/ztree/jquery.ztree.core-3.5.min.js"></script> --%>
 <%--<script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script> --%>
     <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
-    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
+<%--<script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script> --%>
 <script>
 
 InitiateRoleDataTable.init();
@@ -397,27 +464,61 @@ InitiateRoleDataTable.init();
 		
 	}	
  
+	var zTree;
+ 	var setting = {
+		    showLine: true,
+		    checkable: true
+		    };
+ 	
   function powerRole(roleId){
+	   $("#roleId").val(roleId);
 		$.ajax({
 			type:"post",
 			url:basePath+"boom/role/powerRole",
 			data: {"roleId":roleId},
 		    success:function(resultData){
 		    //var zTreeNodes = eval(resultData.zTreeNodes);
-			var zTreeNodes = JSON.stringify(resultData.zTreeNodes);
-		    var zT  = zTreeNodes.replace(/subsetPermission/gm,'nodes');  
-			var zTree;
-		 	var setting = {
-				    showLine: true,
-				    checkable: true
-				    };
-		  	var zTreeNodess = eval(zT);
-		 	zTree = $("#tree").zTree(setting, zTreeNodess); 
+			var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		    var zT  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
+		  	var zTreeNodes = eval(zT);
+		  	   $("#ZT").val(JSON.stringify(zTreeNodes));
+		  	
+		 	zTree = $("#tree").zTree(setting, zTreeNodes); 
+		 	  
 			},
 		}); 
 		$('#powerDetailDiv').modal();
 	} 
  
+  
+  function savePower(){
+		var nodes = zTree.getCheckedNodes();
+		var tmpNode;
+		var ids = "";
+		for(var i=0; i<nodes.length; i++){
+			tmpNode = nodes[i];
+			if(i!=nodes.length-1){
+				ids += tmpNode.id+",";
+			}else{
+				ids += tmpNode.id;
+			}
+		}
+		var roleId = $("#roleId").val();
+		var url = "<%=basePath%>boom/role/doAuthSave";
+		var postData;
+		
+		postData = {"roleId":roleId,"ids":ids};
+		
+		$("#zhongxin").hide();
+		$("#zhongxin2").show();
+		$.post(url,postData,function(data){
+			//if(data && data=="success"){
+				top.Dialog.close();
+			//}
+		});
+	 
+	  
+  }
 
 </script>
 
