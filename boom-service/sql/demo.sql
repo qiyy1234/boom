@@ -279,7 +279,7 @@ CREATE TABLE `sys_user` (
   `update_user` varchar(20) DEFAULT NULL,
   `update_date` datetime DEFAULT NULL COMMENT '更新时间',
   `sex` char(2) DEFAULT NULL,
-  `birthday` datetime(6) DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
   `photo_url` varchar(255) DEFAULT NULL COMMENT '照片url',
   `photo_name` varchar(255) DEFAULT NULL COMMENT '照片名称',
   `salt` varchar(255) DEFAULT NULL,
