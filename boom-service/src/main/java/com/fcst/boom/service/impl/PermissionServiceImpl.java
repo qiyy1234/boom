@@ -19,7 +19,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<Permission> getAllPermission(Long roleId) {
+	public List<Permission> getAllPermission(String roleId) {
 		// TODO Auto-generated method stub
 		List<Permission> permissionMeunList=permissionDao.selectPermissionByParentid(String.valueOf(1l));
 		//  sys_permission WHERE parentid= 1 and  name=系统管理
