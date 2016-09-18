@@ -3,17 +3,6 @@
          version="3.0">
     <display-name>com.boom.boom.webapp</display-name>
 
-
-    <!-- 激活Tomcat的defaultServlet来处理静态文件 -->
-    <!-- <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/resources/assets/js/*</url-pattern>
-        <url-pattern>/resources/css/*</url-pattern>
-        <url-pattern>/resources/images/*</url-pattern>
-        <url-pattern>/resources/fonts/*</url-pattern>
-    </servlet-mapping> -->
-    
-
     <!--  Spring 上下文参数 加载Spring配置文件 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -22,7 +11,21 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
+    
+    <!-- shiro 安全过滤器  00-->
+	<filter>
+	<filter-name>shiroFilter</filter-name>
+	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	<async-supported>true</async-supported>
+	<init-param>
+	<param-name>targetFilterLifecycle</param-name>
+	<param-value>true</param-value>
+	</init-param>
+	</filter>
+	<filter-mapping>
+	<filter-name>shiroFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
     <!-- spring mvc 拦截器配置 -->
     <servlet>
@@ -35,8 +38,9 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>springmvc</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>springmvc - dispatcher</servlet-name>
+        <!-- 拦截所有/rest/* 的请求,交给DispatcherServlet处理,性能最好 -->
+        <url-pattern>/rest/*</url-pattern>  
     </servlet-mapping>
 
     <!-- 字符编码配置 -->
@@ -57,9 +61,9 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- 欢迎页 -->
+    <!-- 欢迎页  00-->
     <welcome-file-list>
-        <welcome-file>index</welcome-file>
+       <welcome-file>rest/page/index</welcome-file>
     </welcome-file-list>
 
     <jsp-config>
