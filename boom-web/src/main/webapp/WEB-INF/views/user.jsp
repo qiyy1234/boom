@@ -134,12 +134,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label no-padding-right">角色选择：</label>
                                       <div class="col-sm-9">
-                                      <select class="form-control" id="roId" name="roId">
-                                       <option>总经理</option>
-                                       <option>经理</option>
-                                       <option>秘书</option>
-                                       <option>组长</option>
-                                       <option>员工</option>
+                                      <select class="form-control" id="roleId" name="roleId">
                                      </select>
                                              </div>
                                        </div>
@@ -399,27 +394,32 @@ getDictionaryListByType('add_user_sex','sex','select','sex',null);
 
 
 function addRoleReady(){
+	$("#roleId").text('');
 	 var html = "";  
 	    $.ajax({  
 	        type: "post",  
 	        async: false,  
-	        url: "user/initUserForm.do",  
-	        data: "method=GetProvince",  
+	        url: basePath+"boom/role/selectRoleId",   // basePath+"boom/user/upload",
+	        data: "",  
 	        dataType: "json",  
-	        success: function(data) {  
-	            if (data != 0) {  
-	                var temp = eval(data);  
-	                for (var i = 0; i < temp.length; i++) {  
-	                    html += "<option value='" + temp[i].netid + "'>" + temp[i].netcode + "</option>";  
-	                }  
-	            }  
-	            else {  
-	                html = "<option>网络异常</option>";  
-	            }  
+	        success: function(data) {
+	        	if (data != 0) {  
+	         	var obj = eval(data);
+	         	for(var key in obj){ //第一层循环取到各个list 
+	         		var List = obj[key]; 
+	         		for(var ob in List){ //第二层循环取list中的对象 
+	         		  html += "<option value='" + List[ob ].id + "'>" + List[ob ].name + "</option>";
+	         		  
+	         		} 
+	         		} 
+	         	
+	        	    }   
+		            else { 
+		                html = "<option>网络异常</option>";  
+		            } 
 	        }  
 	    });  
-	    alert(html);  
-	    $(html).appendTo("#roId");
+	    $(html).appendTo("#roleId");
 	
 	
 
