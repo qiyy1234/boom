@@ -1,5 +1,7 @@
 package com.fcst.boom.service;
 
+import java.util.List;
+
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.domain.Role;
@@ -60,6 +62,14 @@ public interface RoleService {
 	  * @throws Exception
 	  */
 	public void addRolePermission(String roleId, Long permissionId) throws Exception;
+	
+	 /**
+	  * select列表
+	  * @param roleId
+	  * @return
+	  * @throws Exception
+	  */
+	public List findSelectRoleId() throws Exception;
 	
 	
 	

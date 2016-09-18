@@ -1,6 +1,7 @@
 package com.fcst.boom.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -64,6 +65,12 @@ public class RoleServiceImpl implements RoleService {
 		map.put("permissionId", permissionId);
 		roleDao.insertRolePermission(map);
 		
+	}
+	
+	@Override
+	public List findSelectRoleId()  throws Exception{
+		// TODO Auto-generated method stub
+		return roleDao.findSelectRoleId();
 	}
 
 }

@@ -78,5 +78,14 @@
 	<insert id="insertRolePermission" parameterType="java.util.HashMap">
 		INSERT INTO sys_role_permission(sys_role_id,sys_permission_id) VALUES (#{roleId},#{permissionId})
 	</insert>
+	
+	<select id="findSelectRoleId" resultMap="roleResult">
+		SELECT 
+			r.id,
+    		r.name
+		FROM sys_role r order by r.id desc
+
+	</select>
+	
 		
 </mapper>
