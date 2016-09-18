@@ -45,6 +45,30 @@ public class RoleController {
     }
 	
 	/**
+	 * 查询下拉列表
+	 * @return
+	 */
+	@RequestMapping("/selectRoleId")
+	@ResponseBody
+	public JsonResult selectRoleId(){
+		JsonResult result = new JsonResult();
+		try {
+			System.out.println("-------select------");
+			List roleList = roleService.findSelectRoleId();
+			if(roleList!=null){
+				result.put("data", roleList);
+			}else{
+				result.put("data", 0);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	/**
 	 * doAuthSave 保存权限菜单
 	 * @return 
 	 */
