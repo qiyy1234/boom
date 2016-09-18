@@ -215,7 +215,11 @@ public class UserController {
 		try {
 			user.setCreateUser("qiyy");
 			user.setCreateDate(new Date());
+			
 			userService.addUser(user);
+			
+			
+			
 			result.put("msg", "保存成功");
 			result.put("result", true);
 		} catch (Exception e) {
