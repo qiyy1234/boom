@@ -11,6 +11,8 @@ public class User extends BaseEntity implements Serializable {
 
 	private String loginName;//用户登录名
 	
+	private String roleId;
+	
 	private String password;//密码
 	
 	private String birthday;//出生年月
@@ -143,6 +145,14 @@ public class User extends BaseEntity implements Serializable {
 
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 	
 	

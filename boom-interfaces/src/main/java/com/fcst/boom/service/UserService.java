@@ -20,7 +20,7 @@ public interface UserService {
 	  * @param role
 	  * @throws Exception
 	  */
-	 public int addUser(User user) throws Exception;
+	 public void addUser(User user) throws Exception;
 	 
 	 /**
 	  * 用户详情

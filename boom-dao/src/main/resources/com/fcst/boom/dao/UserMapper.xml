@@ -51,6 +51,10 @@
 		values (#{id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark},#{photoUrl},#{photoName})
 	</insert>
 	
+	<insert id="addUserRole" parameterType="com.fcst.boom.domain.User">
+		INSERT INTO sys_user_role(sys_user_id,sys_role_id) VALUES (#{userId},#{roleId})
+	</insert>
+	
 	<select id="getUserById" resultMap="userResult">
       SELECT
 	s.id,

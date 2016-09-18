@@ -1,6 +1,9 @@
 package com.fcst.boom.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.domain.User;
@@ -44,5 +47,13 @@ public interface UserDao {
 	 * @throws Exception
 	 */
 	public int deleteUser(String id) throws Exception;
+
+	/**
+	 * 添加用户的时候添加权限
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public void addUserRole(HashMap map);
 
 }

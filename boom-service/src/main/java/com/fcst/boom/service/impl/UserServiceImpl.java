@@ -1,6 +1,9 @@
 package com.fcst.boom.service.impl;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.common.page.PageArg;
@@ -21,9 +24,14 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int addUser(User user) throws Exception {
+	@Transactional
+	public void addUser(User user) throws Exception {
 		user.setId(GenerationUUID.getUUID());
-		return userDao.addUser(user);
+		userDao.addUser(user);
+		HashMap map =  new HashMap();
+		 map.put("userId", user.getId());
+		 map.put("roleId", user.getRoleId());
+		userDao.addUserRole(map);
 	}
 
 	@Override
