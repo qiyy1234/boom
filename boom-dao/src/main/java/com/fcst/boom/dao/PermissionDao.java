@@ -1,5 +1,6 @@
 package com.fcst.boom.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.fcst.boom.domain.Permission;
@@ -15,5 +16,12 @@ public interface PermissionDao {
 	public List<Permission> selectPermissionByRoleId(String roleId);
 
 	public List<Permission> selectPermissionByParentid(String parentid);
+
+	//shiro one
+	public List<Permission> selectPermissionMenuByUserId(String userid);
+	//shiro two
+	public List<Permission> selectPermissionByParentidNotOne(HashMap map);
+
+	public List<Permission> selectPermissionByUserId(String userid);
 
 }

@@ -28,5 +28,31 @@
 	<select id="selectPermissionByParentid" resultMap="permissionResult" parameterType="hashMap">
 		SELECT <include refid="permissionCloumn"></include> FROM sys_permission WHERE parentid=#{parentid}
 	</select>
+	
+	<!-- shiro realm 根据用户id获取用户菜单权限 -->
+	<select id="selectPermissionMenuByUserId" resultMap="permissionResult" parameterType="hashMap">
+		SELECT <include refid="permissionCloumn"></include> FROM sys_permission
+		WHERE type='menu' AND parentid=1 AND id IN
+		(SELECT sys_permission_id  FROM sys_role_permission WHERE sys_role_id IN
+			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
+		)
+	</select>	
+	
+	<select id="selectPermissionByParentidNotOne" resultMap="permissionResult" parameterType="hashMap">
+		SELECT <include refid="permissionCloumn"></include> FROM sys_permission WHERE parentid=#{parentid} AND parentid!=1
+		AND id IN
+			(SELECT sys_permission_id  FROM sys_role_permission WHERE sys_role_id IN
+			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
+			)
+	</select>
+	
+	<!-- shiro realm 根据用户id获取用户权限操作 -->
+	<select id="selectPermissionByUserId" resultMap="permissionResult" parameterType="hashMap">
+		SELECT <include refid="permissionCloumn"></include> FROM sys_permission
+		WHERE type='permission' AND id IN
+		(SELECT sys_permission_id  FROM sys_role_permission WHERE sys_role_id IN
+			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
+		)
+	</select>	
 		
 </mapper>
