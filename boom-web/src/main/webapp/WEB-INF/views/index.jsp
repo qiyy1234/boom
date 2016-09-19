@@ -402,7 +402,7 @@ Purchase: http://wrapbootstrap.com
                 <ul class="nav sidebar-menu">
                     <!--Dashboard-->
                     <li class="active">
-                        <a href="index-2.html">
+                         <a href="<%=request.getContextPath()%>/rest/page/index">
                             <i class="menu-icon glyphicon glyphicon-home"></i>
                             <span class="menu-text"> 首页 </span>
                         </a>
@@ -454,15 +454,16 @@ Purchase: http://wrapbootstrap.com
 					<li class="active" id="fhindex">
 					  <a href="<%=request.getContextPath()%>/rest/page/index">
 					  <i  class="menu-icon glyphicon glyphicon-home"></i>
-					  <span> Boom Shiro 首页</span></a>
+					  <span  class="menu-text" > Boom Shiro 首页</span>
+					  </a>
 					</li>
-
+                    
 			<c:forEach items="${activeUser.menus}" var="menu">
 				
 				<li id="lm${menu.id}">
 					  <a href="#" style="cursor:pointer;" class="menu-dropdown" >
 						<i class="menu-icon fa fa-desktop"></i>
-						<span>${menu.name}</span>
+						<span class="menu-text">${menu.name}</span>
 						<b class="menu-expand"></b>
 					  </a>
 					  <ul class="submenu">
