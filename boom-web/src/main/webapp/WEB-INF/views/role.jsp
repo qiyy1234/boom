@@ -448,7 +448,7 @@ InitiateRoleDataTable.init();
 		var formData=JSON.stringify($('#roleForm').serializeObject());
 		$.ajax({
 			type:"post",
-			url:basePath+"boom/role/add",
+			url:basePath+"rest/boom/role/add",
 			data:formData,
 			contentType:"application/json; charset=utf-8",
 	        dataType:"json",
@@ -474,7 +474,7 @@ InitiateRoleDataTable.init();
 	   $("#roleId").val(roleId);
 		$.ajax({
 			type:"post",
-			url:basePath+"boom/role/powerRole",
+			url:basePath+"rest/boom/role/powerRole",
 			data: {"roleId":roleId},
 		    success:function(resultData){
 		    //var zTreeNodes = eval(resultData.zTreeNodes);
@@ -504,7 +504,7 @@ InitiateRoleDataTable.init();
 			}
 		}
 		var roleId = $("#roleId").val();
-		var url = "<%=basePath%>boom/role/doAuthSave";
+		var url = "<%=basePath%>rest/boom/role/doAuthSave";
 		var postData;
 		
 		postData = {"roleId":roleId,"ids":ids};

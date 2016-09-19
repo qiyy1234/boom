@@ -22,7 +22,7 @@ var InitiateUserDataTable = function () {
                 "bServerSide": true,
                 //查询请求action url
                 "ajax": {
-                    "url": basePath+"boom/user/list?timestamp="+new Date(),
+                    "url": basePath+"rest/boom/user/list?timestamp="+new Date(),
                     "dataSrc": "data",
                     "data": function ( d ) {
                     	//查询条件
@@ -98,7 +98,7 @@ function fnFormatDetails(oTable, nTr) {
 
 function detailUser(id){
 	$.ajax({
-		  url: basePath+"boom/user/detail?timestamp="+Date.parse(new Date()),
+		  url: basePath+"rest/boom/user/detail?timestamp="+Date.parse(new Date()),
 		  data: {"userId":id},
 		  success: function(resultData){
 			  $("#detail_user_name").val(resultData.name);
@@ -115,7 +115,7 @@ function detailUser(id){
 
 function deleteUser(id){
 	$.ajax({
-		  url: basePath+"boom/user/delete",
+		  url: basePath+"rest/boom/user/delete",
 		  data: {"userId":id},
 		  success: function(resultData){
 			  alert(resultData.msg);
@@ -129,7 +129,7 @@ function deleteUser(id){
 
 function goUpdateRole(userId){
 	$.ajax({
-		  url: basePath+"boom/user/detail?timestamp="+Date.parse(new Date()),
+		  url: basePath+"rest/boom/user/detail?timestamp="+Date.parse(new Date()),
 		  data: {"userId":userId},
 		  success: function(resultData){
 			  $("#update_user_id").val(resultData.id);
@@ -147,7 +147,7 @@ function updateUser(){
 	var formData=JSON.stringify($('#updateUserForm').serializeObject());
 	$.ajax({
 		type:"post",
-		url:basePath+"boom/user/update",
+		url:basePath+"rest/boom/user/update",
 		data:formData,
 		contentType:"application/json; charset=utf-8",
         dataType:"json",

@@ -21,7 +21,7 @@ var InitiateRoleDataTable = function () {
                 "bServerSide": true,
                 //查询请求action url
                 "ajax": {
-                    "url": basePath+"boom/role/list",
+                    "url": basePath+"rest/boom/role/list",
                     "dataSrc": "data",
                     "data": function ( d ) {
                     	//查询条件
@@ -67,7 +67,7 @@ function findRoleList(){
 
 function goUpdateRole(roleId){
 	$.ajax({
-		  url: basePath+"boom/role/detail?timestamp="+Date.parse(new Date()),
+		  url: basePath+"rest/boom/role/detail?timestamp="+Date.parse(new Date()),
 		  data: {"roleId":roleId},
 		  success: function(resultData){
 			  $("#update_role_id").val(resultData.id);
@@ -87,7 +87,7 @@ function updateRole(){
 	var formData=JSON.stringify($('#updateRoleForm').serializeObject());
 	$.ajax({
 		type:"post",
-		url:basePath+"boom/role/update",
+		url:basePath+"rest/boom/role/update",
 		data:formData,
 		contentType:"application/json; charset=utf-8",
         dataType:"json",
@@ -104,7 +104,7 @@ function updateRole(){
 
 function detailRole(id){
 	$.ajax({
-		  url: basePath+"boom/role/detail?timestamp="+Date.parse(new Date()),
+		  url: basePath+"rest/boom/role/detail?timestamp="+Date.parse(new Date()),
 		  data: {"roleId":id},
 		  success: function(resultData){
 			  $("#detail_role_name").val(resultData.name);
@@ -122,7 +122,7 @@ function detailRole(id){
 
 function deleteRole(id){
 	$.ajax({
-		  url: basePath+"boom/role/delete",
+		  url: basePath+"rest/boom/role/delete",
 		  data: {"roleId":id},
 		  success: function(resultData){
 			  alert(resultData.msg);

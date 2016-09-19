@@ -12,7 +12,7 @@ function findMenuList(){
     var endTime = $("#endTime").val();
     var resourceGroupId = $("#org_id").val();
     $.ajax({
-        url: basePath+"boom/menu/list?timestamp="+new Date(),
+        url: basePath+"rest/boom/menu/list?timestamp="+new Date(),
         data: {},
         success: function(data){
         	

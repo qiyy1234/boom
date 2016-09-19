@@ -4,7 +4,13 @@ BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3
 Version: 1.4
 Purchase: http://wrapbootstrap.com
 -->
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ request.getContextPath()+"/";
+	
+%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- Head -->
 
@@ -337,7 +343,7 @@ Purchase: http://wrapbootstrap.com
                                     </li>
                                     <!--/Theme Selector Area-->
                                     <li class="dropdown-footer">
-                                        <a href="login.html">
+                                        <a href="<%=request.getContextPath()%>/rest/page/loginOut">
                                             Sign out
                                         </a>
                                     </li>
@@ -411,17 +417,17 @@ Purchase: http://wrapbootstrap.com
 
                         <ul class="submenu">
                             <li>
-                                <a href="boom/menu/index" target="mainframe">
+                                <a href="<%=request.getContextPath()%>/rest/boom/menu/index" target="mainframe">
                                     <span href="#" value="menu.jsp" class="menu-text">菜单管理</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="boom/user/index" target="mainframe">
+                                <a href="<%=request.getContextPath()%>/rest/boom/user/index" target="mainframe">
                                     <span value="user.html" class="menu_a menu-text">用户管理</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="boom/role/index" target="mainframe">
+                                <a href="<%=request.getContextPath()%>/rest/boom/role/index" target="mainframe">
                                     <span value="role.html" class="menu-text">角色管理</span>
                                 </a>
                             </li>
@@ -441,6 +447,56 @@ Purchase: http://wrapbootstrap.com
 
                 </ul>
                 <!-- /Sidebar Menu -->
+                
+                           <!-- shiro --> 
+           <ul class="nav sidebar-menu">
+
+					<li class="active" id="fhindex">
+					  <a href="<%=request.getContextPath()%>/rest/page/index">
+					  <i  class="menu-icon glyphicon glyphicon-home"></i>
+					  <span> Boom Shiro 首页</span></a>
+					</li>
+
+			<c:forEach items="${activeUser.menus}" var="menu">
+				
+				<li id="lm${menu.id}">
+					  <a href="#" style="cursor:pointer;" class="menu-dropdown" >
+						<i class="menu-icon fa fa-desktop"></i>
+						<span>${menu.name}</span>
+						<b class="menu-expand"></b>
+					  </a>
+					  <ul class="submenu">
+							<c:forEach items="${menu.subsetPermission}" var="sub">
+								
+								<c:choose>
+									<c:when test="${not empty sub.url}">
+									 <li>
+									 <a  href="<%=request.getContextPath()%>/${sub.url }" target="mainframe" style="cursor:pointer;" target="mainFrame"  onclick="siMenu('z${sub.id }','lm${menu.id }','${sub.name }','${sub.url }')">
+									 <span href="#" value="menu.jsp" class="menu-text">${sub.name}</span>
+									 </a>
+									 </li>
+									</c:when>
+									<c:otherwise>
+									
+<%-- 						    <li>
+                                <a href="boom/menu/index" target="mainframe">
+                                    <span href="#" value="menu.jsp" class="menu-text">${sub.name }</span>
+                                </a>
+                            </li>  --%>
+									</c:otherwise>
+								</c:choose>
+							
+							</c:forEach>
+				  		</ul>
+				</li>
+			
+			</c:forEach>
+
+			</ul>
+			
+			<!-- shiro 结束 -->
+                
+                
             </div>
             <!-- /Page Sidebar -->
             <!-- Chat Bar -->
