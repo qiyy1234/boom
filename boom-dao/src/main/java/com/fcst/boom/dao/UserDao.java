@@ -56,4 +56,6 @@ public interface UserDao {
 	 */
 	public void addUserRole(HashMap map);
 
+	public User getUserByUserByCode(String userCode);
+
 }

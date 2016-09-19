@@ -11,17 +11,19 @@ public class User extends BaseEntity implements Serializable {
 
 	private String loginName;//用户登录名
 	
-	private String roleId;
+	private String Username; //用户昵称
 	
-	private String password;//密码
+	private String roleId;   //角色ID
 	
-	private String birthday;//出生年月
+	private String password; //密码
 	
-	private String name;//姓名
+	private String birthday; //出生年月
 	
-	private String sex;//性别 1为男  0为女
+	private String name;     //姓名
 	
-	private String email;//email
+	private String sex;      //性别 1为男  0为女
+	
+	private String email;    //email
 	
 	private String phone;
 	
@@ -31,11 +33,15 @@ public class User extends BaseEntity implements Serializable {
 	
 	private String lastDate;//最后登录时间
 	
-	private String state;// 1为在用  0 为不在用
+	private String state;   // 1为在用  0 为不在用
 	
 	private String photoUrl;//照片路径
 	
 	private String photoName;//照片名称
+	
+	private String salt;     //登录后加字段
+	
+	private String Bz;       //登录后加字段
 	
 	
 
@@ -153,6 +159,30 @@ public class User extends BaseEntity implements Serializable {
 
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
+	}
+
+	public String getBz() {
+		return Bz;
+	}
+
+	public void setBz(String bz) {
+		Bz = bz;
 	}
 	
 	

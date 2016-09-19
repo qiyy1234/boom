@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fcst.boom.dao.UserDao" >
   <resultMap id="userResult" type="com.fcst.boom.domain.User">
+  
 		<id property="id"  column="id" />
+		<result property="username" column="user_name" />
 		<result property="name" column="name" />
 		<result property="loginName" column="login_name" />
 		<result property="sex" column="sex" />
@@ -19,6 +21,8 @@
 		<result property="updateUser" column="updateUser" />
 		<result property="updateDateStr" column="updateDate" />
 		<result property="lastDate" column="last_date" />
+		
+		
 	</resultMap>
   
   	<select id="getUserList" resultMap="userResult"  parameterType="com.fcst.boom.domain.User">
@@ -93,5 +97,22 @@
 		delete from sys_user where id=#{id}
 	</delete>
 	
+	<!-- shiro realm -->
+	<select id="getUserByUserByCode" parameterType="hashMap" resultMap="userResult">
+		select 	id,
+	user_name,
+	password,
+	name,
+	email,
+	mobile,
+	login_ip,
+	last_date,
+	create_date,
+	update_date,
+	bz,
+	state,
+	salt 
+	from sys_user where user_name = #{user_name}
+	</select>
 		
 </mapper>
