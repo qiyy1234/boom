@@ -4,6 +4,10 @@ BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3
 Version: 1.4
 Purchase: http://wrapbootstrap.com
 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %> 
 <%
 	String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ request.getContextPath()+"/";
 	

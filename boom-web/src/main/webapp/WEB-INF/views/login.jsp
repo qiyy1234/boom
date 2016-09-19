@@ -62,7 +62,7 @@
                 <div class="or">OR</div>
             </div>
             <div class="loginbox-textbox">
-                <input type="text" name="username" id="username"   class="form-control" placeholder="Username" />
+                <input type="text" name="loginName" id="loginName"   class="form-control" placeholder="LoginName" />
             </div>
             <div class="loginbox-textbox">
                 <input type="text" name="password" id="password"  class="form-control" placeholder="Password" />
@@ -100,35 +100,35 @@
     <!--Google Analytics::Demo Only-->
     <script>
     function severCheck(){
-			var username = $("#username").val();
+			var loginName = $("#loginName").val();
 			var password = $("#password").val();
-			if(username == ''){
-				$("#username").tips({
+			if(loginName == ''){
+				$("#loginName").tips({
 					side : 1,
 					msg : "用户名密码不能为空",
 					bg : '#FF5080',
 					time : 3
 				});
-				$("#username").focus();
+				$("#loginName").focus();
 				return  false;
 			}
 			$.ajax({
 				type: "POST",
 				url: '<%=basePath %>rest/page/validateLogin',
-		    	data: {username:username,password:password,randomcode:$("#randomcode").val(),tm:new Date().getTime()},
+		    	data: {loginName:loginName,password:password,randomcode:$("#randomcode").val(),tm:new Date().getTime()},
 				dataType:'json',
 				cache: false,
 				success: function(data){
 					if("success" == data.success){
 						window.location.href="<%=basePath %>rest/page/index";
 					}else if("usererror" == data.usererror){
-						$("#username").tips({
+						$("#loginName").tips({
 							side : 1,
 							msg : "用户名或密码有误",
 							bg : '#FF5080',
 							time : 3
 						});
-						$("#username").focus();
+						$("#loginName").focus();
 					}else if("codeerror" == data.codeerror){
  						$("#randomcode").tips({
 							side : 1,
@@ -138,13 +138,13 @@
 						}); 
 						$("#randomcode").focus();
 					}else{
-						$("#username").tips({
+						$("#loginName").tips({
 							side : 1,
 							msg : "缺少参数",
 							bg : '#FF5080',
 							time : 3
 						});
-						$("#username").focus();
+						$("#loginName").focus();
 					}
 					
 					

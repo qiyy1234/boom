@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %> 
+<!DOCTYPE html>
 <!--
 BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.4
 Version: 1.4
@@ -27,7 +31,6 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link id="bootstrap-rtl-link" href="#" rel="stylesheet" />
     <link href="<%=basePath %>resources/assets/css/font-awesome.min.css" rel="stylesheet" />
-    
     <!--Beyond styles-->
     <link id="beyond-link" href="<%=basePath %>resources/assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath %>resources/assets/css/typicons.min.css" rel="stylesheet" />
@@ -38,7 +41,6 @@ Purchase: http://wrapbootstrap.com
 
     <!--ztree用到的css-->
     <link type="text/css" rel="stylesheet" href="<%=basePath %>resources/assets/zTree/2.6/zTreeStyle.css"/>
-
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=basePath %>resources/assets/js/skins.min.js"></script>
     
@@ -70,7 +72,7 @@ Purchase: http://wrapbootstrap.com
                         	<td>名称：<input type="text" name="find_name" id="find_name"></td>
                             <td align="right">
                             	<a href="#" class="btn btn-blue btn-sm" onclick="findRoleList()">查询</a>&nbsp;
-                                <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv">添加</a>
+                                <shiro:hasPermission name="role:add"><a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv">添加</a></shiro:hasPermission>
                                 
                             </td>
                         </tr>
@@ -79,7 +81,7 @@ Purchase: http://wrapbootstrap.com
                     <table class="table table-striped table-bordered table-hover" id="roledatatable">
                     	<thead>
                         	<tr>
-                            	<th width="15%">角色名称</th>
+                            	<th width="15%">角色职位</th>
                                 <th width="10%">英文名称</th>
                                 <th width="10%">创建人</th>
                                 <th width="15%">创建时间</th>
@@ -114,7 +116,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" id="roleForm">
                             	<div class="form-group">
-		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+		                        	<label  class="col-sm-2 control-label no-padding-right">角色职位：</label>
 		                            <div class="col-sm-9">
 		                            	<input type="text" class="form-control" id="add_role_name" name="name" />
 		                            </div>
@@ -166,7 +168,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" id="updateRoleForm">
                                 <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+                                    <label  class="col-sm-2 control-label no-padding-right">角色职位：</label>
                                     <div class="col-sm-9">
                                     	<input type="text" class="form-control" id="update_role_id" name="id" style="display: none"/>
                                         <input type="text" class="form-control" id="update_role_name" name="name" />
@@ -231,7 +233,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" id="roleForm">
                                 <div class="form-group">
-		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+		                        	<label  class="col-sm-2 control-label no-padding-right">角色职位：</label>
 		                        	<div class="col-sm-9">
                                         <input type="text" class="form-control" id="detail_role_name" name="name" disabled="disabled" />
                                     </div>
@@ -419,8 +421,8 @@ Purchase: http://wrapbootstrap.com
     <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
 <%--<script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script> --%>
 <script>
-
-InitiateRoleDataTable.init();
+/* InitiateRoleDataTable.init(); 加载 boomjs 的驱动程序  */
+ InitiateRoleDataTable.init(); 
 
 /**
  * 将from转换为json格式封装
