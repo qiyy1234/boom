@@ -81,7 +81,6 @@ public class CustomRealm extends AuthorizingRealm{
 		List<Permission> permissionList=null;
 		try {
 			permissionList=permissionService.getPermissionByUserId(activeUser.getUserid());
-			System.err.println("------realm.do 授权---permissionList------"+permissionList.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
