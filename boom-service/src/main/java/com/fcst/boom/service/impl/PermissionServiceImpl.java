@@ -1,5 +1,6 @@
 package com.fcst.boom.service.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,12 +32,9 @@ public class PermissionServiceImpl implements PermissionService {
 			Permission p=myPermissionList.get(i);
 			set.add(p.getId());
 		}
-		System.out.println(" --- 1 --- "+set.size());
 		Iterator<String> it = set.iterator(); 
 		while (it.hasNext()) { 
 		String str = it.next(); 
-
-		System.out.println(" --- 2 --- "+str); 
 		} 
 		
 
@@ -67,6 +65,27 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		return permissionMeunList;
 	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Permission> getPermissionMenuByUserId(String userid) {
+		// TODO Auto-generated method stub
+		List<Permission> permissionList=permissionDao.selectPermissionMenuByUserId(userid);
+		for(Permission p:permissionList){	
+			HashMap map=new HashMap();
+			map.put("parentid", p.getId());
+			map.put("userid", userid);
+			p.setSubsetPermission(permissionDao.selectPermissionByParentidNotOne(map));
+		}
+		return permissionDao.selectPermissionMenuByUserId(userid);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Permission> getPermissionByUserId(String userid) {
+
+			return permissionDao.selectPermissionByUserId(userid);
+		}
 	
 	
 

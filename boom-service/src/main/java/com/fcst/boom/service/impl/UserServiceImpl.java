@@ -16,6 +16,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	@Override
 	public PageList<User> findUserPageList(User user, PageArg pageArg)
@@ -50,13 +58,12 @@ public class UserServiceImpl implements UserService {
 		return userDao.deleteUser(userId);
 	}
 
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
+	@Override
+	@Transactional(readOnly=true)
+	public User getUserByUsername(String userCode) {
+		// TODO Auto-generated method stub
+		return userDao.getUserByUserByCode(userCode);
+		}
 	
 	
 
