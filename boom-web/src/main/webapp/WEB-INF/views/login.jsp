@@ -83,7 +83,9 @@
             <div class="loginbox-signup">
                 <a href="register.html">Sign Up With Email</a>
             </div>
+       </div>
     </div>
+    
 	</form>
     <!--Basic Scripts-->
     <script src="<%=basePath %>resources/assets/js/jquery.min.js"></script>
