@@ -442,6 +442,37 @@ Purchase: http://wrapbootstrap.com
                                 </a>
                             </li>
                             
+                            <!-- In -->
+                            <li>
+                                <a href="#" class="menu-dropdown">
+                                    <span class="menu-text">
+                                        Icons
+                                    </span>
+                                    <i class="menu-expand"></i>
+                                </a>
+
+                                <ul class="submenu">
+                                    <li>
+                                        <a href="glyph-icons.html">
+                                            <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                            <span class="menu-text">Glyph Icons</span>
+                                        </a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="typicon.html">
+                                            <i class="menu-icon typcn typcn-location-outline"></i>
+                                            <span class="menu-text"> Typicons</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="weather-icons.html">
+                                            <i class="menu-icon wi wi-hot"></i>
+                                            <span class="menu-text">Weather Icons</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            
                         </ul>
                     </li>
 
