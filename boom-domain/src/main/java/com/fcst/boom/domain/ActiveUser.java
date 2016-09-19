@@ -9,9 +9,9 @@ public class ActiveUser extends BaseEntity  implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String userid;
+	private String userid;  //账号ID
 	private String usercode;//账号
-	private String name;//用户名称
+	private String name;    //用户名称
 	private String sceneid;
 	private List<Permission> menus;//菜单
 	private List<Permission> permissions;//权限

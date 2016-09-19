@@ -60,7 +60,7 @@ public class LoginController {
 		System.out.println("----validateCode-----"+validateCode);
 		System.out.println("----randomcode-----"+randomcode);
 		String password=request.getParameter("password");
-		String username=request.getParameter("username");
+		String loginName=request.getParameter("loginName");
 		if(validateCode!=null&&randomcode!=null&&!validateCode.equals(randomcode)){			
 			/* ResponseUtils.renderJson(response, backSuccessJson("codeerror", "验证码输入错误"));	*/
 		        result.put("codeerror", "codeerror");
@@ -69,7 +69,7 @@ public class LoginController {
 			System.err.println("------validateLogin.do --ELSE--------");
 			Subject subject = SecurityUtils.getSubject(); 
 			String passwordMd5=new MD5().getMD5ofStr(password);
-		    UsernamePasswordToken token = new UsernamePasswordToken(username,password); 
+		    UsernamePasswordToken token = new UsernamePasswordToken(loginName,password); 
 		    try { 
 				System.err.println("------validateLogin.do --验证--------");
 		        subject.login(token); 

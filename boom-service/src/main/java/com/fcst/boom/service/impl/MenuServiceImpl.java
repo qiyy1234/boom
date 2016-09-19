@@ -12,19 +12,22 @@ public class MenuServiceImpl implements MenuService {
 	
 	@Autowired
 	private MenuDao menuDao;
+	
+	public MenuDao getMenuDao() {
+		return menuDao;
+	}
+	public void setMenuDao(MenuDao menuDao) {
+		this.menuDao = menuDao;
+	}
 
+	
+	
 	@Override
 	public List<Menu> getAllMenuList() {
 		return menuDao.getAllMenuList();
 	}
 
-	public MenuDao getMenuDao() {
-		return menuDao;
-	}
 
-	public void setMenuDao(MenuDao menuDao) {
-		this.menuDao = menuDao;
-	}
 	
 	
 
