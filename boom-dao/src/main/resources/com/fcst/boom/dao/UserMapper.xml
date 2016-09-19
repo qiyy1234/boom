@@ -4,9 +4,8 @@
   <resultMap id="userResult" type="com.fcst.boom.domain.User">
   
 		<id property="id"  column="id" />
-		<result property="username" column="user_name" />
-		<result property="name" column="name" />
 		<result property="loginName" column="login_name" />
+		<result property="name" column="name" />
 		<result property="sex" column="sex" />
 		<result property="birthday" column="birthday" />
 		<result property="photoUrl" column="photo_url" />
@@ -100,7 +99,7 @@
 	<!-- shiro realm -->
 	<select id="getUserByUserByCode" parameterType="hashMap" resultMap="userResult">
 		select 	id,
-	user_name,
+	login_name,
 	password,
 	name,
 	email,
@@ -112,7 +111,7 @@
 	bz,
 	state,
 	salt 
-	from sys_user where user_name = #{user_name}
+	from sys_user where login_name = #{login_name}
 	</select>
 		
 </mapper>
