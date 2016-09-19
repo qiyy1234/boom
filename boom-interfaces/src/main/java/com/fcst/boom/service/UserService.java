@@ -46,5 +46,13 @@ public interface UserService {
 	  */
 	 public int deleteUser(String userId) throws Exception;
 	 
+	 /**
+	  * 根据用户名查询
+	  * @param roleId
+	  * @return
+	  * @throws Exception
+	  */
+	 public User getUserByUsername(String userCode);
+	 
 
 }

@@ -16,5 +16,9 @@ public interface PermissionService {
 
 	List<Permission> getAllPermission(String roleId);
 
+	List<Permission> getPermissionMenuByUserId(String id);
+
+	List<Permission> getPermissionByUserId(String userid);
+
  
 }
