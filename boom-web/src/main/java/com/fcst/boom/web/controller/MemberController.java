@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,14 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.domain.Member;
 import com.fcst.boom.service.MemberService;
-
-/**
- * Created by codegeneratorplugin
- * User: yankun
- * Date: 2016�?3�?2�?
- * Time: 10:36:39
- * 功能:T_MEMBER表控制器
- */
 
 /*@Controller
 @RequestMapping("/demo/Member")*/
