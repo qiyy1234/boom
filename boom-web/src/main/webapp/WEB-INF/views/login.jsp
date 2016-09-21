@@ -62,10 +62,10 @@
                 <div class="or">OR</div>
             </div>
             <div class="loginbox-textbox">
-                <input type="text" name="loginName" id="loginName"   class="form-control" placeholder="LoginName" />
+                <input type="text" name="loginName" id="loginName" value="admin"  class="form-control" placeholder="LoginName" />
             </div>
             <div class="loginbox-textbox">
-                <input type="text" name="password" id="password"  class="form-control" placeholder="Password" />
+                <input type="text" name="password" id="password" value="123456"  class="form-control" placeholder="Password" />
             </div>
             <div class="loginbox-textbox">
                 <input type="text" name="randomcode" id="randomcode"  class="form-control" placeholder="Randomcode" />

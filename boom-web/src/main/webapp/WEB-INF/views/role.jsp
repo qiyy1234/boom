@@ -353,6 +353,7 @@ Purchase: http://wrapbootstrap.com
                                         <ul id="tree" class="tree" style="overflow:auto;"></ul>
                                     </div>
                                     <input type="hidden" class="form-control" id="roleId" name="roleId" />
+                                     <input type="text" class="form-control" id="ZT" name="ZT" />
                                 </div>
                                 
                                 <table class="table">
@@ -484,7 +485,7 @@ Purchase: http://wrapbootstrap.com
 		    var zT  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
 		  	var zTreeNodes = eval(zT);
 		  	   $("#ZT").val(JSON.stringify(zTreeNodes));
-		  	
+		  	alert(JSON.stringify(zTreeNodes));
 		 	zTree = $("#tree").zTree(setting, zTreeNodes); 
 		 	  
 			},
