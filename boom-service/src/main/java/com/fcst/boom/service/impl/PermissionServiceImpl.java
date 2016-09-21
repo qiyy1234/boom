@@ -23,36 +23,42 @@ public class PermissionServiceImpl implements PermissionService {
 	public List<Permission> getAllPermission(String roleId) {
 		// TODO Auto-generated method stub
 		List<Permission> permissionMeunList=permissionDao.selectPermissionByParentid(String.valueOf(1l));
-		//  sys_permission WHERE parentid= 1 and  name=系统管理
+		//  sys_permission WHERE parentid= 9  and  name=系统管理
+		//  sys_permission WHERE parentid= 12 and  name=在线办公
 		List<Permission> myPermissionList=permissionDao.selectPermissionByRoleId(roleId);
-		//FROM sys_permission WHERE id in(SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id=4)
-		//系统管理 - 用户管理 - 用户添加                          
+		//  FROM sys_permission WHERE id in(SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id=4)
+		//  根据我前台传过来的       roleId  知道该员工拥有什么角色       （ztree 显示的是已经选中）        上下文都用
 		Set<String> set = new HashSet<String>(); 
 		for(int i=0;i<myPermissionList.size();i++){
 			Permission p=myPermissionList.get(i);
 			set.add(p.getId());
 		}
-		Iterator<String> it = set.iterator(); 
+		
+/*		Iterator<String> it = set.iterator(); 
 		while (it.hasNext()) { 
 		String str = it.next(); 
-		} 
+		} */
 		
-
-		for(Permission permissionMeun:permissionMeunList){
+		//循环1层2个值  9/12
+		for(Permission permissionMeun:permissionMeunList){    
 			if(set.contains(permissionMeun.getId())){
 				permissionMeun.setChecked(true);
 			}else{
 				permissionMeun.setChecked(false);
 			}
-			List<Permission> permissionOneChildList=permissionDao.selectPermissionByParentid(permissionMeun.getId());
+			// 9/12的子节点出现了   9/2,6  12/13,14
+			List<Permission> permissionOneChildList=permissionDao.selectPermissionByParentid(permissionMeun.getId()); 
 			permissionMeun.setSubsetPermission(permissionOneChildList);
+			
 			for(Permission permissionChild:permissionOneChildList){
 				if(set.contains(permissionChild.getId())){
 					permissionChild.setChecked(true);
 				}else{
 					permissionChild.setChecked(false);
 				}
+				//用户管理下面有三个  add update delete
 				List<Permission> permissionTwoChildList=permissionDao.selectPermissionByParentid(permissionChild.getId());
+				
 				for(Permission permissionTwoChild:permissionTwoChildList){
 					if(set.contains(permissionTwoChild.getId())){
 						permissionTwoChild.setChecked(true);
@@ -61,11 +67,38 @@ public class PermissionServiceImpl implements PermissionService {
 					}
 				}
 				permissionChild.setSubsetPermission(permissionTwoChildList);
+				
+				//----------start top add update delete already put in two 
+				for(Permission permissionChildAgin:permissionTwoChildList){
+					if(set.contains(permissionChildAgin.getId())){
+						permissionChildAgin.setChecked(true);
+					}else{
+						permissionChildAgin.setChecked(false);
+					}
+					List<Permission> permissionTwoChildAginList=permissionDao.selectPermissionByParentid(permissionChildAgin.getId());
+					for(Permission permissionThreeChild:permissionTwoChildAginList){
+						if(set.contains(permissionThreeChild.getId())){
+							permissionThreeChild.setChecked(true);
+						}else{
+							permissionThreeChild.setChecked(false);
+						}
+					}
+					permissionChildAgin.setSubsetPermission(permissionTwoChildAginList);
+					
+					
+				}
+				//---------- end 
+				
 			}
+			
 		}
 		return permissionMeunList;
 	}
 
+	
+	
+	
+	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Permission> getPermissionMenuByUserId(String userid) {

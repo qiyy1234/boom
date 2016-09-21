@@ -105,7 +105,7 @@ public class LoginController {
 		System.err.println("------index.do基础-----开始-----");
 		Subject subject = SecurityUtils.getSubject();
 		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-		System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
+		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
 		model.addAttribute("activeUser", activeUser);
 		System.err.println("------index.do基础-----结束-----");
 		return "index";
