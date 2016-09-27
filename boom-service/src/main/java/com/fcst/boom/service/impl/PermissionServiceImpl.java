@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,6 @@ public class PermissionServiceImpl implements PermissionService {
 			Permission p=myPermissionList.get(i);
 			set.add(p.getId());
 		}
-		
-/*		Iterator<String> it = set.iterator(); 
-		while (it.hasNext()) { 
-		String str = it.next(); 
-		} */
 		
 		//循环1层2个值  9/12
 		for(Permission permissionMeun:permissionMeunList){    
@@ -94,9 +90,6 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		return permissionMeunList;
 	}
-
-	
-	
 	
 	
 	@Override
@@ -119,6 +112,21 @@ public class PermissionServiceImpl implements PermissionService {
 
 			return permissionDao.selectPermissionByUserId(userid);
 		}
+
+
+	@Override
+	public List<Permission> getAllMenuListDG() {
+		// TODO Auto-generated method stub
+		Map map = new HashMap();
+		return permissionDao.selectPermissionAllMenuListDG(map);
+	}
+
+
+	@Override
+	public List<Permission> getMyPermissionListDG(String roleId) {
+		// TODO Auto-generated method stub
+		return permissionDao.selectPermissionByRoleId(roleId);
+	}
 	
 	
 

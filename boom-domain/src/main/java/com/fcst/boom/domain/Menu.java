@@ -11,6 +11,7 @@ import com.fcst.boom.common.page.PageBean;
  * 2016-06-26
  */
 public class Menu extends PageBean implements Serializable {
+	
 	private String id;
 	private Menu parent;	// 父级菜单
 	private String parentIds; // 所有父级编号

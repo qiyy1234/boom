@@ -9,6 +9,8 @@ public class Permission extends BaseEntity implements Serializable {
 	
 	private String id;
 	
+	private Permission parent;	// 父级菜单
+	
 	private String name;
 	
 	private String url;
@@ -17,7 +19,7 @@ public class Permission extends BaseEntity implements Serializable {
 	
 	private String percode;
 	
-	private Long parentid;
+	private Long pId;
 	
 	private String parentids;
 	
@@ -80,12 +82,12 @@ public class Permission extends BaseEntity implements Serializable {
 		this.percode = percode;
 	}
 
-	public Long getParentid() {
-		return parentid;
+	public Long getpId() {
+		return pId;
 	}
 
-	public void setParentid(Long parentid) {
-		this.parentid = parentid;
+	public void setpId(Long pId) {
+		this.pId = pId;
 	}
 
 	public String getParentids() {
@@ -127,6 +129,44 @@ public class Permission extends BaseEntity implements Serializable {
 	public void setOpen(String open) {
 		this.open = open;
 	}
+
+	public Permission getParent() {
+		return parent;
+	}
+
+	public void setParent(Permission parent) {
+		this.parent = parent;
+	}
+
+	public static void sortList(List<Permission> list, List<Permission> sourcelist, 
+			List<Permission> myPermissionList, String parentId, boolean cascade) {
+		// TODO Auto-generated method stub
+		System.out.println("--- --- permission sortList ---start-----");
+		
+		for (int i=0; i<sourcelist.size(); i++){
+			Permission e = sourcelist.get(i);
+			if (e.getParent()!=null && e.getParent().getId()!=null
+					&& e.getParent().getId().equals(parentId)){
+				list.add(e);
+				if (cascade){
+					// 判断是否还有子节点, 有则继续获取子节点
+					for (int j=0; j<sourcelist.size(); j++){
+						Permission child = sourcelist.get(j);
+						if (child.getParent()!=null && child.getParent().getId()!=null
+								&& child.getParent().getId().equals(e.getId())){
+							sortList(list, sourcelist,myPermissionList, e.getId(), true);
+							break;
+						}
+					}
+				}
+			}
+		}
+		System.out.println("--- --- permission sortList ---end-----");
+		
+		
+	}
+
+
 
 	
 	

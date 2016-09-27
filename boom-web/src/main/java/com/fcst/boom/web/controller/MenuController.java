@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.domain.Menu;
 import com.fcst.boom.service.MenuService;
@@ -41,6 +42,10 @@ public class MenuController {
 		List<Menu> list = new ArrayList<Menu>();
 		List<Menu> sourcelist = menuService.getAllMenuList();
 		Menu.sortList(list, sourcelist, "1", true);
+		String jsonStr=JSON.toJSONString(list);
+		
+		System.out.println("--- ---  回调函数 -menu--  ---"+jsonStr);
+		
 		result.put("data", list);
 		return result;
 		

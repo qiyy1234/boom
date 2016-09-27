@@ -1,5 +1,6 @@
 package com.fcst.boom.web.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,35 @@ public class RoleController {
     public String index() {
         return "/role";
     }
+	
+	/**
+	 * 跳转权限菜单 递归java
+	 * @return
+	 */
+	@RequestMapping("/powerRoleDG")
+	@ResponseBody
+	public JsonResult powerRoleDG(String roleId){
+		JsonResult result = new JsonResult();
+		//List<Permission> list = new ArrayList<Permission>();
+		
+		List<Permission> sourcelist = permissionService.getAllMenuListDG();
+		
+		List<Permission> myPermissionList=permissionService.getMyPermissionListDG(roleId);
+		
+		for (Permission permission : sourcelist) {
+			for (Permission mypermission : myPermissionList) {
+				if(permission.getId().equals(mypermission.getId())){
+					permission.setChecked(true);
+					continue;
+				}
+			}
+		}
+		
+		result.put("zTreeNodes", sourcelist);
+		result.put("roleId", roleId);
+		return result;
+	}
+	
 	
 	/**
 	 * 查询下拉列表
@@ -103,6 +133,7 @@ public class RoleController {
 		JsonResult result = new JsonResult();
 		List<Permission> permissionList=permissionService.getAllPermission(roleId);
 		String jsonStr=JSON.toJSONString(permissionList);
+		System.out.println("--- ---  回调函数 ---powerRole  ---"+jsonStr);
 		jsonStr=jsonStr.replaceAll("subsetPermission", "nodes");
 		result.put("zTreeNodes", permissionList);
 		result.put("roleId", roleId);
