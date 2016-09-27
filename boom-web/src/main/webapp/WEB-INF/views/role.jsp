@@ -40,9 +40,17 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
     <!--ztree用到的css-->
-    <link type="text/css" rel="stylesheet" href="<%=basePath %>resources/assets/zTree/2.6/zTreeStyle.css"/>
+ <%--   <link type="text/css" rel="stylesheet" href="<%=basePath %>resources/assets/zTree/2.6/zTreeStyle.css"/>
+     --%>
+     <link href="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css"/>
+
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=basePath %>resources/assets/js/skins.min.js"></script>
+    
+    <style type="text/css">
+		.ztree {overflow:auto;margin:0;_margin-top:10px;padding:10px 0 0 10px;}
+	</style>
+    
     
 </head>
 <!-- /Head -->
@@ -347,13 +355,14 @@ Purchase: http://wrapbootstrap.com
                         <div class="col-xs-12 col-md-12">
                         
                             <form class="form-horizontal" role="form" id="roleForm">
+                                     <input type="hidden" class="form-control" id="roleId" name="roleId" />
+                                     <input type="hidden" class="form-control" id="ZT" name="ZT" />
                                 <div class="form-group">
 		                        	<label  class="col-sm-2 control-label no-padding-right"></label>
 		                        	<div class="col-sm-9" id="sload">
-                                        <ul id="tree" class="tree" style="overflow:auto;"></ul>
+                                      <!--   <ul id="tree" class="tree" style="overflow:auto;"></ul> -->
+                                      <div id="ztree" class="ztree"></div>
                                     </div>
-                                    <input type="hidden" class="form-control" id="roleId" name="roleId" />
-                                     <input type="text" class="form-control" id="ZT" name="ZT" />
                                 </div>
                                 
                                 <table class="table">
@@ -417,10 +426,11 @@ Purchase: http://wrapbootstrap.com
     <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script>
 	
  	<!--ztree用到的js-->
-<%--<script src="<%=basePath %>resources/assets/js/ztree/jquery.ztree.core-3.5.min.js"></script> --%>
-<%--<script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script> --%>
-    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
-<%--<script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script> --%>
+   
+<%--    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
+    --%> 
+<script type="text/javascript" src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
+
 <script>
 /* InitiateRoleDataTable.init(); 加载 boomjs 的驱动程序  */
  InitiateRoleDataTable.init(); 
@@ -468,34 +478,46 @@ Purchase: http://wrapbootstrap.com
 	}	
  
 	var zTree;
- 	var setting = {
-		    showLine: true,
-		    checkable: true
-		    };
- 	
-  function powerRole(roleId){
-	   $("#roleId").val(roleId);
+		    var setting = {
+					view: {
+						dblClickExpand: false,
+						showLine: true,
+						selectedMulti: false
+					},
+		            check: {    
+	                    enable: true  
+	                },
+					data:{
+						simpleData:{
+							enable:true,
+							idKey:"id",
+							pIdKey:"pId",
+							rootPId:'0'
+							}
+			             },
+			};
+		    
+  function powerRoleDG(roleId){
+	    $("#roleId").val(roleId);
 		$.ajax({
 			type:"post",
-			url:basePath+"rest/boom/role/powerRole",
+			url:basePath+"rest/boom/role/powerRoleDG",
 			data: {"roleId":roleId},
 		    success:function(resultData){
-		    //var zTreeNodes = eval(resultData.zTreeNodes);
-			var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
-		    var zT  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
-		  	var zTreeNodes = eval(zT);
-		  	   $("#ZT").val(JSON.stringify(zTreeNodes));
-		  	alert(JSON.stringify(zTreeNodes));
-		 	zTree = $("#tree").zTree(setting, zTreeNodes); 
-		 	  
-			},
-		}); 
-		$('#powerDetailDiv').modal();
-	} 
- 
+			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+			    var zT  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
+			  	var zTreeNodes = eval(zT);
+			  	$("#ZT").val(JSON.stringify(zTreeNodes));
+			 	 $.fn.zTree.init($("#ztree"), setting, zTreeNodes).expandAll(true);
+				},
+			}); 
+			$('#powerDetailDiv').modal();
+		} 
   
   function savePower(){
-		var nodes = zTree.getCheckedNodes();
+      var treeObj=$.fn.zTree.getZTreeObj("ztree");
+      var nodes=treeObj.getCheckedNodes(true);
+		alert(nodes);
 		var tmpNode;
 		var ids = "";
 		for(var i=0; i<nodes.length; i++){
@@ -509,9 +531,7 @@ Purchase: http://wrapbootstrap.com
 		var roleId = $("#roleId").val();
 		var url = "<%=basePath%>rest/boom/role/doAuthSave";
 		var postData;
-		
 		postData = {"roleId":roleId,"ids":ids};
-		
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 		$.post(url,postData,function(data){
@@ -519,10 +539,9 @@ Purchase: http://wrapbootstrap.com
 				top.Dialog.close();
 			//}
 		});
-	 
-	  
   }
-
+  
+	  
 </script>
 
 </body>
