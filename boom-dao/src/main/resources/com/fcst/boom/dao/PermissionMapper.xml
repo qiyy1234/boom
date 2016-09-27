@@ -7,18 +7,18 @@
 	 		<result column="type" property="type"></result>
 	 		<result column="url" property="url"></result>
 	 		<result column="percode" property="percode"></result>
-	 		<result column="parentid" property="parentid"></result>
+	 		<result column="pId" property="pId"></result>
 	 		<result column="parentids" property="parentids"></result>
 	 		<result column="sortstring" property="sortstring"></result>
 	 		<result column="available" property="available"></result>
-	 		<result column="create_date" property="createDate"></result>
-	 		<result column="update_date" property="updateDate"></result>
+	 		<result column="createDate" property="createDate"></result>
+	 		<result column="updateDate" property="updateDate"></result>
 	 		<result column="creater" property="creater"></result>
 	 		<result column="mender" property="mender"></result>
 	</resultMap>
   
   	<sql id="permissionCloumn">
-	 id,name,type,url,percode,parentid,parentids,sortstring,available,create_date,update_date,creater,mender
+	 id,name,type,url,percode,parentid,parentids,sortstring,available,createDate,updateDate,creater,mender
 	</sql>
   
 	<select id="selectPermissionByRoleId" resultMap="permissionResult" parameterType="hashMap">
@@ -54,5 +54,26 @@
 			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
 		)
 	</select>	
+	
+	<!-- java 递归菜单 -->
+	<select id="selectPermissionAllMenuListDG" parameterType="java.util.Map" resultMap="permissionResult" >
+        SELECT
+        	a.id id,
+        	a.parentid pId,
+        	a.parentids parentids,
+        	a.name name,
+        	a.type type,
+        	a.url url,
+        	a.percode percode,
+        	a.sortstring sortstring,
+        	a.available available,
+        	a.creater creater,
+	        a.mender mender
+        FROM
+	        sys_permission a
+        LEFT JOIN sys_permission p ON p.id = a.parentid
+        ORDER BY
+        	a.sortstring
+	</select>
 		
 </mapper>
