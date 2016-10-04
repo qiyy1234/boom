@@ -12,15 +12,20 @@ import com.fcst.boom.common.page.PageBean;
  */
 public class Menu extends PageBean implements Serializable {
 	
-	private String id;
-	private Menu parent;	// 父级菜单
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;        // Id
+	private Menu parent;	  // 父级菜单
 	private String parentIds; // 所有父级编号
-	private String name; 	// 名称
-	private String href; 	// 链接
-	private String target; 	// 目标（ mainFrame、_blank、_self、_parent、_top）
-	private String icon; 	// 图标
-	private Integer sort; 	// 排序
-	private String isShow; 	// 是否在菜单中显示（1：显示；0：不显示）
+	private String name; 	  // 名称
+	private String href; 	  // 链接
+	private String target; 	  // 目标（ mainFrame、_blank、_self、_parent、_top）
+	private String icon; 	  // 图标
+	private Integer sort; 	  // 排序
+	private String isShow; 	  // 是否在菜单中显示（1：显示；0：不显示）
+	private String dictName;  // 是否在菜单中显示（1：显示；0：不显示）
 	
 	
 	
@@ -94,6 +99,15 @@ public class Menu extends PageBean implements Serializable {
 
 	public void setIsShow(String isShow) {
 		this.isShow = isShow;
+	}
+	
+
+	public String getDictName() {
+		return dictName;
+	}
+
+	public void setDictName(String dictName) {
+		this.dictName = dictName;
 	}
 
 	public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade){

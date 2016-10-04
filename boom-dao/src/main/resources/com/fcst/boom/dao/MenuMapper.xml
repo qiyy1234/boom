@@ -20,8 +20,10 @@
 			a.update_by AS "updateBy.id",
 			a.update_date,
 			a.del_flag,
-			p.name AS "parent.name"
-		FROM sys_menu a LEFT JOIN sys_menu p ON p.id = a.parent_id
+			p.name AS "parent.name",
+      d.dict_name dictName
+		FROM sys_menu a LEFT JOIN sys_menu  p ON p.id = a.parent_id 
+                        LEFT JOIN sys_dictionary d ON  a.is_show = d.dict_value and  d.dict_type = 'status'
 		ORDER BY a.sort
 	</select>
 	

@@ -58,7 +58,7 @@ Purchase: http://wrapbootstrap.com
                                     <td>名称：<input></td>
                                     <td align="right">
                                         <a href="#" class="btn btn-blue btn-sm" onclick="">查询</a>&nbsp;
-                                        <a href="#" class="btn btn-blue btn-sm" onclick="">添加</a>
+                                        <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#menuAddDiv" onclick="">添加</a>
                                     </td>
                                 </tr>
 
@@ -85,13 +85,13 @@ Purchase: http://wrapbootstrap.com
 </div>
 
 <!--添加下级菜单-->
-<div id="addChildMenu" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div id="menuAddDiv" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="widget-header bg-blue">
                 <span class="widget-caption">菜单添加</span>
                 <div class="widget-buttons">
-                    <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
+                    <a data-dismiss="modal" ><i class="fa fa-times"></i></a>
                 </div>
             </div>
             <div class="modal-body">
@@ -113,11 +113,11 @@ Purchase: http://wrapbootstrap.com
                             </div>
 
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="password" class="col-sm-3 control-label no-padding-right">名称：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="menuName" placeholder="">
+                                        <input type="email" class="form-control" id="menuName" placeholder="功能菜单名称">
                                     </div>
                                 </div>
                             </div>
@@ -133,11 +133,11 @@ Purchase: http://wrapbootstrap.com
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="" class="col-sm-3 control-label no-padding-right">目标：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="" placeholder="默认：mainFrame">
+                                        <input type="email" class="form-control" id="" placeholder="默认:mainFrame">
                                     </div>
                                 </div>
                             </div>
@@ -149,15 +149,16 @@ Purchase: http://wrapbootstrap.com
                                     <label for="telephone" class="col-sm-3 control-label no-padding-right">图标：</label>
                                     <div class="col-sm-9">
                                         <!--<img width="120px" height="160px" src="assets/img/avatars/sunli.jpg"/>-->
-                                        <input type="file">
+                                        <input type="file" />
+                                        <input id="input-id" type="file" class="btn-default"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="num" class="col-sm-3 control-label no-padding-right">顺序：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="num" placeholder="排列顺序，数字">
+                                        <input type="email" class="form-control" id="num" placeholder="排列顺序,数字">
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +172,7 @@ Purchase: http://wrapbootstrap.com
                                             <div class="col-lg-4 col-sm-4 col-xs-4">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="" type="radio" class="colored-blue" value="1" checked="checked">
+                                                        <input name="form-field-radio" type="radio" checked="checked" class="colored-blue">
                                                         <span class="text">可见</span>
                                                     </label>
                                                 </div>
@@ -179,7 +180,7 @@ Purchase: http://wrapbootstrap.com
                                             <div class="col-lg-4 col-sm-4 col-xs-4">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="" type="radio" class="colored-blue" value="2">
+                                                        <input name="form-field-radio" type="radio"  class="colored-blue">
                                                         <span class="text">隐藏</span>
                                                     </label>
                                                 </div>
@@ -188,11 +189,11 @@ Purchase: http://wrapbootstrap.com
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group">
-                                    <label for="" class="col-sm-3 control-label no-padding-right">权限标识：</label>
+                                    <label for="" class="col-sm-3 control-label no-padding-right">权限：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="" placeholder="如：@RequiresPermissions(权限标识)">
+                                        <input type="email" class="form-control" id="" placeholder="如:@RequiresPermissions(权限标识)">
                                     </div>
                                 </div>
                             </div>
