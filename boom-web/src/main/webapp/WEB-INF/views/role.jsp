@@ -429,7 +429,7 @@ Purchase: http://wrapbootstrap.com
    
 <%--    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
     --%> 
-<script type="text/javascript" src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
+    <script type="text/javascript" src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
 
 <script>
 /* InitiateRoleDataTable.init(); 加载 boomjs 的驱动程序  */
