@@ -26,4 +26,5 @@
 <dubbo:reference id="menuService"   interface="com.fcst.boom.service.MenuService" />
 
 <dubbo:reference id="permissionService"   interface="com.fcst.boom.service.PermissionService" />
+<dubbo:reference id="organizationService"   interface="com.fcst.boom.service.OrganizationService" />
 </beans>
