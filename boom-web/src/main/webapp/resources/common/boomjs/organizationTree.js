@@ -16,19 +16,24 @@ var setting = {
 };
 
 
-function seleteParentTree(treeId){
-	alert("treeId---"+treeId);
+function seleteParentTree(treeId,ahrefId,parentId,orgNameId){
+	
 	var treeObj = $.fn.zTree.getZTreeObj(treeId);
     var nodes = treeObj.getSelectedNodes();
     var ab =JSON.stringify(nodes);
     json = eval(ab);
     var id = json[0].id;
     var name = json[0].name;
-	 $("#parent_id").val(id);
-	 $("#orgName").val(name);
-	//$("#parentTreeSelc").click();
+	 $("#"+parentId).val(id);
+	 $("#"+orgNameId).val(name);
+	$("#"+ahrefId).click();
 }
 
+function clearZtree(aid,valueid,ahrefId){
+    $("#"+aid).val("");
+    $("#"+valueid).val("");
+    $("#"+ahrefId).click();
+}
 
 function getAllOrgList(treeId){
 	$.ajax({

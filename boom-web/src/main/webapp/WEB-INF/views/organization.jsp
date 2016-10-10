@@ -168,8 +168,8 @@
 				                                   data-content="<div class='popover1 widget-body' >
 				                                   <ul id='parentTree' class='popover1 ztree'></ul>
 				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
-				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTree(\'parentTree\')>确定</a>&nbsp;
-				                                   <a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('parentTreeSelc','parent_id')>清除</a></p></div>" data-original-title="" title="">
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTree('parentTree','parentTreeSelc','parent_id','orgName')>确定</a>&nbsp;
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('orgName','parent_id','parentTreeSelc')>清除</a></p></div>" data-original-title="" title="">
 				                                            GoTo
 				                                </a>
 				                                <input type="hidden" id="parent_id" name="parentId"/>
@@ -284,8 +284,8 @@
 				                                   data-content="<div class='popover1 widget-body' >
 				                                   <ul id='updateParentTree' class='popover1 ztree'></ul>
 				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
-				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTree('updateParentTree')>确定</a>&nbsp;
-				                                   <a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('updateParentTreeSelc','update_parent_id')>清除</a></p></div>" data-original-title="" title="">
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTree('updateParentTree','updateParentTreeSelc','update_parent_id','update_parent_orgName')>确定</a>&nbsp;
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('update_parent_orgName','update_parent_id','updateParentTreeSelc')>清除</a></p></div>" data-original-title="" title="">
 				                                            GoTo
 				                                </a>
 				                                <input type="hidden" id="update_parent_id" name="parentId"/>
@@ -611,6 +611,8 @@ $("#updateParentTreeSelc").click(function(){
 		        		//cleanAddForm();
 		            	$('#addOrgDiv').modal('hide');
 		            	findOrganizationList();
+		            	//var treeObj = $.fn.zTree.getZTreeObj('ztree');
+		            	//treeObj.refresh();
 		        	}
 				}
 			});
@@ -635,6 +637,8 @@ $("#updateParentTreeSelc").click(function(){
 			        		//cleanAddForm();
 			            	$('#updateOrgDiv').modal('hide');
 			            	findOrganizationList();
+			            	//var treeObj = $.fn.zTree.getZTreeObj('ztree');
+			            	//treeObj.refresh();
 			        	}
 					}
 				});
@@ -693,6 +697,8 @@ $("#updateParentTreeSelc").click(function(){
 			  alert(resultData.msg);
 	          if(resultData.result){
 	        	  findOrganizationList();
+	        	  //var treeObj = $.fn.zTree.getZTreeObj('ztree');
+	              //treeObj.refresh();
 	          }
 		  },
 		  dataType: "json"
