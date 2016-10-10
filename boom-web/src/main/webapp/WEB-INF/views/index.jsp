@@ -433,6 +433,11 @@ Purchase: http://wrapbootstrap.com
                                 </a>
                             </li>
                             <li>
+                                <a href="<%=request.getContextPath()%>/rest/boom/organization/index" target="mainframe">
+                                    <span value="organization.html" class="menu-text">机构管理</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<%=request.getContextPath()%>/rest/boom/role/powerRoleDG"  target="mainframe">
                                     <span value="organization.html" class="menu_a menu-text">机构递归Test</span>
                                 </a>
@@ -826,7 +831,7 @@ InitiateRoleDataTable.init();
             if (!menuLink || menuLink.length == 0)
                 return;
             if (!menuLink.hasClass("menu-dropdown")) {
-                if (b && menuLink.get(0).parentNode.parentNode == this) {
+                if ( menuLink.get(0).parentNode.parentNode == this) {
                     var menuText = menuLink.find(".menu-text").get(0);
                     if (e.target != menuText && !$.contains(menuText, e.target)) {
                         return false;
@@ -852,6 +857,7 @@ InitiateRoleDataTable.init();
         });
         //End Sidebar Menu Handle
 
+  
 
     </script>
 

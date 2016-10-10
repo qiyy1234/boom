@@ -1,4 +1,7 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %> 
 <!DOCTYPE html>
 <!--
 BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.4
@@ -89,8 +92,10 @@ Purchase: http://wrapbootstrap.com
     <!-- Main Container -->
 </div>
 
-<!--添加下级菜单-->
-<div id="menuAddDiv" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+
+
+<!--添加  - 下级菜单-->
+<div id="menuAddDiv" class="modal fade bs-example-modal-lg" tabindex="-1" menu="dialog" aria-labelledby="menuAddDiv" aria-hidden="true">    
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="widget-header bg-blue">
@@ -99,17 +104,20 @@ Purchase: http://wrapbootstrap.com
                     <a data-dismiss="modal" ><i class="fa fa-times"></i></a>
                 </div>
             </div>
+                
             <div class="modal-body">
-                <div id="registration-form">
-                    <form class="form-horizontal" role="form">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                
+                    <form class="form-horizontal" role="form" id="addMenuForm"  method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="" class="col-sm-3 control-label no-padding-right">上级菜单：</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" readonly="readonly" id="menuName" name="menuName" placeholder="功能菜单" />
-                                            <input type="text" id="menuId" name="menuId" />
+                                            <input type="text" class="form-control" id="menuName" name="menuName" placeholder="功能菜单" />
+                                            <input type="hidden" class="form-control" id="menuId" name="menuId" />
                                             <span class="input-group-btn">
                                                 <a href="#" class="btn btn-default shiny" data-toggle="modal" onclick="powerRoleDG();">GOgo</a>
                                             </span>
@@ -227,7 +235,7 @@ Purchase: http://wrapbootstrap.com
                         <table class="table">
                             <tr>
                                 <td align="right">
-                                    <a href="javascript:void(0);" class="btn btn-blue">保存</a>
+                                    <a href="#" id="menuAddBtn" onclick="addMenu()"  class="btn btn-blue">保存</a>
                                     <a href="#" class="btn btn-blue" data-dismiss="modal" aria-hidden="true"  onClick="closeAddDiv();">关闭</a>
                                 </td>
                             </tr>
@@ -237,7 +245,7 @@ Purchase: http://wrapbootstrap.com
                     </form>
                 </div>
 
-
+               </div>
 
             </div>
         </div><!-- /.modal-content -->
@@ -256,16 +264,15 @@ Purchase: http://wrapbootstrap.com
             </div>
             <div class="modal-body">
                 <ul id="ztree" class="ztree"></ul>
-
+            </div>
                 <table class="table">
                     <tr>
                         <td align="right">
-                            <a href="#" class="btn btn-blue" data-dismiss="modal" onclick="savePower()">确定</a>
-                            <a href="#" class="btn btn-blue" data-dismiss="modal" onclick="closeDetailDiv()">关闭</a>
+                            <a href="#" class="btn btn-blue" data-dismiss="modal" onclick="savePower();return false;">确定</a>
+                            <a href="#" class="btn btn-blue" data-dismiss="modal" onclick="closeDetailDiv();return false;">关闭</a>
                         </td>
                     </tr>
                 </table>
-            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
@@ -1045,8 +1052,14 @@ Purchase: http://wrapbootstrap.com
 
   </body>
   
-      <script>
-      
+  <script>
+      /* InitiateRoleDataTable.init(); 加载 boomjs 的驱动程序  */     
+/*       InitiateMenuDataTable.init();   */
+
+     /**
+      * 将from转换为json格式封装
+      */
+     
   //定义setTimeout执行方法
 	
 	var oDiv = document.getElementsByClassName("icon");
@@ -1091,7 +1104,7 @@ Purchase: http://wrapbootstrap.com
 	    $("#roleId").val(roleId);
 		$.ajax({
 			type:"post",
-			url:basePath+"rest/boom/role/powerRoleDG",
+			url:basePath+"rest/boom/menu/powerMenuDG",
 			data: {"roleId":roleId},
 		    success:function(resultData){
 			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
@@ -1105,36 +1118,51 @@ Purchase: http://wrapbootstrap.com
 		}  
     
     function savePower(){
-        var treeObj = $.fn.zTree.getZTreeObj("ztree");
-        var nodes = treeObj.getSelectedNodes();
-  		var tmpNode;
-  		var ids = "";
-  		for(var i=0; i<nodes.length; i++){
-  			tmpNode = nodes[i];
-  			if(i!=nodes.length-1){
-  				ids += tmpNode.id+",";
-  				name = tmpNode.name+",";
-  			}else{
-  				ids += tmpNode.id;
-  				name = tmpNode.name;
-  			}
-  			break;
-  			alert(ids);
-  			alert(name);
-  		}
-  		$("#menuId").val(ids);
-		$("#menuName").val(name);
-  		
-  		
+         var treeObj = $.fn.zTree.getZTreeObj("ztree");
+         var nodes = treeObj.getSelectedNodes();
+         var ab =JSON.stringify(nodes);
+         json = eval(ab);
+         var id = json[0].id;
+         var name = json[0].name;
+		 $("#menuId").val(id);
+		 $("#menuName").val(name);
     }
     
     
     function closeAddDiv(){
-    	$("#menuId").empty();
-    	$("#menuName").empty();
+    	 $("#menuId").val('');
+		 $("#menuName").val('');
     }
-  
+    
+    function addMenu(id,name){
 
+alert(id);
+
+alert(name);
+    	
+    }
+    
+    $(function(){
+   	 $.fn.serializeObject = function() {  
+   		    var o = {};  
+   		    var a = this.serializeArray();  
+   		    $.each(a, function() {  
+   		        if (o[this.name]) {  
+   		            if (!o[this.name].push) {  
+   		                o[this.name] = [ o[this.name] ];  
+   		            }  
+   		            o[this.name].push(this.value || '');  
+   		        } else {  
+   		            o[this.name] = this.value || '';  
+   		        }  
+   		    });  
+   		    return o;  
+   		}; 
+   		
+    });
+    
+    
+    
   </script>
   
   
