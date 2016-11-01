@@ -52,6 +52,12 @@ public class ActiveUser extends BaseEntity  implements Serializable{
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
+	public boolean isAdmin(){
+		return isAdmin(this.userid);
+	}
 	
+	public static boolean isAdmin(String userid){
+		return userid != null && "1".equals(userid);
+	}
 	
 }

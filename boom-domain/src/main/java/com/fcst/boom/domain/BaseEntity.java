@@ -13,7 +13,7 @@ public class BaseEntity implements Serializable {
 	/**
 	 * id
 	 */
-	private String id;
+	protected String id;
 	
 	/**
 	 * 创建人
@@ -25,6 +25,9 @@ public class BaseEntity implements Serializable {
 	 */
 	private Date createDate;
 	
+	/**
+	 * 创建时间
+	 */
 	private String createDateStr;
 	
 	/**
@@ -37,6 +40,9 @@ public class BaseEntity implements Serializable {
 	 */
 	private Date updateDate;
 	
+	/**
+	 * 修改时间
+	 */
 	private String updateDateStr;
 	
 	/**

@@ -11,4 +11,18 @@ public interface MenuDao {
 	 * @return
 	 */
 	public List<Menu> getAllMenuList();
+
+	/**
+	 * power 菜单
+	 * @return
+	 */
+	public List<Menu> selectAllMenuListDG(String roleId);
+
+	public int insertMenu(Menu menu);
+
+	public List<Menu> selectFindAllList(Menu menu);
+
+	public List<Menu> selectFindByUserId(Menu menu);
+	
+	
 }
