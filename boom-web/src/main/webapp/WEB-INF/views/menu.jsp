@@ -57,7 +57,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="widget-header bg-blue">
                             <span class="widget-caption">菜单列表</span>
                             <div class="widget-buttons">
-
+                                                                                    编号:${activeUser.userid} --- ${activeUser.name}
                             </div>
                         </div>
                         <div class="widget-body">
@@ -66,14 +66,14 @@ Purchase: http://wrapbootstrap.com
                                     <td>名称：<input></td>
                                     <td align="right">
                                         <a href="#" class="btn btn-blue btn-sm" onclick="">查询</a>&nbsp;
-                                        <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#menuAddDiv" onclick="">添加</a>
+                                        <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#menuAddDiv" >添加</a>
                                     </td>
                                 </tr>
 
                             </table>
                             <br>
                             <table id="menutreeTable" class=" treetable table table-striped table-bordered table-condensed">
-                            <thead><tr><th width="10%">名称</th><th width="15%">链接</th><th width="10%" style="text-align:center;">排序</th><th width="10%">可见</th><th width="10%">权限标识</th><th width="20%">操作</th></tr></thead>
+                            <thead><tr><th width="20%">名称</th><th width="10%">链接</th><th width="10%" style="text-align:center;">排序</th><th width="10%">可见</th><th width="10%">权限标识</th><th width="20%">操作</th></tr></thead>
                             <tbody id="menuTableBody">
         
                            		
@@ -94,7 +94,7 @@ Purchase: http://wrapbootstrap.com
 
 
 
-<!--添加  - 下级菜单-->
+<!--菜单添加  - 下级菜单-->
 <div id="menuAddDiv" class="modal fade bs-example-modal-lg" tabindex="-1" menu="dialog" aria-labelledby="menuAddDiv" aria-hidden="true">    
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -109,15 +109,16 @@ Purchase: http://wrapbootstrap.com
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
                 
-                    <form class="form-horizontal" role="form" id="addMenuForm"  method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" menu="form" id="menuForm"  method="post">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="" class="col-sm-3 control-label no-padding-right">上级菜单：</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="menuName" name="menuName" placeholder="功能菜单" />
-                                            <input type="hidden" class="form-control" id="menuId" name="menuId" />
+                                            <input type="text" class="form-control" id="menuName" name="upName" placeholder="功能菜单" />
+                                            <input type="text" class="form-control" id="menuId" name="parentId" />
+                                            <input type="text" class="form-control" id="menuParentIds" name="parentIds" />
                                             <span class="input-group-btn">
                                                 <a href="#" class="btn btn-default shiny" data-toggle="modal" onclick="powerRoleDG();">GOgo</a>
                                             </span>
@@ -130,7 +131,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label for="password" class="col-sm-3 control-label no-padding-right">名称：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="name" name="name" placeholder="功能菜单名称">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="功能菜单名称" />
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +142,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label for="telephone" class="col-sm-3 control-label no-padding-right">链接：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="telephone" placeholder="点击链接跳转页面">
+                                        <input type="email" class="form-control" id="href" name="href"  placeholder="点击左侧菜单链接跳转的页面" />
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +151,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label for="" class="col-sm-3 control-label no-padding-right">目标：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="" placeholder="默认:mainFrame">
+                                        <input type="email" class="form-control" id="target" name="target" placeholder="默认:mainFrame rest/*/*" />
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +162,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                      <label for="telephone" class="col-sm-3 control-label no-padding-right">图标：</label>
                                     <div class="col-sm-9" id="iconss">
-                                        <a href="#" class="btn btn-default shiny" data-toggle="modal" data-target="#menuIconsDiv" onclick="">选择</a>
+                                        <a href="#" class="btn btn-default shiny" data-toggle="modal" data-target="#menuIconsDiv" >选择</a>
                                     </div>
                                
                                 </div>
@@ -170,7 +171,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label for="num" class="col-sm-3 control-label no-padding-right">顺序：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="num" placeholder="排列顺序,数字">
+                                        <input type="text" class="form-control" id="sort" name="sort" placeholder="排列顺序,数字" />
                                     </div>
                                 </div>
                             </div>
@@ -178,13 +179,13 @@ Purchase: http://wrapbootstrap.com
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="telephone" class="col-sm-3 control-label no-padding-right">可见：</label>
+                                    <label for="telephone" class="col-sm-3 control-label no-padding-right">状态：</label>
                                     <div class="col-sm-9">
                                         <div class="row">
                                             <div class="col-lg-4 col-sm-4 col-xs-4">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="form-field-radio" type="radio" checked="checked" class="colored-blue">
+                                                        <input type="radio" id="male" name="isShow" value="1" class="colored-blue" checked="checked" />
                                                         <span class="text">可见</span>
                                                     </label>
                                                 </div>
@@ -192,7 +193,7 @@ Purchase: http://wrapbootstrap.com
                                             <div class="col-lg-4 col-sm-4 col-xs-4">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="form-field-radio" type="radio"  class="colored-blue">
+                                                        <input type="radio" id="female" name="isShow" value="0" class="colored-blue" />
                                                         <span class="text">隐藏</span>
                                                     </label>
                                                 </div>
@@ -205,7 +206,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label for="" class="col-sm-3 control-label no-padding-right">权限：</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="" placeholder="如:@RequiresPermissions(权限标识)">
+                                        <input type="text" class="form-control" id="permission" name="permission" placeholder="如:menu:Permissions(权限标识)">
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +217,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                     <label for="remark" class="col-sm-3 control-label no-padding-right">备注：</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" rows="5"></textarea>
+                                        <textarea class="form-control" id="remarks" name="remarks" rows="5"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -235,8 +236,8 @@ Purchase: http://wrapbootstrap.com
                         <table class="table">
                             <tr>
                                 <td align="right">
-                                    <a href="#" id="menuAddBtn" onclick="addMenu()"  class="btn btn-blue">保存</a>
-                                    <a href="#" class="btn btn-blue" data-dismiss="modal" aria-hidden="true"  onClick="closeAddDiv();">关闭</a>
+                                    <a href="#" class="btn btn-blue"  id="menuAddBtn" class="btn btn-blue" onclick="addMenu();" >保存</a>
+                                    <a href="#" class="btn btn-blue" data-dismiss="modal" aria-hidden="true"  onClick="closeAddDiv();" >关闭</a>
                                 </td>
                             </tr>
                         </table>
@@ -246,7 +247,6 @@ Purchase: http://wrapbootstrap.com
                 </div>
 
                </div>
-
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -1054,7 +1054,7 @@ Purchase: http://wrapbootstrap.com
   
   <script>
       /* InitiateRoleDataTable.init(); 加载 boomjs 的驱动程序  */     
-/*       InitiateMenuDataTable.init();   */
+      /* InitiateMenuDataTable.init();   */
 
      /**
       * 将from转换为json格式封装
@@ -1069,10 +1069,11 @@ Purchase: http://wrapbootstrap.com
             	 $("#active").removeAttr("style");
             	 $("#active").removeAttr("id");
             	 $("#showIcon").remove();
+            	 $("#icon").remove();
                 oDiv[i].style.background='red'; 
                 oDiv[i].id='active';
                 var aSpan = document.querySelector("#active span").className;
-                var showimg = "<span id = 'showIcon'>"+ aSpan +"</span>";  
+                var showimg = "<span id = 'showIcon'>"+ aSpan +"</span> <input type='hidden' class='form-control' id='icon' name='icon' value='"+ aSpan +"' />";  
                 $("#iconss").append(showimg);
                 
                 $("#showIcon").attr("class",aSpan);
@@ -1090,6 +1091,9 @@ Purchase: http://wrapbootstrap.com
 				showLine: true,
 				selectedMulti: false
 			},
+			callback: {
+				onDblClick: zTreeOnDblClick
+			},
 			data:{
 				simpleData:{
 					enable:true,
@@ -1100,12 +1104,18 @@ Purchase: http://wrapbootstrap.com
 	             },
 	};
 
-    function powerRoleDG(roleId){
-	    $("#roleId").val(roleId);
+    function zTreeOnDblClick(event, treeId, treeNode) {
+		 $("#menuId").val(treeNode.id);
+		 $("#menuName").val(treeNode.name);
+		 $("#menuParentIds").val(treeNode.parentIds);
+		 closeDetailDiv();
+    }
+    
+    function powerRoleDG(){
 		$.ajax({
 			type:"post",
 			url:basePath+"rest/boom/menu/powerMenuDG",
-			data: {"roleId":roleId},
+			data: '',
 		    success:function(resultData){
 			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
 			    var zTs  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
@@ -1132,15 +1142,40 @@ Purchase: http://wrapbootstrap.com
     function closeAddDiv(){
     	 $("#menuId").val('');
 		 $("#menuName").val('');
+		 $("#menuParentIds").val('');
+		 
     }
     
     function addMenu(id,name){
-
-alert(id);
-
-alert(name);
+	  var formData=JSON.stringify($('#menuForm').serializeObject());
+	  $.ajax({
+		  	type:"post",
+			     url:basePath+"rest/boom/menu/saveMenu",
+				 data:formData,
+				 contentType:"application/json; charset=utf-8",
+				 dataType:"json",
+           success:function(resultData){
+    	   alert(resultData.msg);
+    	   if(resultData.result){
+    		cleanAddForm();
+        	$('#menuAddDiv').modal('hide');
+        	oTableInitiateRole.fnDraw();
+    	}
+	}
+});
     	
     }
+    
+    function cleanAddForm(){
+    	$('#menuForm')[0].reset(); 
+    }
+    
+    
+    
+    function closeDetailDiv(){
+     	$('#menuTreeDiv').modal('hide');
+    }
+    
     
     $(function(){
    	 $.fn.serializeObject = function() {  
@@ -1161,8 +1196,21 @@ alert(name);
    		
     });
     
-    
-    
+    function isShow(){
+    	  if(document.getElementById("male").checked)  
+    	    {  
+    	        $("#male").val("1");
+    	    } 
+    	
+    }
+    	
+    function show(){
+  	  if(document.getElementById("famale").checked)  
+  	    {  
+	        $("#male").val("0");
+  	    } 
+  	
+  }
   </script>
   
   

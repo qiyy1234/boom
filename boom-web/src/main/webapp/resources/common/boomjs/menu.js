@@ -25,7 +25,7 @@ function findMenuList(){
         		d_html = d_html + "<td>"+d.href+"</td>";
         		d_html = d_html + "<td>"+d.sort+"</td>";
         		d_html = d_html + "<td>"+d.dictName+"</td>";
-        		d_html = d_html + "<td>"+d.href+"</td>";
+        		d_html = d_html + "<td>"+d.permission+"</td>";
         		d_html = d_html + "<td><a href='#' class='btn btn-success btn-sm' onclick='goUpdateMenu(\""+d.id+"\");'><i class='fa fa-edit'></i>修改</a>&nbsp;"+
         		"<a href='#' class='btn btn-danger btn-sm' onclick='deleteMenu(\""+d.id+"\")'><i class='fa fa-trash-o'></i>删除</a>&nbsp;"+
         		"<a href='#' class='btn btn-blue btn-sm' onclick='addMenu(\""+d.id+"\" ,\""+d.name+"\" )'><i class='fa fa-search-plus'></i>添加下级菜单</a>"

@@ -505,7 +505,12 @@ Purchase: http://wrapbootstrap.com
 			data: {"roleId":roleId},
 		    success:function(resultData){
 			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+			 	
+		        alert("____---1----____"+zTreeNodess);
 			    var zT  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
+			    
+		        alert("____---2----____"+zT);
+		        
 			  	var zTreeNodes = eval(zT);
 			  	$("#ZT").val(JSON.stringify(zTreeNodes));
 			 	 $.fn.zTree.init($("#ztree"), setting, zTreeNodes).expandAll(true);
