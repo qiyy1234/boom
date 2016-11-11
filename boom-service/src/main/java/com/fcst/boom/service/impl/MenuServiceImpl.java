@@ -1,15 +1,11 @@
 package com.fcst.boom.service.impl;
 
-import java.security.Principal;
 import java.util.List;
-
-import javax.security.auth.Subject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.dao.MenuDao;
-import com.fcst.boom.domain.ActiveUser;
 import com.fcst.boom.domain.Menu;
 import com.fcst.boom.service.MenuService;
 
@@ -25,51 +21,6 @@ public class MenuServiceImpl implements MenuService {
 		this.menuDao = menuDao;
 	}
 	
-	/**
-	 * 获取当前用户
-	 * ActiveUser activeUser
-	 * @return 取不到返回 new User()
-	 */
-	
-/*	public static ActiveUser getUser(){
-		Principal principal = getPrincipal();
-		if (principal!=null){
-			User user = get(principal.getId());
-			if (user != null){
-				return user;
-			}
-			return new User();
-		}
-		// 如果没有登录，则返回实例化空的User对象。
-		return new User();
-	}
-	
-	
-	
-	*//**
-	 * 获取当前登录者对象
-	 *//*
-	public static Principal getPrincipal(){
-		System.out.println("-- - - 获取当前对象 - -1-");
-		try{
-			Subject subject = SecurityUtils.getSubject();
-			Principal principal = (Principal)subject.getPrincipal();
-			if (principal != null){
-				System.out.println("-- - - 获取当前对象 - -2-");
-				return principal;
-			}
-//			subject.logout();
-			System.out.println("-- - - 获取当前对象 - -3-");
-		}catch (UnavailableSecurityManagerException e) {
-			
-		}catch (InvalidSessionException e){
-			
-		}
-		return null;
-	}*/
-	
-	
-	
 	@Override
 	public List<Menu> getAllMenuList() {
 		
@@ -78,7 +29,6 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<Menu> getAllMenuListDG(String roleId) {
 		// TODO Auto-generated method stub
-		System.out.println("-----------menu" + roleId);
 		return menuDao.selectAllMenuListDG(roleId);
 	}
 	@Override
@@ -93,10 +43,59 @@ public class MenuServiceImpl implements MenuService {
 		// TODO Auto-generated method stub
 		return menuDao.selectFindAllList(menu);
 	}
+	
 	@Override
 	public List<Menu> findByUserId(Menu menu) {
 		// TODO Auto-generated method stub
 		return menuDao.selectFindByUserId(menu);
+	}
+	
+	@Override
+	public Menu detailMenu(String id) {
+		// TODO Auto-generated method stub
+		Menu menu =	menuDao.getMenuById(id);
+		
+		return menu;
+	}
+	
+	@Override
+	public void updateMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		// 获取父节点实体
+		menu.setParent(this.getMenu(menu.getpId()));
+		
+		// 获取修改前的parentIds，用于更新子节点的parentIds
+		String oldParentIds = menu.getParentIds(); 
+		
+        System.out.println(" -- -11111111111111111 - -- - "+oldParentIds);
+		
+		// 设置新的父节点串
+		menu.setParentIds(menu.getParent().getParentIds()+menu.getParent().getId()+",");
+
+		// 保存或更新实体
+			menuDao.update(menu);
+		
+		// 更新子节点 parentIds
+		Menu m = new Menu();
+		m.setParentIds("%,"+menu.getId()+",%");
+		List<Menu> list = menuDao.findByParentIdsLike(m);
+		for (Menu e : list){
+			e.setParentIds(e.getParentIds().replace(oldParentIds, menu.getParentIds()));
+			menuDao.updateParentIds(e);
+		}
+		
+	
+	}
+	
+	public Menu getMenu(String id) {
+		return menuDao.get(id);
+	}
+	
+	@Override
+	public int deleteMenu(String menuId) {
+		// TODO Auto-generated method stub
+		return menuDao.delete(menuId);
 	}
 	
 	

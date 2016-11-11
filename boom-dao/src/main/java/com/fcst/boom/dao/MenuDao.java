@@ -23,6 +23,20 @@ public interface MenuDao {
 	public List<Menu> selectFindAllList(Menu menu);
 
 	public List<Menu> selectFindByUserId(Menu menu);
+
+	public Menu getMenuById(String id);
+
+/*	public int updateMenu(Menu menu);*/
+
+	public Menu get(String id);
+
+	public void update(Menu menu);
+
+	public List<Menu> findByParentIdsLike(Menu m);
+
+	public void updateParentIds(Menu e);
+
+	public int delete(String menuId);
 	
 	
 }

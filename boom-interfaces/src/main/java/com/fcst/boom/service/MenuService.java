@@ -15,12 +15,17 @@ public interface MenuService {
 	public List<Menu> getAllMenuListDG(String roleId);
 
 	public int saveMenu(Menu menu);
-
 	
 	//规划后的菜单
 	public List<Menu> findAllList(Menu menu);
 
 	public List<Menu> findByUserId(Menu menu);
+
+	public Menu detailMenu(String id);
+
+	public void updateMenu(Menu menu);
+
+	public int deleteMenu(String menuId);
 	
 
 }
