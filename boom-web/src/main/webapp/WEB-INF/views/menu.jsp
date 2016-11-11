@@ -117,8 +117,8 @@ Purchase: http://wrapbootstrap.com
                                     <div class="col-sm-9">
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="menuName" name="upName" placeholder="功能菜单" />
-                                            <input type="text" class="form-control" id="menuId" name="parentId" />
-                                            <input type="text" class="form-control" id="menuParentIds" name="parentIds" />
+                                            <input type="hidden" class="form-control" id="menuId" name="parentId" />
+                                            <input type="hidden" class="form-control" id="menuParentIds" name="parentIds" />
                                             <span class="input-group-btn">
                                                 <a href="#" class="btn btn-default shiny" data-toggle="modal" onclick="powerRoleDG();">GOgo</a>
                                             </span>
@@ -162,7 +162,7 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
                                      <label for="telephone" class="col-sm-3 control-label no-padding-right">图标：</label>
                                     <div class="col-sm-9" id="iconss">
-                                        <a href="#" class="btn btn-default shiny" data-toggle="modal" data-target="#menuIconsDiv" >选择</a>
+                                        <a href="#" class="btn btn-default shiny" data-toggle="modal" data-target="#menuIconsDiv" onclick="select();" >选择</a>
                                     </div>
                                
                                 </div>
@@ -238,6 +238,167 @@ Purchase: http://wrapbootstrap.com
                                 <td align="right">
                                     <a href="#" class="btn btn-blue"  id="menuAddBtn" class="btn btn-blue" onclick="addMenu();" >保存</a>
                                     <a href="#" class="btn btn-blue" data-dismiss="modal" aria-hidden="true"  onClick="closeAddDiv();" >关闭</a>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </form>
+                </div>
+
+               </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!--菜单修改 - 下级菜单修改-->
+<div id="menuUpDiv" class="modal fade bs-example-modal-lg" tabindex="-1" menu="dialog" aria-labelledby="menuAddDiv" aria-hidden="true">    
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">菜单修改</span>
+                <div class="widget-buttons">
+                    <a data-dismiss="modal" ><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+                
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                
+                    <form class="form-horizontal" menu="form" id="updateMenuForm"  method="post">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-3 control-label no-padding-right">上级菜单：</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="update_menuName" name="parent.name" placeholder="功能菜单" />
+                                            <input type="hidden" class="form-control" id="update_menuId" name="pId" />
+                                            <input type="hidden" class="form-control" id="update_menuParentIds" name="parent.parentIds" />
+                                            <span class="input-group-btn">
+                                                <a href="#" class="btn btn-default shiny" data-toggle="modal" onclick="upPowerRoleDG();">GOgo</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                        <input type="hidden" class="form-control" id="update_id" name="id" placeholder="功能菜单名称" />
+                                        <input type="hidden" class="form-control" id="update_parentIds" name="parentIds" placeholder="功能菜单名称" />
+                                    <label for="telephone" class="col-sm-3 control-label no-padding-right">名称：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="update_name" name="name" placeholder="功能菜单名称" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="telephone" class="col-sm-3 control-label no-padding-right">链接：</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="update_href" name="href"  placeholder="点击左侧菜单链接跳转的页面" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-3 control-label no-padding-right">目标：</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="update_target" name="target" placeholder="默认:mainFrame rest/*/*" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                     <label for="telephone" class="col-sm-3 control-label no-padding-right">图标：</label>
+                                    <div class="col-sm-9" id="iconsss">
+                                        <a href="#" class="btn btn-default shiny" data-toggle="modal" data-target="#menuIconsDiv" onclick="selectUp();">选择</a>
+                                        <span id ="showIconUp"></span>
+                                    </div>
+                               
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label for="num" class="col-sm-3 control-label no-padding-right">顺序：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="update_sort" name="sort" placeholder="排列顺序,数字" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="telephone" class="col-sm-3 control-label no-padding-right">状态：</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-4 col-xs-4">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" id="update_male" name="isShow" value="1" class="colored-blue" checked="checked" />
+                                                        <span class="text">可见</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-4 col-xs-4">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" id="update_female" name="isShow" value="0" class="colored-blue" />
+                                                        <span class="text">隐藏</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-3 control-label no-padding-right">权限：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="update_permission" name="permission" placeholder="如:menu:Permissions(权限标识)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="remark" class="col-sm-3 control-label no-padding-right">备注：</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="update_remarks" name="remarks" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="remark" class="col-sm-3 control-label no-padding-right"></label>
+                                    <div class="col-sm-9">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <table class="table">
+                            <tr>
+                                <td align="right">
+                                    <a href="#" class="btn btn-blue"  id="menuUpBtn" class="btn btn-blue" onclick="upMenu();" >保存</a>
+                                    <a href="#" class="btn btn-blue" data-dismiss="modal" aria-hidden="true"  onClick="closeUpDiv();" >关闭</a>
                                 </td>
                             </tr>
                         </table>
@@ -1062,26 +1223,48 @@ Purchase: http://wrapbootstrap.com
      
   //定义setTimeout执行方法
 	
-	var oDiv = document.getElementsByClassName("icon");
-    for (var i = 0; i < oDiv.length; i++) {
-        (function(i) {
-            oDiv[i].onclick = function() {
-            	 $("#active").removeAttr("style");
-            	 $("#active").removeAttr("id");
-            	 $("#showIcon").remove();
-            	 $("#icon").remove();
-                oDiv[i].style.background='red'; 
-                oDiv[i].id='active';
-                var aSpan = document.querySelector("#active span").className;
-                var showimg = "<span id = 'showIcon'>"+ aSpan +"</span> <input type='hidden' class='form-control' id='icon' name='icon' value='"+ aSpan +"' />";  
-                $("#iconss").append(showimg);
-                
-                $("#showIcon").attr("class",aSpan);
-                
-            	$('#menuIconsDiv').modal('hide');
- 	            };
-        })(i);
-   
+    function select(){
+    	var oDiv = document.getElementsByClassName("icon");
+        for (var i = 0; i < oDiv.length; i++) {
+            (function(i) {
+                oDiv[i].onclick = function() {
+                	 $("#active").removeAttr("style");
+                	 $("#active").removeAttr("id");
+                	 $("#showIcon").remove();
+                	 $("#icon").remove();
+                    oDiv[i].style.background='red'; 
+                    oDiv[i].id='active';
+                    var aSpan = document.querySelector("#active span").className;
+                    var showimg = "<span id = 'showIcon'>"+ aSpan +"</span> <input type='hidden' class='form-control' id='icon' name='icon' value='"+ aSpan +"' />";  
+                    $("#iconss").append(showimg);
+                    $("#showIcon").attr("class",aSpan);
+                	$('#menuIconsDiv').modal('hide');
+     	            };
+            })(i);
+       
+        }
+    }
+    
+    function selectUp(){
+       	var oDiv = document.getElementsByClassName("icon");
+        for (var i = 0; i < oDiv.length; i++) {
+            (function(i) {
+                oDiv[i].onclick = function() {
+                	 $("#active").removeAttr("style");
+                	 $("#active").removeAttr("id");
+                	 $("#showIconUp").remove();
+                	 $("#update_icon").remove();
+                    oDiv[i].style.background='red'; 
+                    oDiv[i].id='active';
+                    var aSpan = document.querySelector("#active span").className;
+                    var showimg = "<span id = 'showIconUp'>"+ aSpan +"</span> <input type='hidden' class='form-control' id='update_icon' name='icon' value='"+ aSpan +"' />";  
+                    $("#iconsss").append(showimg);
+                    $("#showIconUp").attr("class",aSpan);
+                	$('#menuIconsDiv').modal('hide');
+     	            };
+            })(i);
+       
+        }
     }
     
 	var zTree;
@@ -1105,9 +1288,18 @@ Purchase: http://wrapbootstrap.com
 	};
 
     function zTreeOnDblClick(event, treeId, treeNode) {
-		 $("#menuId").val(treeNode.id);
+
+    	var abc =  $("#update_id").val();
+    	if(abc== '' || abc == null ){
+   		 $("#menuId").val(treeNode.id);
 		 $("#menuName").val(treeNode.name);
 		 $("#menuParentIds").val(treeNode.parentIds);
+    	}else{
+      		 $("#update_menuId").val(treeNode.id);
+    		 $("#update_menuName").val(treeNode.name);
+    		 $("#update_menuParentIds").val(treeNode.parentIds);
+
+    }
 		 closeDetailDiv();
     }
     
@@ -1134,8 +1326,10 @@ Purchase: http://wrapbootstrap.com
          json = eval(ab);
          var id = json[0].id;
          var name = json[0].name;
+         var parentIds = json[0].parentIds;
 		 $("#menuId").val(id);
 		 $("#menuName").val(name);
+		 $("#menuParentIds").val(parentIds);
     }
     
     
@@ -1145,6 +1339,12 @@ Purchase: http://wrapbootstrap.com
 		 $("#menuParentIds").val('');
 		 
     }
+    function closeUpDiv(){
+   	     $("#menuId").val('');
+	     $("#menuName").val('');
+	     $("#menuParentIds").val('');
+		 
+   }
     
     function addMenu(id,name){
 	  var formData=JSON.stringify($('#menuForm').serializeObject());
@@ -1159,15 +1359,43 @@ Purchase: http://wrapbootstrap.com
     	   if(resultData.result){
     		cleanAddForm();
         	$('#menuAddDiv').modal('hide');
-        	oTableInitiateRole.fnDraw();
+        	window.location.reload();
+        	
     	}
 	}
 });
     	
     }
     
+    function upMenu(){
+  	  var formData=JSON.stringify($('#updateMenuForm').serializeObject());
+	  $.ajax({
+		  	type:"post",
+			     url:basePath+"rest/boom/menu/updateMenu",
+				 data:formData,
+				 contentType:"application/json; charset=utf-8",
+				 dataType:"json",
+           success:function(resultData){
+    	   alert(resultData.msg);
+    	   if(resultData.result){
+    		cleanAddForm();
+        	$('#menuAddDiv').modal('hide');
+        	window.location.reload();
+        	
+    	}
+	}
+});	
+    	
+    	
+    }
+    
+    
     function cleanAddForm(){
     	$('#menuForm')[0].reset(); 
+    }
+    
+    function cleanUpForm(){
+    	$('#updateMenuForm')[0].reset(); 
     }
     
     
@@ -1175,6 +1403,7 @@ Purchase: http://wrapbootstrap.com
     function closeDetailDiv(){
      	$('#menuTreeDiv').modal('hide');
     }
+    
     
     
     $(function(){
@@ -1211,6 +1440,89 @@ Purchase: http://wrapbootstrap.com
   	    } 
   	
   }
+    
+    function addNextMenu(id,name,parentIds){
+ 	  $("#menuId").val(id);
+	  $("#menuName").val(name);
+	  $("#menuParentIds").val(parentIds);
+      $('#menuAddDiv').modal();
+    }
+    
+    function updateMenu(id){
+    	$('#updateMenuForm')[0].reset(); 
+		$("#showIconUp").empty();
+    		$.ajax({
+    			  url: basePath+"rest/boom/menu/detail?timestamp="+Date.parse(new Date()),
+    			  data: {"id":id},
+    			  success: function(resultData){
+    				  var parent = resultData.parent;
+    				  if(parent== '' || parent== null){
+    	 				  $("#update_id").val(resultData.id);
+        				  $("#update_name").val(resultData.name);
+          				  $("#update_parentIds").val(resultData.parentIds);
+        				  $("#update_href").val(resultData.href);
+        				  $("#showIconUp").attr("class",resultData.icon);
+        				  $("#update_target").val(resultData.target);
+        				  $("#update_sort").val(resultData.sort);
+        				  $("#update_male").val(resultData.male);
+        				  $("#update_permission").val(resultData.permission);
+        				  $("#update_remarks").val(resultData.remarks); 
+    				    }
+    				  $("#update_menuId").val(resultData.parent.id);
+    				  $("#update_menuName").val(resultData.parent.name);
+    				  $("#update_menuParentIds").val(resultData.parent.parentIds);
+    				  $("#update_id").val(resultData.id);
+    				  $("#update_name").val(resultData.name);
+      				  $("#update_parentIds").val(resultData.parentIds);
+    				  $("#update_href").val(resultData.href);
+    				  $("#showIconUp").attr("class",resultData.icon);
+    				  $("#update_target").val(resultData.target);
+    				  $("#update_sort").val(resultData.sort);
+    				  $("#update_male").val(resultData.male);
+    				  $("#update_permission").val(resultData.permission);
+    				  $("#update_remarks").val(resultData.remarks); 
+    
+    			  },
+    			  dataType: "json"
+    			});
+    		cleanUpForm();
+    		$('#menuUpDiv').modal();
+    	}
+    
+    function upPowerRoleDG(){
+    	var extId =  $("#update_id").val();
+    	$.ajax({
+			type:"post",
+			url:basePath+"rest/boom/menu/upPowerMenuDG",
+			data: {"extId":extId},
+		    success:function(resultData){
+		     	var zTreeNodess = JSON.stringify(resultData);
+			    var zTs  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
+			    var zT  = zTs.replace(/url/gm,'');  
+			  	var zTreeNodes = eval(zT);
+			 	 $.fn.zTree.init($("#ztree"), setting, zTreeNodes).expandAll(true);
+				},
+			}); 
+			$('#menuTreeDiv').modal();
+    	
+    }
+    
+    function deleteMenu(id){
+    		$.ajax({
+    			  url: basePath+"rest/boom/menu/delete",
+    			  data: {"menuId":id},
+    			  success: function(resultData){
+    				  alert(resultData.msg);
+    		          if(resultData.result){
+    		              oTableInitiateRole.fnDraw();
+    		          }
+    			  },
+    			  dataType: "json"
+    		});
+    	
+    }
+    
+    
   </script>
   
   
