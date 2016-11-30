@@ -29,6 +29,7 @@ import com.fcst.boom.common.Constant;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.MD5;
 import com.fcst.boom.domain.ActiveUser;
+import com.fcst.boom.domain.User;
 
 @Controller
 @RequestMapping("/page")
@@ -104,9 +105,14 @@ public class LoginController {
 	public String index(Model model){
 		System.err.println("------index.do基础-----开始-----");
 		Subject subject = SecurityUtils.getSubject();
-		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
+/*		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
 		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
-		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("activeUser", activeUser);*/
+		
+		User user = (User) subject.getPrincipal();
+		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
+		model.addAttribute("user", user);
+		
 		System.err.println("------index.do基础-----结束-----");
 		return "index";
 	}
