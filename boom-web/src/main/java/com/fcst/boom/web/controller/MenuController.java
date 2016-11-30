@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.fcst.boom.common.JsonResult;
-import com.fcst.boom.domain.ActiveUser;
 import com.fcst.boom.domain.Menu;
+import com.fcst.boom.domain.User;
 import com.fcst.boom.service.MenuService;
 
 /**
@@ -55,11 +54,10 @@ public class MenuController {
 		
 		System.err.println("------menu.do基础-----开始-----");
 		Subject subject = SecurityUtils.getSubject();
-		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-		 System.err.println("------menu.do基础-----开始-----"+activeUser.getName());
-		model.addAttribute("activeUser", activeUser);
+		User user = (User) subject.getPrincipal();
+	    System.err.println("------menu.do基础-----开始-----"+user.getName());
+		model.addAttribute("user", user);
 		System.err.println("------menu.do基础-----结束-----");
-		
 	    return "/menu";
 	}
 	
@@ -69,14 +67,19 @@ public class MenuController {
 		JsonResult result = new JsonResult();
 		
 		Subject subject = SecurityUtils.getSubject();
-		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
+		User user = (User) subject.getPrincipal();
 		List<Menu> list = new ArrayList<Menu>();
 		List<Menu> sourcelist = null;
-		 if (activeUser.isAdmin()){
+		 if (user.isAdmin()){
 				sourcelist = menuService.findAllList(new Menu());
+				
+				String jsonSt1r=JSON.toJSONString(sourcelist);
+				
+				System.out.println("--- ---  回调函数 -menu--  ---"+jsonSt1r);
+				
 			}else{
 				Menu menu = new Menu();
-				menu.setUserId(activeUser.getUserid());
+				menu.setUserId(user.getId());
 				sourcelist = menuService.findByUserId(menu);
 			}
 		
@@ -99,13 +102,13 @@ public class MenuController {
 	public JsonResult powerMenuDG(){
 		JsonResult result = new JsonResult();
 		Subject subject = SecurityUtils.getSubject();
-		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
+		User user = (User) subject.getPrincipal();
 		List<Menu> sourceList = null;
-		 if (activeUser.isAdmin()){
+		 if (user.isAdmin()){
 			    sourceList = menuService.findAllList(new Menu());
 			}else{
 				Menu menu = new Menu();
-				menu.setUserId(activeUser.getUserid());
+				menu.setUserId(user.getId());
 				sourceList = menuService.findByUserId(menu);
 			}
 		
@@ -120,15 +123,18 @@ public class MenuController {
 		try {
 			// 这里可以写一获取时间与人物的构造方法
 			Subject subject = SecurityUtils.getSubject();
-			ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-			 menu.setCreateBy(activeUser.getUserid());
-			 menu.setUpdateDy(activeUser.getUserid());
+			 User user = (User) subject.getPrincipal();
+			 menu.setCreateBy(user.getId());
+			 menu.setUpdateDy(user.getId());
 			 menu.setCreateDate(new Date());
 			 menu.setUpdateDate(menu.getCreateDate());
 			 menu.setDelFlag("0");
 			 menu.setParentIds(menu.getParentIds()+menu.getParentId()+",");
 			 
-		  if (activeUser.isAdmin()){
+				String jsonSt2r=JSON.toJSONString(menu);
+				
+			 System.out.println("-------- ---------- ------------"+jsonSt2r);
+		  if (user.isAdmin()){
 			menuService.saveMenu(menu);
 			result.put("msg", "保存成功");
 			result.put("result", true);
@@ -152,13 +158,13 @@ public class MenuController {
 		try {
 			// 这里可以写一获取时间与人物的构造方法
 			Subject subject = SecurityUtils.getSubject();
-			ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-			menu.setCreateBy(activeUser.getUserid());
-			menu.setUpdateDy(activeUser.getUserid());
+			User user = (User) subject.getPrincipal();
+			menu.setCreateBy(user.getId());
+			menu.setUpdateDy(user.getId());
 			menu.setCreateDate(new Date());
 			menu.setUpdateDate(menu.getCreateDate());
 			menu.setDelFlag("0");
-			  if (activeUser.isAdmin()){
+			  if (user.isAdmin()){
 					menuService.updateMenu(menu);
 					result.put("msg", "修改成功");
 					result.put("result", true);
@@ -173,8 +179,8 @@ public class MenuController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		result.put("msg", "保存成功");
-		result.put("result", true);
+/*		result.put("msg", "保存成功");
+		result.put("result", true);*/
 		return result;
 	}
 	
@@ -227,16 +233,16 @@ public class MenuController {
 		System.out.println("--- 1 --- boom---"+extId);
 		System.out.println("--- 1 --- boom---"+isShowHide);
 		Subject subject = SecurityUtils.getSubject();
-		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
+		User user = (User) subject.getPrincipal();
 		
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		List<Menu> list = null;
 
-		 if (activeUser.isAdmin()){
+		 if (user.isAdmin()){
 				list = menuService.findAllList(new Menu());
 			}else{
 				Menu menu = new Menu();
-				menu.setUserId(activeUser.getUserid());
+				menu.setUserId(user.getId());
 				list = menuService.findByUserId(menu);
 			}		
 		

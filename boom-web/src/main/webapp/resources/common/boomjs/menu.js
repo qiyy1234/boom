@@ -7,6 +7,7 @@ $(function(){
 });
 
 function findMenuList(){
+
  	$("#menuTableBody").html("");
     var selectType = $("input[name='selectType']:checked").val();
     var startTime = $("#startTime").val();
@@ -16,8 +17,7 @@ function findMenuList(){
         url: basePath+"rest/boom/menu/list?timestamp="+new Date(),
         data: {},
         success: function(data){
-        	
-        	var result=data.data;
+        	var result =data.data;
         	var d_html = "";
         	for(var i=0;i<result.length;i++){
         		var d=result[i];

@@ -68,8 +68,6 @@ public class MenuServiceImpl implements MenuService {
 		// 获取修改前的parentIds，用于更新子节点的parentIds
 		String oldParentIds = menu.getParentIds(); 
 		
-        System.out.println(" -- -11111111111111111 - -- - "+oldParentIds);
-		
 		// 设置新的父节点串
 		menu.setParentIds(menu.getParent().getParentIds()+menu.getParent().getId()+",");
 

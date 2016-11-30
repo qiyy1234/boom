@@ -127,9 +127,9 @@
 			a.update_date,
 			a.del_flag,
 			p.name AS "parent.name",
-      d.dict_name dictName
+            d.dict_name dictName
 		FROM sys_menu a LEFT JOIN sys_menu  p ON p.id = a.parent_id 
-                        LEFT JOIN sys_dictionary d ON  a.is_show = d.dict_value and  d.dict_type = 'status'
+                        LEFT JOIN sys_dictionary d ON  a.is_show = d.dict_value and d.dict_type = 'status'
 		ORDER BY a.sort
 	</select>
 	
@@ -152,7 +152,8 @@
 	a.update_by AS "updateBy.id",
 	a.update_date,
 	a.del_flag,
-	p. NAME AS "parent.name"
+	p. NAME AS "parent.name",
+    d.dict_name dictName
 FROM
 	sys_menu a
 LEFT JOIN sys_menu p ON p.id = a.parent_id
@@ -161,6 +162,7 @@ JOIN sys_role r ON r.id = rm.role_id
 AND r.useable = '1'
 JOIN sys_user_role ur ON ur.sys_role_id = r.id
 JOIN sys_user u ON u.id = ur.sys_user_id
+JOIN sys_dictionary d ON  a.is_show = d.dict_value and d.dict_type = 'status'
 AND u.id = #{userId}
 WHERE
 	a.del_flag = '0'
@@ -169,6 +171,99 @@ AND u.del_flag = '0'
 ORDER BY
 	a.sort
 	
-		</select>
+	</select>
+		
+		
+    <select id="getMenuById" parameterType="java.lang.String" resultType="com.fcst.boom.domain.Menu">
+      SELECT
+	a.id,
+	a.parent_id AS "pId",
+	a.parent_ids AS "parentIds",
+	a. NAME,
+	a.href,
+	a.target,
+	a.icon,
+	a.sort,
+	a.is_show,
+	a.permission,
+	a.remarks,
+	a.create_by AS "createBy.id",
+	a.create_date,
+	a.update_by AS "updateBy.id",
+	a.update_date,
+	a.del_flag,
+  p. ID AS "parent.id",
+  p. NAME AS "parent.name",
+  p. parent_ids AS "parent.parentIds"
+      FROM
+	sys_menu a LEFT JOIN sys_menu p ON p.id = a.parent_id
+      WHERE
+	a.id =  #{id}
+	</select>
+	
+    <update id="update">
+		UPDATE sys_menu SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}, 
+			name = #{name}, 
+			href = #{href}, 
+			target = #{target}, 
+			icon = #{icon}, 
+			sort = #{sort}, 
+			is_show = #{isShow}, 
+			permission = #{permission}, 
+			update_by = #{updateDy}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="get" parameterType="java.lang.String" resultType="com.fcst.boom.domain.Menu">
+SELECT
+	a.id,
+	a.parent_id AS "parent.id",
+	a.parent_ids AS "parentIds",
+	a. NAME,
+	a.href,
+	a.target,
+	a.icon,
+	a.sort,
+	a.is_show,
+	a.permission,
+	a.remarks,
+	a.create_by AS "createBy.id",
+	a.create_date,
+	a.update_by AS "updateBy.id",
+	a.update_date,
+	a.del_flag,
+	p. NAME AS "parent.name"
+FROM
+	sys_menu a
+LEFT JOIN sys_menu p ON p.id = a.parent_id
+WHERE
+	a.id = #{id}	
+	</select>
+	
+	<select id="findByParentIdsLike" resultType="com.fcst.boom.domain.Menu">
+		SELECT
+			a.id,
+			a.parent_id AS "parent.id",
+			a.parent_ids AS "parentIds"
+		FROM sys_menu a
+		WHERE  a.parent_ids LIKE #{parentIds}
+		ORDER BY a.sort
+	</select>
+	
+    <update id="updateParentIds">
+		UPDATE sys_menu SET 
+			parent_id = #{parent.id}, 
+			parent_ids = #{parentIds}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+	  delete from sys_menu where id = #{id} OR parent_ids LIKE CONCAT('%,', #{id}, ',%')
+	
+	</delete>
 		
 </mapper>
