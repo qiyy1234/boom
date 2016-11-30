@@ -41,7 +41,7 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
     <!--ztree用到的css-->
-    <link rel="stylesheet" href="<%=basePath %>resources/assets/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="resources/assets/js/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" type="text/css">
 
     <!--treeTable用到是css-->
     <link href="<%=basePath %>resources/assets/js/treeTable/themes/vsStyle/treeTable.min.css" rel="stylesheet" />
@@ -128,21 +128,13 @@ Purchase: http://wrapbootstrap.com
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" id="addUserForm" method="post" enctype="multipart/form-data">
+                            	
                             	<div class="form-group">
 		                        	<label  class="col-sm-2 control-label no-padding-right">登录用户名：</label>
 		                            <div class="col-sm-9">
 		                            	<input type="text" class="form-control" id="add_user_loginname" name="loginName" data-bv-field="loginName" />
 		                            </div>
                                 </div>
-                                
-                                <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色选择：</label>
-                                      <div class="col-sm-9">
-                                      <select class="form-control" id="roleId" name="roleId">
-                                     </select>
-                                             </div>
-                                       </div>
-                                       
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">密码：</label>
 		                            <div class="col-sm-9">
@@ -164,6 +156,18 @@ Purchase: http://wrapbootstrap.com
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">性别：</label>
 		                            <div class="col-sm-9" id="add_user_sex">
+		                            
+		                             <div class="radio">
+                                                    <label>
+                                                        <input type="radio" id="male" name="sex" value="1" class="colored-blue" checked="checked" />
+                                                        <span class="text">男</span>
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" id="female" name="sex" value="0" class="colored-blue" />
+                                                        <span class="text">女</span>
+                                                    </label>
+                                                </div>            
+		                            
 		                            </div>
                                 </div>
                                 <div class="form-group">
@@ -177,16 +181,48 @@ Purchase: http://wrapbootstrap.com
 									<input type="hidden" id="dtp_input2" value="" name="birthday" /><br/>
 									</div>
 					            </div>
-                                <div class="form-group">
-		                        	<label class="col-sm-2 control-label no-padding-right">邮箱：</label>
-		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="add_user_email" name="email" />
-		                            </div>
-                                </div>
+					            
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label no-padding-right">归属公司：</label>
+					                <div class="col-sm-9">
+					                <div class="input-group date date col-sm-5" >
+					                    <input class="form-control" size="16" type="text" value="" readonly>
+					                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove" onclick="removeCompany();"></span></span>
+										<span class="input-group-addon"><span class="glyphicon glyphicon-copyright-mark" onclick="moveCompany();"></span></span>
+					                </div>
+									<input type="hidden" id="dtp_input2" value="" name="birthday" /><br/>
+									</div>
+					            </div>
+					            <div class="form-group">
+					                <label class="col-sm-2 control-label no-padding-right">归属部门：</label>
+					                <div class="col-sm-9">
+					                <div class="input-group date date col-sm-5" >
+					                    <input class="form-control" size="16" type="text" value="" readonly>
+					                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove" onclick="removeDept();"></span></span>
+										<span class="input-group-addon"><span class="glyphicon glyphicon-copyright-mark" onclick="moveDept();"></span></span>
+					                </div>
+									<input type="hidden" id="dtp_input2" value="" name="birthday" /><br/>
+									</div>
+					            </div>
+					            
+					            <div class="form-group">
+                                    <label  class="col-sm-2 control-label no-padding-right">角色选择：</label>
+                                      <div class="col-sm-9">
+                                      <select class="form-control" id="roleId" name="roleId">
+                                     </select>
+                                             </div>
+                                       </div>	
+                                       				            
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">电话：</label>
 		                            <div class="col-sm-9">
 		                            	<input type="text" class="form-control" id="add_user_mobile" name="mobile" />
+		                            </div>
+                                </div>
+                                <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">邮箱：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="add_user_email" name="email" />
 		                            </div>
                                 </div>
                                 <div class="form-group">
@@ -195,7 +231,7 @@ Purchase: http://wrapbootstrap.com
 		                            	<textarea id="add_user_remark" cols="80" rows="5" name="remark"></textarea>
 		                            </div>
                                 </div>
-                                <div class="form-group">
+<!--                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">上传照片：</label>
 		                            <div class="col-sm-9">
 		                            	<input id="filePath" name="photoUrl" style="display:none" />
@@ -206,7 +242,7 @@ Purchase: http://wrapbootstrap.com
 								        <div id="fileError" class="help-block"></div>
 		                            </div>
 						
-						    	</div>
+						    	</div> -->
 
                                <table class="table" >
                                		<tr>
@@ -361,6 +397,31 @@ Purchase: http://wrapbootstrap.com
             </div>
         </div>
     </div>
+    
+    <!--菜单树-->
+<div id="userTreeDiv" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="widget-header bg-blue">
+                <span class="widget-caption">菜单选择</span>
+                <div class="widget-buttons">
+                    <a data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="modal-body">
+                <ul id="ztree" class="ztree"></ul>
+            </div>
+                <table class="table">
+                    <tr>
+                        <td align="right">
+                            <a href="#" class="btn btn-blue" data-dismiss="modal" onclick="savePower();return false;">确定</a>
+                            <a href="#" class="btn btn-blue" data-dismiss="modal" onclick="closeDetailDiv();return false;">关闭</a>
+                        </td>
+                    </tr>
+                </table>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
 
     <!--Basic Scripts-->
     <script src="<%=basePath %>resources/assets/js/jquery-1.11.3/jquery.min.js"></script>
@@ -389,12 +450,70 @@ Purchase: http://wrapbootstrap.com
 	<script src="<%=basePath %>resources/common/boomjs/user.js"></script>
 	
 	<script src="<%=basePath %>resources/common/boomjs/dictUtil.js"></script>
+	
+	<script src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"  type="text/javascript"></script>
+	
 
 <script>
 InitiateUserDataTable.init();
 
 
 getDictionaryListByType('add_user_sex','sex','select','sex',null);
+
+/* 11月24日  */
+var zTree;
+var setting = {
+		view: {
+			dblClickExpand: false,
+			showLine: true,
+			selectedMulti: false
+		},
+		callback: {
+			onDblClick: zTreeOnDblClick
+		},
+		data:{
+			simpleData:{
+				enable:true,
+				idKey:"id",
+				pIdKey:"pId",
+				rootPId:'0'
+				}
+             },
+};
+
+function zTreeOnDblClick(event, treeId, treeNode) {
+
+/* 	var abc =  $("#update_id").val();
+	if(abc== '' || abc == null ){
+		 $("#menuId").val(treeNode.id);
+	 $("#menuName").val(treeNode.name);
+	 $("#menuParentIds").val(treeNode.parentIds);
+	}else{
+  		 $("#update_menuId").val(treeNode.id);
+		 $("#update_menuName").val(treeNode.name);
+		 $("#update_menuParentIds").val(treeNode.parentIds);
+}
+ 	 closeDetailDiv(); */
+}
+
+function moveCompany(){
+	alert("0");
+	$.ajax({
+		type:"post",
+		url:basePath+"rest/boom/user/powerUser",
+		data: '',
+	    success:function(resultData){
+		 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		    var zTs  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
+		    var zT  = zTs.replace(/url/gm,'');  
+		  	var zTreeNodes = eval(zT);
+		 	 $.fn.zTree.init($("#ztree"), setting, zTreeNodes).expandAll(true);
+			},
+		}); 
+		$('#userTreeDiv').modal();
+	
+}
+
 
 
 function addRoleReady(){
@@ -702,6 +821,27 @@ $('.form_date').datetimepicker({
      });
 
  });
+ 
+ 
+ 
+ 
+ 
+function moveCompany(){
+	
+	alert("01");
+	
+} 
+ 
+function removeDept(){
+	
+	alert("1");
+	
+} 
+function moveDept(){
+	
+	alert("11");
+	
+} 
 
 </script>
 

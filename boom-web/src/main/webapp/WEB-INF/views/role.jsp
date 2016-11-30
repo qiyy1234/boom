@@ -80,8 +80,7 @@ Purchase: http://wrapbootstrap.com
                         	<td>名称：<input type="text" name="find_name" id="find_name"></td>
                             <td align="right">
                             	<a href="#" class="btn btn-blue btn-sm" onclick="findRoleList()">查询</a>&nbsp;
-                                <shiro:hasPermission name="role:add"><a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv">添加</a></shiro:hasPermission>
-                                
+                                <%-- <shiro:hasPermission name="role:add"> --%><a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv">添加</a><%-- </shiro:hasPermission> --%> 
                             </td>
                         </tr>
 					</table>

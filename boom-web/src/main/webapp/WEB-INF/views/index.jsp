@@ -306,7 +306,7 @@ Purchase: http://wrapbootstrap.com
                                         <img src="<%=request.getContextPath()%>/resources/assets/img/avatars/adam-jansen.jpg">
                                     </div>
                                     <section>
-                                        <h2><span class="profile"><span>${activeUser.name}</span></span></h2>
+                                        <h2><span class="profile"><span>${user.name}</span></span></h2>
                                     </section>
                                 </a>
                                 <!--Login Area Dropdown-->
@@ -495,7 +495,7 @@ Purchase: http://wrapbootstrap.com
 					  </a>
 					</li>
                     
-			<c:forEach items="${activeUser.menus}" var="menu">
+			<c:forEach items="${user.menus}" var="menu">
 				
 				<li id="lm${menu.id}">
 					  <a href="#" style="cursor:pointer;" class="menu-dropdown" >

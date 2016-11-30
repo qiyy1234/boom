@@ -57,7 +57,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="widget-header bg-blue">
                             <span class="widget-caption">菜单列表</span>
                             <div class="widget-buttons">
-                                                                                    编号:${activeUser.userid} --- ${activeUser.name}
+                                                                                    编号:${user.id} --- ${user.name}
                             </div>
                         </div>
                         <div class="widget-body">
@@ -66,14 +66,14 @@ Purchase: http://wrapbootstrap.com
                                     <td>名称：<input></td>
                                     <td align="right">
                                         <a href="#" class="btn btn-blue btn-sm" onclick="">查询</a>&nbsp;
-                                        <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#menuAddDiv" >添加</a>
+                                        <a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#menuAddDiv">添加</a>
                                     </td>
                                 </tr>
 
                             </table>
                             <br>
                             <table id="menutreeTable" class=" treetable table table-striped table-bordered table-condensed">
-                            <thead><tr><th width="20%">名称</th><th width="10%">链接</th><th width="10%" style="text-align:center;">排序</th><th width="10%">可见</th><th width="10%">权限标识</th><th width="20%">操作</th></tr></thead>
+                            <thead><tr><th width="20%">名称</th><th width="10%">链接</th><th width="10%" style="text-align:center;">排序</th><th width="10%">状态</th><th width="10%">权限标识</th><th width="20%">操作</th></tr></thead>
                             <tbody id="menuTableBody">
         
                            		
@@ -117,7 +117,7 @@ Purchase: http://wrapbootstrap.com
                                     <div class="col-sm-9">
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="menuName" name="upName" placeholder="功能菜单" />
-                                            <input type="hidden" class="form-control" id="menuId" name="parentId" />
+                                            <input type="hidden" class="form-control" id="menuId" name="parentId" value="1" />
                                             <input type="hidden" class="form-control" id="menuParentIds" name="parentIds" />
                                             <span class="input-group-btn">
                                                 <a href="#" class="btn btn-default shiny" data-toggle="modal" onclick="powerRoleDG();">GOgo</a>
@@ -1337,16 +1337,25 @@ Purchase: http://wrapbootstrap.com
     	 $("#menuId").val('');
 		 $("#menuName").val('');
 		 $("#menuParentIds").val('');
+    	 $("#active").removeAttr("style");
+    	 $("#active").removeAttr("id");
+    	 $("#showIcon").remove();
+    	 $("#icon").remove();
 		 
     }
     function closeUpDiv(){
    	     $("#menuId").val('');
 	     $("#menuName").val('');
 	     $("#menuParentIds").val('');
+      	 $("#active").removeAttr("style");
+    	 $("#active").removeAttr("id");
+    	 $("#showIconUp").remove();
+    	 $("#update_icon").remove();
 		 
    }
     
-    function addMenu(id,name){
+/*     function addMenu(id,name){ */
+    function addMenu(){
 	  var formData=JSON.stringify($('#menuForm').serializeObject());
 	  $.ajax({
 		  	type:"post",
@@ -1379,7 +1388,7 @@ Purchase: http://wrapbootstrap.com
     	   alert(resultData.msg);
     	   if(resultData.result){
     		cleanAddForm();
-        	$('#menuAddDiv').modal('hide');
+        	$('#menuUpDiv').modal('hide');
         	window.location.reload();
         	
     	}
@@ -1464,7 +1473,7 @@ Purchase: http://wrapbootstrap.com
         				  $("#showIconUp").attr("class",resultData.icon);
         				  $("#update_target").val(resultData.target);
         				  $("#update_sort").val(resultData.sort);
-        				  $("#update_male").val(resultData.male);
+        				  $("#update_male").val(resultData.isShow);
         				  $("#update_permission").val(resultData.permission);
         				  $("#update_remarks").val(resultData.remarks); 
     				    }
@@ -1478,7 +1487,7 @@ Purchase: http://wrapbootstrap.com
     				  $("#showIconUp").attr("class",resultData.icon);
     				  $("#update_target").val(resultData.target);
     				  $("#update_sort").val(resultData.sort);
-    				  $("#update_male").val(resultData.male);
+    				  $("#update_male").val(resultData.isShow);
     				  $("#update_permission").val(resultData.permission);
     				  $("#update_remarks").val(resultData.remarks); 
     
@@ -1519,7 +1528,7 @@ Purchase: http://wrapbootstrap.com
     			  },
     			  dataType: "json"
     		});
-    	
+        	window.location.reload();
     }
     
     
