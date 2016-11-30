@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fcst.boom.domain.ActiveUser;
 import com.fcst.boom.domain.Permission;
+import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
 import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.service.RoleService;
@@ -50,6 +51,7 @@ public class CustomRealm extends AuthorizingRealm{
 		User user=null;
 		try {
 			user=userService.getUserByUsername(userCode);
+			user.setRoleList(roleService.findList(new Role(user)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,13 +59,14 @@ public class CustomRealm extends AuthorizingRealm{
 			return null;
 		}
 		String password=user.getPassword();
-		String salt=user.getSalt();
+		//String salt=user.getSalt();
 		
 		ActiveUser activeUser=new ActiveUser();
-		activeUser.setUserid(user.getId());
-		activeUser.setName(user.getName());
-		activeUser.setUsercode(user.getLoginName());
-		activeUser.setSceneid(user.getBz());
+		  activeUser.setUserid(user.getId());
+		  activeUser.setName(user.getName());
+		  activeUser.setUsercode(user.getLoginName());
+		  activeUser.setSceneid(user.getBz());
+		  activeUser.setRoleList(user.getRoleList());
 		List<Permission> menus=null;
 		try {
 			menus=permissionService.getPermissionMenuByUserId(user.getId());
@@ -71,7 +74,8 @@ public class CustomRealm extends AuthorizingRealm{
 			e.printStackTrace();
 		}
 		activeUser.setMenus(menus);
-		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(activeUser, password, this.getName());
+		
+		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, password, this.getName());
 		System.err.println("------realm.do 验证结束---------");
 		return simpleAuthenticationInfo;
 	}
@@ -109,7 +113,6 @@ public class CustomRealm extends AuthorizingRealm{
 			super.clearCache(principals);
 		}
     
-    //--------kaishi-------
 	public static Session getSession(){
 		try{
 			Subject subject = SecurityUtils.getSubject();
