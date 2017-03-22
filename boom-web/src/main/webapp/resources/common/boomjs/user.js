@@ -37,11 +37,11 @@ var InitiateUserDataTable = function () {
                 "iDisplayLength": 5,
                 "columns": [
                     {"data": "id"},
-                    {"data": "loginName"},
+                    {"data": "companyName"},
+                    {"data": "officeName"},
                     {"data": "name"},
                     {"data": "sex"},
                     {"data": "mobile"},
-                    {"data": "birthday"},
                     {"data": "state"},
                     {"data": "id"}
                 ],
@@ -88,7 +88,7 @@ function fnFormatDetails(oTable, nTr) {
     var aData = oTable.fnGetData(nTr);
     var sOut = '<table>';
     sOut += '<tr><td rowspan="5" style="padding:0 10px 0 0;"><img width="120px" height="160px" src="'+basePath+'resources/fileupload/' + aData.photoName + '"/></td><td>登录名:</td><td>' + aData.loginName + '</td><td>姓名:</td><td>' + aData.name + '</td></tr>';
-    sOut += '<tr><td>性别:</td><td>' + aData.sex + '</td><td>出生日期:</td><td>'+ aData.birthday +'</td></tr>';
+    sOut += '<tr><td>性别:</td><td>' + aData.sex + '</td><td>出生日期1:</td><td>'+ aData.birthday +'</td></tr>';
     sOut += '<tr><td>邮箱:</td><td>'+ aData.email +'</td><td>状态:</td><td>'+ aData.state +'</td></tr>';
     sOut += '<tr><td>手机:</td><td>'+ aData.mobile +'</td><td>备注:</td><td>'+ aData.remark +'</td></tr>';
     sOut += '<tr><td>登录ip:</td><td>'+ aData.loginIp +'</td><td>最近登录时间:</td><td>'+ aData.lastDate +'</td></tr>';

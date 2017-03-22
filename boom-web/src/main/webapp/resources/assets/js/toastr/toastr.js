@@ -9,6 +9,11 @@
  * Author: John Papa and Hans Fjällemark
  * Project: https://github.com/CodeSeven/toastr
  */
+
+var local = window.location;  
+var contextPath = local.pathname.split("/")[1];  
+var basePath = local.protocol+"//"+local.host+"/"+contextPath+"/"; 
+
 ; (function (define) {
     define(['jquery'], function ($) {
         return (function () {
@@ -255,7 +260,7 @@
                 PlaySound = 1;
                 if (isIE8orlower() == 0) {
                     var audioElement = document.createElement("audio");
-                    audioElement.setAttribute("src", "assets/sound/alert.mp3");
+                    audioElement.setAttribute("src", basePath+"resources/assets/sound/alert.mp3");
                     $.get();
                     audioElement.addEventListener("load", function () {
                         audioElement.play()

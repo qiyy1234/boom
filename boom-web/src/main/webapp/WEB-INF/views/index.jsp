@@ -40,11 +40,8 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=request.getContextPath()%>/resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
     <!--ztree用到的css-->
-  <%--   <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/resources/assets/zTree/2.6/zTreeStyle.css"/>
- --%>
     <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/resources/assets/js/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" />
     
-    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=request.getContextPath()%>/resources/assets/js/skins.min.js"></script>
   
 </head>
@@ -776,7 +773,7 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Content -->
             <div class="page-content">
             <div class="widget-body">
-               <iframe id="mainframe" name="mainframe" width="100%" height="650" frameborder="no" scrolling="yes" ></iframe>
+               <iframe id="mainframe" name="mainframe" width="100%" height="650" frameborder="no" scrolling="no" ></iframe>
             </div>
             <!-- /Page Content -->
 
@@ -800,12 +797,10 @@ Purchase: http://wrapbootstrap.com
 
      
     <!--ztree用到的js-->
-  <%--  <script type="text/javascript" src="<%=request.getContextPath()%>/resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
-         --%>
-     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
 
     <!--treeTable用到的js-->
-    <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script>
+<%--     <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script> --%>
 
     <script src="<%=request.getContextPath()%>/resources/common/boomjs/role.js"></script>
 

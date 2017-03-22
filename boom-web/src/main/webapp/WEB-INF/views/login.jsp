@@ -62,7 +62,7 @@
                 <div class="or">OR</div>
             </div>
             <div class="loginbox-textbox">
-                <input type="text" name="loginName" id="loginName" value="admin"  class="form-control" placeholder="LoginName" />
+                <input type="text" name="loginName" id="loginName" value="sdadmin"  class="form-control" placeholder="LoginName" />
             </div>
             <div class="loginbox-textbox">
                 <input type="text" name="password" id="password" value="123456"  class="form-control" placeholder="Password" />
@@ -163,7 +163,9 @@
 	
 
 	function changeCode() {
+		
 		$("#codeImg").attr("src", "<%=basePath %>rest/page/code?t=" + genTimestamp());
+		
 	}
 
 	function genTimestamp() {

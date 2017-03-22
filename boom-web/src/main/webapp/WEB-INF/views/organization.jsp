@@ -154,8 +154,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                     <form class="form-horizontal" role="form" id="addOrgForm" method="post" enctype="multipart/form-data">
                         <div class="col-xs-12 col-md-12">
-                            <form class="form-horizontal" role="form" id="addOrgForm" method="post" enctype="multipart/form-data">
                             	<div class="form-group">
 		                        	<label  class="col-sm-2 control-label no-padding-right">上级机构：</label>
 		                            <div class="col-sm-4">
@@ -200,6 +200,7 @@
                                      	</select>
 		                            </div>
                                 </div>
+                                
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">联系地址：</label>
 		                            <div class="col-sm-4">
@@ -253,7 +254,7 @@
 							
                         </div>
                     </div>
-                </div>
+                 </div>
                 </div>
             </div>
         </div>

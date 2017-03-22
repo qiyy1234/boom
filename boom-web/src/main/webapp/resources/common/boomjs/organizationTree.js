@@ -26,7 +26,7 @@ function seleteParentTree(treeId,ahrefId,parentId,orgNameId){
     var name = json[0].name;
 	 $("#"+parentId).val(id);
 	 $("#"+orgNameId).val(name);
-	$("#"+ahrefId).click();
+	 $("#"+ahrefId).click();
 }
 
 function clearZtree(aid,valueid,ahrefId){
@@ -41,6 +41,7 @@ function getAllOrgList(treeId){
 		url:basePath+"rest/boom/organization/allList",
 	    success:function(resultData){
 		 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		 	alert("----11----"+zTreeNodess);
 		  	var zTreeNodes = eval(zTreeNodess);
 			$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
 			zTree = $.fn.zTree.getZTreeObj(treeId);

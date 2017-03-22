@@ -12,7 +12,7 @@ var basePath = local.protocol+"//"+local.host+"/"+contextPath+"/";
  * @returns {String}
  */
 function getDictionaryListByType(displaydivId,dictType,viewType,viewName,viewValue) {
-	$.ajax({url:basePath+"boom/dictionary/typelist",data:{"viewName":viewName,"viewType":viewType,"dictType":dictType,"viewValue":viewValue},dataType: "json",async:false,success:function(resultData){
+	$.ajax({url:basePath+"rest/boom/dictionary/typelist",data:{"viewName":viewName,"viewType":viewType,"dictType":dictType,"viewValue":viewValue},dataType: "json",async:false,success:function(resultData){
     	$("#"+displaydivId).html(resultData.msg);
 	}});
     
