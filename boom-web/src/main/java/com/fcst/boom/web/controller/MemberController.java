@@ -26,7 +26,6 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    //国际化资�?
     @Resource
     private MessageSource messageSource;
 
