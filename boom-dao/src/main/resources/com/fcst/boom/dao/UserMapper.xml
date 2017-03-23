@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fcst.boom.dao.UserDao" >
-  <resultMap id="userResult" type="com.fcst.boom.domain.User">
-  
+
+<!--   <resultMap id="userResult" type="com.fcst.boom.domain.User">
 		<id property="id"  column="id" />
 		<result property="loginName" column="login_name" />
 		<result property="name" column="name" />
@@ -20,61 +20,257 @@
 		<result property="updateUser" column="updateUser" />
 		<result property="updateDateStr" column="updateDate" />
 		<result property="lastDate" column="last_date" />
-		
-		
-	</resultMap>
-  
-  	<select id="getUserList" resultMap="userResult"  parameterType="com.fcst.boom.domain.User">
-		SELECT 
-			u.id,
-    		u.login_name,
-    		u.name,
-    		(select dict_name from sys_dictionary where dict_value= u.sex and dict_type='sex') as sex,
-    		DATE_FORMAT(u.birthday,'%Y-%m-%d %H:%i:%s') as birthday,
-    		u.mobile,
-    		(select dict_name from sys_dictionary where dict_value = u.sex and dict_type='user_status') as state,
-			u.create_user AS createUser,
-			DATE_FORMAT(u.create_date,'%Y-%m-%d %H:%i:%s') as createDate,
-			u.photo_url,
-			u.login_ip,
-			u.remark,
-			u.email,
-			DATE_FORMAT(u.last_date,'%Y-%m-%d %H:%i:%s') as last_date,
-			u.photo_name
-		FROM sys_user u
-		where 1=1 
-			<if test="user.loginName!=null and user.loginName != ''">
-				and u.login_name = #{user.loginName}
-			</if>
-		order by u.create_date desc
+		<result property="userType" column="user_type" />
+		<result property="no" column="no" />
+		<result property="delFlag" column="del_flag" />
+		<result property="loginFlag" column="login_flag" />
+	</resultMap> -->
+
+	<!-- Shiro realm -->
+	<select id="getUserByUserByCode" parameterType="hashMap"
+		resultType="com.fcst.boom.domain.User">
+		SELECT
+		a.id,
+		a.company_id AS "company.id",
+		a.office_id AS "office.id",
+		a.login_name,
+		a. PASSWORD,
+		a. NO,
+		a. NAME,
+		a.email,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.remark,
+		a.login_flag,
+		a.photo_url,
+		a.del_flag,
+		c. NAME AS "company.name",
+		c. NAME AS "companyName",
+		c.parent_id AS "company.parent.id",
+		c.parent_ids AS "company.parentIds",
+		ca.id AS "company.area.id",
+		ca. NAME AS "company.area.name",
+		ca.parent_id AS "company.area.parent.id",
+		ca.parent_ids AS "company.area.parentIds",
+		o. NAME AS "office.name",
+		o. NAME AS "officeName",
+		o.parent_id AS "office.parent.id",
+		o.parent_ids AS "office.parentIds",
+		oa.id AS "office.area.id",
+		oa. NAME AS "office.area.name",
+		oa.parent_id AS "office.area.parent.id",
+		oa.parent_ids AS "office.area.parentIds",
+		cu.id AS "company.primaryPerson.id",
+		cu. NAME AS "company.primaryPerson.name",
+		cu2.id AS "company.deputyPerson.id",
+		cu2. NAME AS "company.deputyPerson.name",
+		ou.id AS "office.primaryPerson.id",
+		ou. NAME AS "office.primaryPerson.name",
+		ou2.id AS "office.deputyPerson.id",
+		ou2. NAME AS "office.deputyPerson.name"
+		FROM
+		sys_user a
+		LEFT JOIN sys_office c ON c.id = a.company_id
+		LEFT JOIN sys_area ca ON ca.id = c.area_id
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		LEFT JOIN sys_area oa ON oa.id = o.area_id
+		LEFT JOIN sys_user cu ON cu.id = c.primary_person
+		LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
+		LEFT JOIN sys_user ou ON ou.id = o.primary_person
+		LEFT JOIN sys_user ou2 ON ou2.id = o.deputy_person
+		WHERE
+		a.login_name = #{login_name}
 	</select>
-	
+
+	<!-- 根据编号获得用户 -->
+	<select id="getUser" resultType="com.fcst.boom.domain.User">
+		SELECT
+		a.id,
+		a.company_id AS "company.id",
+		a.office_id AS "office.id",
+		a.login_name,
+		a. PASSWORD,
+		a. NO,
+		a. NAME,
+		a.email,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.remark,
+		a.login_flag,
+		a.photo_url,
+		a.del_flag,
+		c. NAME AS "company.name",
+		c. NAME AS "companyName",
+		c.parent_id AS "company.parent.id",
+		c.parent_ids AS "company.parentIds",
+		ca.id AS "company.area.id",
+		ca. NAME AS "company.area.name",
+		ca.parent_id AS "company.area.parent.id",
+		ca.parent_ids AS "company.area.parentIds",
+		o. NAME AS "office.name",
+		o. NAME AS "officeName",
+		o.parent_id AS "office.parent.id",
+		o.parent_ids AS "office.parentIds",
+		oa.id AS "office.area.id",
+		oa. NAME AS "office.area.name",
+		oa.parent_id AS "office.area.parent.id",
+		oa.parent_ids AS "office.area.parentIds",
+		cu.id AS "company.primaryPerson.id",
+		cu. NAME AS "company.primaryPerson.name",
+		cu2.id AS "company.deputyPerson.id",
+		cu2. NAME AS "company.deputyPerson.name",
+		ou.id AS "office.primaryPerson.id",
+		ou. NAME AS "office.primaryPerson.name",
+		ou2.id AS "office.deputyPerson.id",
+		ou2. NAME AS "office.deputyPerson.name"
+		FROM
+		sys_user a
+		LEFT JOIN sys_office c ON c.id = a.company_id
+		LEFT JOIN sys_area ca ON ca.id = c.area_id
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		LEFT JOIN sys_area oa ON oa.id = o.area_id
+		LEFT JOIN sys_user cu ON cu.id = c.primary_person
+		LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
+		LEFT JOIN sys_user ou ON ou.id = o.primary_person
+		LEFT JOIN sys_user ou2 ON ou2.id = o.deputy_person
+		WHERE a.id = #{id}
+	</select>
+
+	<!-- <select id="getUserList" resultMap="userResult" parameterType="com.fcst.boom.domain.User"> 
+		SELECT u.id, u.login_name, u.name, (select dict_name from sys_dictionary 
+		where dict_value= u.sex and dict_type='sex') as sex, DATE_FORMAT(u.birthday,'%Y-%m-%d 
+		%H:%i:%s') as birthday, u.mobile, (select dict_name from sys_dictionary where 
+		dict_value = u.sex and dict_type='user_status') as state, u.create_user AS 
+		createUser, DATE_FORMAT(u.create_date,'%Y-%m-%d %H:%i:%s') as createDate, 
+		u.photo_url, u.login_ip, u.remark, u.email, DATE_FORMAT(u.last_date,'%Y-%m-%d 
+		%H:%i:%s') as last_date, u.photo_name FROM sys_user u where 1=1 <if test="user.loginName!=null 
+		and user.loginName != ''"> and u.login_name = #{user.loginName} </if> order 
+		by u.create_date desc </select> -->
+
+	<select id="getUserList" parameterType="com.fcst.boom.domain.User"
+		resultType="com.fcst.boom.domain.User">
+		select
+		a.login_name AS "loginName",
+		a.id,
+		a.company_id AS "company.id",
+		a.office_id AS "office.id",
+		a.login_name,
+		a. PASSWORD,
+		a. NO,
+		a. NAME,
+		a.email,
+		a.mobile,
+		a.user_type,
+		a.login_ip,
+		a.login_flag,
+		a.create_date,
+		a.update_date,
+		a.del_flag,
+		c.name AS "company.name",
+		c.name AS "companyName",
+		c.parent_id AS "company.parent.id",
+		c.parent_ids AS "company.parentIds",
+		ca.id AS "company.area.id",
+		ca.name AS "company.area.name",
+		ca.parent_id AS "company.area.parent.id",
+		ca.parent_ids AS "company.area.parentIds",
+		o.name AS "office.name",
+		o.name AS "officeName",
+		o.parent_id AS "office.parent.id",
+		o.parent_ids AS "office.parentIds",
+		oa.id AS "office.area.id",
+		oa.name AS "office.area.name",
+		oa.parent_id AS "office.area.parent.id",
+		oa.parent_ids AS "office.area.parentIds",
+		cu.id AS "company.primaryPerson.id",
+		cu.name AS "company.primaryPerson.name",
+		cu2.id AS "company.deputyPerson.id",
+		cu2.name AS "company.deputyPerson.name",
+		ou.id AS "office.primaryPerson.id",
+		ou.name AS "office.primaryPerson.name",
+		ou2.id AS "office.deputyPerson.id",
+		ou2.name AS "office.deputyPerson.name"
+
+		FROM sys_user a
+		LEFT JOIN sys_office c ON c.id = a.company_id
+		LEFT JOIN sys_area ca ON
+		ca.id = c.area_id
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		LEFT JOIN
+		sys_area oa ON oa.id = o.area_id
+		LEFT JOIN sys_user cu ON cu.id =
+		c.primary_person
+		LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
+		LEFT JOIN sys_user ou ON ou.id = o.primary_person
+		LEFT JOIN sys_user
+		ou2 ON ou2.id = o.deputy_person
+
+		<if
+			test="user.role != null and user.role.id != null and user.role.id != ''">
+			JOIN sys_user_role ur ON ur.sys_user_id = a.id AND
+			ur.sys_role_id = #{user.role.id}
+		</if>
+
+		WHERE a.del_flag = #{user.DEL_FLAG_NORMAL}
+		<if
+			test="user.company != null and user.company.id != null and user.company.id != ''">
+			AND (c.id = #{user.company.id} OR c.parent_ids LIKE CONCAT('%,',
+			#{user.company.id}, ',%'))
+		</if>
+		<if
+			test="user.office != null and user.office.id != null and user.office.id != ''">
+			AND (o.id = #{user.office.id} OR o.parent_ids LIKE CONCAT('%,',
+			#{user.office.id}, ',%'))
+		</if>
+		<!-- 如果不是超级管理员，则不显示超级管理员用户  <if test="user.id !=1"> -->
+		<if test="!user.currentUser.admin">
+			AND a.id != '1'
+		</if>
+		<if test="user.loginName != null and user.loginName != ''">
+			AND a.login_name like CONCAT('%', #{user.loginName}, '%')
+		</if>
+		<if test="user.name != null and user.name != ''">
+			AND a.name like CONCAT('%', #{user.name}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${user.sqlMap.dsf}
+
+		ORDER BY c.code, o.code, a.name
+
+	</select>
+
 	<insert id="addUser" parameterType="com.fcst.boom.domain.User">
-		INSERT INTO sys_user (id,login_name,password,name,email,mobile,state,sex,birthday,create_user,create_date,update_user,update_date,remark,photo_url,photo_name) 
-		values (#{id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark},#{photoUrl},#{photoName})
+		INSERT INTO sys_user
+		(id,company_id,office_id,login_name,password,name,email,mobile,state,sex,birthday,create_user,create_date,update_user,update_date,remark,photo_url,photo_name,del_flag)
+		values
+		(#{id},#{company_id},#{office_id},#{loginName},#{password},#{name},#{email},#{mobile},'1',#{sex},#{birthday},#{createUser},#{createDate},#{createUser},#{createDate},#{remark},#{photoUrl},#{photoName},#{delFlag})
 	</insert>
-	
+
 	<insert id="addUserRole" parameterType="com.fcst.boom.domain.User">
-		INSERT INTO sys_user_role(sys_user_id,sys_role_id) VALUES (#{userId},#{roleId})
+		INSERT INTO
+		sys_user_role(sys_user_id,sys_role_id) VALUES (#{userId},#{roleId})
 	</insert>
-	
-	<select id="getUserById" resultMap="userResult">
-      SELECT
-	s.id,
-	s.login_name loginName,
-	s.name,
-	(select dict_name from sys_dictionary where dict_value= s.sex and dict_type='sex') as sex,
-    DATE_FORMAT(s.birthday,'%Y-%m-%d') as birthday,
-    s.mobile,
-    s.email
-      FROM
-	sys_user s
-      WHERE
-	s.id =  #{id}
+
+	<select id="getUserById" resultType="User">
+		SELECT
+		s.id,
+		s.login_name loginName,
+		s.name,
+		(select dict_name from sys_dictionary where dict_value= s.sex and
+		dict_type='sex') as sex,
+		DATE_FORMAT(s.birthday,'%Y-%m-%d') as birthday,
+		s.mobile,
+		s.email
+		FROM
+		sys_user s
+		WHERE
+		s.id = #{id}
 	</select>
-	
+
 	<update id="updateUser" parameterType="com.fcst.boom.dao.UserDao">
-		UPDATE sys_user 
+		UPDATE sys_user
 		<set>
 			<if test="name!=null and name != ''">
 				name=#{name},
@@ -91,27 +287,25 @@
 		</set>
 		where id=#{id}
 	</update>
-	
+
 	<delete id="deleteUser" parameterType="java.lang.String">
-		delete from sys_user where id=#{id}
+		delete from sys_user where
+		id=#{id}
 	</delete>
 	
-	<!-- shiro realm -->
-	<select id="getUserByUserByCode" parameterType="hashMap" resultMap="userResult">
-		select 	id,
-	login_name,
-	password,
-	name,
-	email,
-	mobile,
-	login_ip,
-	last_date,
-	create_date,
-	update_date,
-	bz,
-	state,
-	salt 
-	from sys_user where login_name = #{login_name}
-	</select>
-		
+	<!-- 删除用户和角色关联表数据 -->
+	<delete id="deleteUserRole">
+		DELETE FROM sys_user_role WHERE sys_user_id = #{id}
+	</delete>
+	
+	<!-- 插入用户和角色关联表数据 -->
+	<insert id="insertUserRole">
+		INSERT INTO sys_user_role(sys_user_id, sys_role_id)
+		<foreach collection="roleList" item="role" separator=" union all ">
+			SELECT #{id}, #{role.id} FROM dual
+		</foreach>
+	</insert>
+	
+	
+	
 </mapper>

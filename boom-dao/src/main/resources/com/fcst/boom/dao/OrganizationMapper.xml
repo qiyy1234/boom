@@ -5,11 +5,52 @@
 		<id property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="parentId" column="parent_id" />
+		<result property="parentIds" column="parent_ids" />
 		<result property="createUser" column="createUser" />
 		<result property="createDateStr" column="createDate" />
 		<result property="updateUser" column="updateUser" />
 		<result property="updateDateStr" column="updateDate" />
 	</resultMap>
+	
+    <sql id="officeColumns">
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_id AS "parentId",
+		a.parent_ids AS "parentIds",
+		a.area_id AS "area.id",
+		a.code,
+		a.name,
+		a.sort,
+		a.type,
+		a.grade,
+		a.address, 
+		a.zip_code, 
+		a.master, 
+		a.phone, 
+		a.fax, 
+		a.email, 
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		a.useable AS useable,
+		a.primary_person AS "primaryPerson.id",
+		a.deputy_person AS "deputyPerson.id",
+		p.name AS "parent.name",
+		ar.name AS "area.name",
+		ar.parent_ids AS "area.parentIds",
+		pp.name AS "primaryPerson.name",
+		dp.name AS "deputyPerson.name"
+	</sql>
+	
+	<sql id="officeJoins">
+		LEFT JOIN sys_office p ON p.id = a.parent_id
+		LEFT JOIN sys_area ar ON ar.id = a.area_id
+		LEFT JOIN SYS_USER pp ON pp.id = a.primary_person
+		LEFT JOIN SYS_USER dp ON dp.id = a.deputy_person
+    </sql>
   
   	<select id="getAllOrganizationList" resultMap="organizationResult"  parameterType="com.fcst.boom.domain.Organization">
 		SELECT 
@@ -72,5 +113,27 @@
 		select id,(select name from sys_organization where id = o.parent_id) parentOrgName,
 		name,code,grade,address,zip_code zipCode,master,phone,fax,email,remarks from sys_organization o where id = #{id}
 	</select>
+	
+	<select id="findList" resultType="Organization">
+		SELECT
+			<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		OR a.id = #{currentUser.office.id}
+		ORDER BY a.code
+	</select>
+	
+	<select id="findAllList" resultType="Organization">
+		SELECT
+			<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		ORDER BY a.code
+	</select>
+	
 		
 </mapper>

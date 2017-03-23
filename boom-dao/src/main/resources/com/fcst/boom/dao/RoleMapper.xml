@@ -2,14 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fcst.boom.dao.RoleDao" >
   <resultMap id="roleResult" type="Role">
-		<id property="id" column="id" />
+		  <id property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="enname" column="enname" />
+		<result property="roleType" column="roleType" />
+		<result property="dataScope" column="dataScope" />
+		<result property="remark" column="remark" />
+		<result property="useable" column="useable" />
 		<result property="createUser" column="createUser" />
 		<result property="createDateStr" column="createDate" />
 		<result property="updateUser" column="updateUser" />
 		<result property="updateDateStr" column="updateDate" />
-	</resultMap>
+		
+		<collection property="officeList" ofType="Office">
+		  <id property="id" column="officeList.id" />		
+		</collection>
+		
+		<collection property="menuList" ofType="Menu">
+			<id property="id" column="menuList.id" />
+		</collection>
+		
+  </resultMap>
+		
+	<select id="findList" resultMap="roleResult" >
+	  SELECT
+	a.id,
+	a.office_id AS "office.id",
+	a. NAME,
+	a.enname,
+	a.role_type AS roleType,
+	a.data_scope AS dataScope,
+	a.remark,
+	a.create_user AS "createBy.id",
+	a.create_date createDate,
+	a.update_user AS "updateBy.id",
+	a.update_date updateData,
+	a.del_flag AS "delFlag",
+	o. NAME AS "office.name",
+	o. CODE,
+	a.useable AS useable  ,
+	ro.office_id AS "officeList.id"
+		FROM sys_role a
+	      LEFT JOIN sys_office o ON o.id = a.office_id
+	      LEFT JOIN sys_user_role  ur ON   ur.sys_role_id = a.id
+	      LEFT JOIN sys_user u ON u.id = ur.sys_user_id
+	      LEFT JOIN sys_role_office ro ON ro.role_id = a.id
+		WHERE a.del_flag = "0" AND a.useable= "1" 
+ 		<if test="user != null and user.id != null and user.id != ''">
+			AND u.id = #{user.id}
+		</if>
+		<if test="user != null and user.loginName != null and user.loginName != ''">
+			AND u.login_name = #{user.loginName}
+		</if>
+			<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		ORDER BY o.code, a.name 
+	</select>
+	
+	<select id="findAllList" resultType="Role">
+		SELECT
+	a.id,
+	a.office_id AS "office.id",
+	a. NAME,
+	a.enname,
+	a.role_type AS roleType,
+	a.data_scope AS dataScope,
+	a.remark,
+	a.create_user AS "createBy.id",
+	a.create_date createDate,
+	a.update_user AS "updateBy.id",
+	a.update_date updateData,
+	a.del_flag AS "delFlag",
+	o. NAME AS "office.name",
+	o. CODE,
+	a.useable AS useable 
+		FROM sys_role a
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		ORDER BY o.code, a.name
+	</select>
   
   	<select id="getRoleList" resultMap="roleResult"  parameterType="com.fcst.boom.dao.RoleDao">
 		SELECT 
@@ -23,6 +93,7 @@
 			<if test="role.name!=null and role.name != ''">
 				and r.name = #{role.name}
 			</if>
+	<!-- 	  ${sqlMap.dsf} -->
 		order by r.create_date desc
 	</select>
 	
