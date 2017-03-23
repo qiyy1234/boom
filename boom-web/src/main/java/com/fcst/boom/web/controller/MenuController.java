@@ -56,6 +56,8 @@ public class MenuController {
 		Subject subject = SecurityUtils.getSubject();
 		User user = (User) subject.getPrincipal();
 	    System.err.println("------menu.do基础-----开始-----"+user.getName());
+	    
+	    
 		model.addAttribute("user", user);
 		System.err.println("------menu.do基础-----结束-----");
 	    return "/menu";
@@ -134,6 +136,7 @@ public class MenuController {
 				String jsonSt2r=JSON.toJSONString(menu);
 				
 			 System.out.println("-------- ---------- ------------"+jsonSt2r);
+			 
 		  if (user.isAdmin()){
 			menuService.saveMenu(menu);
 			result.put("msg", "保存成功");

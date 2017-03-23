@@ -82,8 +82,7 @@ public class RoleController {
 	public JsonResult selectRoleId(){
 		JsonResult result = new JsonResult();
 		try {
-			System.out.println("-------select------");
-			List roleList = roleService.findSelectRoleId();
+			List<?> roleList = roleService.findSelectRoleId();
 			if(roleList!=null){
 				result.put("data", roleList);
 			}else{

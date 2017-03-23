@@ -8,16 +8,15 @@ import java.util.List;
  * @author qiyy
  *
  */
-public class Organization extends BaseEntity<Object> implements Serializable {
+public class Office extends BaseEntity<Object> implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7336533771042458641L;
-	
 	private String id;      // 组织机构ID
 	private String parentId;// 组织机构父ID
-	private String parentIds; // 所有父级编号
+	private String parentIds;// 组织机构父ID
 	private String parentOrgName;//组织机构父名称
 	private String name; 	// 组织机构名称
 	private Integer sort;	// 排序
@@ -32,17 +31,26 @@ public class Organization extends BaseEntity<Object> implements Serializable {
 	private String email;	// 邮箱
 	private String remarks;//备注
 	private String delFlag;//删除标记
-	private String useable;//是否可用
 	
-	public static void sortList(List<Organization> list, List<Organization> sourcelist, String parentId, boolean cascade){
+	public Office(){
+		super();
+//		this.sort = 30;
+		this.type = "2";
+	}
+	
+	public Office(String id){
+		super(id);
+	}
+
+	public static void sortList(List<Office> list, List<Office> sourcelist, String parentId, boolean cascade){
 		for (int i=0; i<sourcelist.size(); i++){
-			Organization e = sourcelist.get(i);
+			Office e = sourcelist.get(i);
 			if (e.getParentId()!=null && e.getParentId().equals(parentId)){
 				list.add(e);
 				if (cascade){
 					// 判断是否还有子节点, 有则继续获取子节点
 					for (int j=0; j<sourcelist.size(); j++){
-						Organization child = sourcelist.get(j);
+						Office child = sourcelist.get(j);
 						if (child.getParentId()!=null && child.getParentId().equals(e.getId())){
 							sortList(list, sourcelist, e.getId(), true);
 							break;
@@ -162,12 +170,6 @@ public class Organization extends BaseEntity<Object> implements Serializable {
 	}
 	public void setParentIds(String parentIds) {
 		this.parentIds = parentIds;
-	}
-	public String getUseable() {
-		return useable;
-	}
-	public void setUseable(String useable) {
-		this.useable = useable;
 	}
 	
 	

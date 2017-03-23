@@ -48,4 +48,23 @@ public interface OrganizationDao {
 	 * @throws Exception
 	 */
 	public Organization getOrgById(String orgId) throws Exception;
+
+	/**
+	 * 查看机构 数据过滤
+	 * @param organization
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Organization> findList(Organization organization) throws Exception;
+
+	/**
+	 * 查看全部机构
+	 * @param organization
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Organization> findAllList(Organization organization) throws Exception;
+	
+	
+	
 }

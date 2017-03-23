@@ -75,6 +75,25 @@ public interface RoleDao {
 	 * @throws Exception
 	 */
 	public List findSelectRoleId() throws Exception;
+
+	/**
+	 * select
+	 * @param user 与 role 的共用体
+	 * -Custom 中调用 findList
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<Role> findList(Role role);
+
+	/**
+	 * select
+	 * @param user 与 role 的共用体
+	 * -Custom 中调用 findAllList
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<Role> findAllList(Role role);
+
 	
 	
 }

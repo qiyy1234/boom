@@ -4,11 +4,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.UnavailableSecurityManagerException;
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +28,12 @@ import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.common.page.PageUtils;
+import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
+import com.fcst.boom.service.RoleService;
 import com.fcst.boom.service.UserService;
+import com.fcst.boom.web.shiro.CustomRealm.Principal;
+import com.google.common.collect.Lists;
 
 /**
  * 用户管理Controller
@@ -35,6 +47,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private RoleService roleService;
+	
 	@Autowired  
     private HttpServletRequest request;  
 	
@@ -43,9 +58,65 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/index")
-    public String index() {
+    public String index(Model model , @ModelAttribute("user") User user , BindingResult result) {
+    /*	Subject subject = SecurityUtils.getSubject();
+		user = (User) subject.getPrincipal();
+		String id =  user.getId();*/
+		Principal principal = getPrincipal();
+		if (principal!=null){
+		    user = userService.getUser(principal.getId());
+		}
+		model.addAttribute("user", user);
+		model.addAttribute("allRoles", userService.findAllRole(principal.getId()));
         return "/user";
     }
+	
+	public static Principal getPrincipal(){
+		try{
+			Subject subject = SecurityUtils.getSubject();
+			Principal principal = (Principal)subject.getPrincipal();
+			if (principal != null){
+				return principal;
+			}
+//			subject.logout();
+		}catch (UnavailableSecurityManagerException e) {
+			
+		}catch (InvalidSessionException e){
+			
+		}
+		return null;
+	}
+	
+	/**
+	 * selectOfficeId
+	 * @return
+	 */
+	
+	@RequestMapping("/selectOfficeId")
+	@ResponseBody
+	public JsonResult selectOfficeId(User user, Model model){
+		JsonResult result = new JsonResult();
+		try {
+			// 这里会出现数据控制需要 selectOfficeId
+			Principal principal = getPrincipal();
+			user = userService.getUser(principal.getId());
+			if(user!=null){
+				result.put("companyId", user.getCompany().getId());
+				result.put("officeId", user.getOffice().getId());
+				result.put("companyName", user.getCompany().getName());
+				result.put("officeName", user.getOffice().getName());
+			}else{
+				result.put("data", "[]");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	
 	
 	/**
 	 * 查询所有用用
@@ -53,13 +124,14 @@ public class UserController {
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
-	public JsonResult list(User user){
+	public JsonResult list(User user, Model model){
 		JsonResult result = new JsonResult();
 		PageArg pageArg = PageUtils.getPageArg(user.getStart(), user.getLength());
 		PageList<User> userList = null; 
 		try {
-			System.out.println("----- --------"+user.getLoginName());
-			userList = userService.findUserPageList(user,pageArg);
+			// 这里会出现数据控制需要sql根据 role datascope 进行数据控制 ...
+			Principal principal = getPrincipal();
+			userList = userService.findList(user,pageArg,principal.getId());
 			if(userList!=null){
 				result.put("data", userList);
 				result.put("recordsTotal", userList.getTotalRow());
@@ -177,10 +249,6 @@ public class UserController {
 		return user;
 	}
 	
-	
-	
-	
-	
 	public void SaveFileFromInputStream(InputStream stream,String filepath) throws IOException
 	{      
 	       FileOutputStream fs=new FileOutputStream( filepath);
@@ -210,16 +278,24 @@ public class UserController {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public JsonResult add(@RequestBody User user){
+	public JsonResult add(@RequestBody User user, HttpServletRequest request, Model model){
 		JsonResult result = new JsonResult();
 		try {
+			Principal principal = getPrincipal();
 			user.setCreateUser("qiyy");
 			user.setCreateDate(new Date());
+			user.setDelFlag("0");
 			
+			// 角色数据有效性验证，过滤不在授权内的角色
+			List<Role> roleList = Lists.newArrayList();
+			List<String> roleIdList = user.getRoleIdLists();
+			for (Role r : roleService.findAllRole(principal.getId())){
+				if (roleIdList.contains(r.getId())){
+					roleList.add(r);
+				}
+			}
+			user.setRoleList(roleList);
 			userService.addUser(user);
-			
-			
-			
 			result.put("msg", "保存成功");
 			result.put("result", true);
 		} catch (Exception e) {

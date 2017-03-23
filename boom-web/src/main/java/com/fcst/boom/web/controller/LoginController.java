@@ -9,12 +9,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -24,12 +22,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.fcst.boom.common.Constant;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.MD5;
-import com.fcst.boom.domain.ActiveUser;
-import com.fcst.boom.domain.User;
+import com.fcst.boom.web.shiro.CustomRealm.Principal;
 
 @Controller
 @RequestMapping("/page")
@@ -37,13 +33,10 @@ public class LoginController {
 	
 	@RequestMapping("/login")
 	public String login(){
-		System.err.println("------login.do基础-----开始-----");
 		Subject currentUser = SecurityUtils.getSubject(); 
 		if(currentUser.getPrincipal()!=null){
-			System.err.println("------login.do基础---中间 判断 getPrincipal()! 空-----");
 			return "redirect:/index.do";
 		}
-		System.err.println("------login.do基础---中结束间-----");
 		return "login";
 	}
 	
@@ -51,34 +44,27 @@ public class LoginController {
 	@ResponseBody
 	public JsonResult validateLogin( Model model, HttpServletRequest request,HttpServletResponse response, Object handler, Exception ex){
 		JsonResult result = new JsonResult();
-		System.err.println("------validateLogin.do ----开始------");
-		//shiro管理的session
+		//Shiro 管理的session
 		Subject currentUser = SecurityUtils.getSubject();  
 		Session session = currentUser.getSession();
-		//获取session中的验证码
+		//获取Session 中的验证码
 		String validateCode = ((String)session.getAttribute(Constant.SESSION_VALIDATE_CODE)).toLowerCase();		
 		String randomcode=(request.getParameter("randomcode")).toLowerCase();
-		System.out.println("----validateCode-----"+validateCode);
-		System.out.println("----randomcode-----"+randomcode);
 		String password=request.getParameter("password");
 		String loginName=request.getParameter("loginName");
 		if(validateCode!=null&&randomcode!=null&&!validateCode.equals(randomcode)){			
 			/* ResponseUtils.renderJson(response, backSuccessJson("codeerror", "验证码输入错误"));	*/
 		        result.put("codeerror", "codeerror");
 		}else{
-			//shiro加入身份验证
-			System.err.println("------validateLogin.do --ELSE--------");
+			//Shiro 加入身份验证
 			Subject subject = SecurityUtils.getSubject(); 
 			String passwordMd5=new MD5().getMD5ofStr(password);
 		    UsernamePasswordToken token = new UsernamePasswordToken(loginName,password); 
 		    try { 
-				System.err.println("------validateLogin.do --验证--------");
 		        subject.login(token); 
-				System.err.println("------validateLogin.do --验证通过--------"+response);
 		        // ResponseUtils.renderJson(response, backSuccessJson("success", "登录成功")); 
 		        result.put("success", "success");
 		    } catch (AuthenticationException e) { 
-				System.err.println("------validateLogin.do --验证没有通过--------"+response);
 		    	//ResponseUtils.renderJson(response, backSuccessJson("usererror", "用户名或密码错误")); 
 		    	result.put("usererror", "usererror");
 		    }
@@ -109,9 +95,10 @@ public class LoginController {
 		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
 		model.addAttribute("activeUser", activeUser);*/
 		
-		User user = (User) subject.getPrincipal();
+/*		User user = (User) subject.getPrincipal();*/
+		Principal principal = (Principal) subject.getPrincipal();
 		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
-		model.addAttribute("user", user);
+		model.addAttribute("user", principal);
 		
 		System.err.println("------index.do基础-----结束-----");
 		return "index";

@@ -17,7 +17,8 @@ public interface UserDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public PageList<User> getUserList(@Param("user")User user,@Param("pageArg")PageArg pageArg) throws Exception;
+/*	public PageList<User> getUserList(@Param("user")User user,@Param("pageArg")PageArg pageArg) throws Exception;*/
+	public PageList<User> getUserList(@Param("user") User user ,@Param("pageArg") PageArg pageArg) throws Exception;
 	
 	/**
 	 * 添加用户
@@ -56,6 +57,24 @@ public interface UserDao {
 	 */
 	public void addUserRole(HashMap map);
 
+	/**
+	 * 根据code查询
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	public User getUserByUserByCode(String userCode);
+
+	/**
+	 * 根据id-查询用户信息
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public User getUser(String id);
+
+	public int deleteUserRole(User user);
+
+	public int insertUserRole(User user);
 
 }

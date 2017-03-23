@@ -69,7 +69,11 @@ public interface RoleService {
 	  * @return
 	  * @throws Exception
 	  */
-	public List findSelectRoleId() throws Exception;
+	public List<?> findSelectRoleId() throws Exception;
+
+	public List<Role> findList(Role role);
+
+	public List<Role> findAllRole(String id);
 	
 	
 	

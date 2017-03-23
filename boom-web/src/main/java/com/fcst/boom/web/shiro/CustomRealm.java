@@ -25,7 +25,7 @@ import com.fcst.boom.domain.User;
 import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.service.RoleService;
 import com.fcst.boom.service.UserService;
-
+import com.google.common.collect.Lists;
 
 public class CustomRealm extends AuthorizingRealm{
 	
@@ -36,18 +36,16 @@ public class CustomRealm extends AuthorizingRealm{
 	@Autowired
 	private PermissionService permissionService;
 	
-	// shiro -realm 设定名称;
 	@Override
 	public void setName(String name) {
 		super.setName("customRealm");
 	}
 	
-	// shiro realm的认证方法，从数据库查询用户信息;
+	//Shiro realm 的认证方法，从数据库查询用户信息;
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
 		String userCode = (String) token.getPrincipal();
-		System.err.println("------realm.do 验证开始----------"+userCode);
 		User user=null;
 		try {
 			user=userService.getUserByUsername(userCode);
@@ -59,8 +57,6 @@ public class CustomRealm extends AuthorizingRealm{
 			return null;
 		}
 		String password=user.getPassword();
-		//String salt=user.getSalt();
-		
 		ActiveUser activeUser=new ActiveUser();
 		  activeUser.setUserid(user.getId());
 		  activeUser.setName(user.getName());
@@ -74,8 +70,9 @@ public class CustomRealm extends AuthorizingRealm{
 			e.printStackTrace();
 		}
 		activeUser.setMenus(menus);
+		user.setMenus(menus);
 		
-		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, password, this.getName());
+		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(new Principal(user), password, this.getName());
 		System.err.println("------realm.do 验证结束---------");
 		return simpleAuthenticationInfo;
 	}
@@ -136,13 +133,14 @@ public class CustomRealm extends AuthorizingRealm{
 		private String id;           // 编号
 		private String loginName;    // 登录名
 		private String name;         // 姓名
+		private List<Permission> menus = Lists.newArrayList();//菜单
 		private boolean mobileLogin; // 是否手机登录
 		
-		public Principal(User user, boolean mobileLogin) {
+		public Principal(User user) {
 			this.id = user.getId();
 			this.loginName = user.getLoginName();
 			this.name = user.getName();
-			this.mobileLogin = mobileLogin;
+			this.menus = user.getMenus();
 		}
 		
 		
@@ -170,6 +168,12 @@ public class CustomRealm extends AuthorizingRealm{
 		}
 		public void setMobileLogin(boolean mobileLogin) {
 			this.mobileLogin = mobileLogin;
+		}
+		public List<Permission> getMenus() {
+			return menus;
+		}
+		public void setMenus(List<Permission> menus) {
+			this.menus = menus;
 		}
 		
 		

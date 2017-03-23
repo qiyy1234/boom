@@ -1,7 +1,10 @@
 package com.fcst.boom.service;
 
+import java.util.List;
+
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
+import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
 
 public interface UserService {
@@ -53,6 +56,19 @@ public interface UserService {
 	  * @throws Exception
 	  */
 	 public User getUserByUsername(String userCode);
+
+	 /**
+	  * 根据用户查询
+	  * @param Custom
+	  * @return
+	  * @throws Exception
+	  */
+	 public PageList<User> findList(User user,PageArg pageArg,String id) throws Exception ;
+
+	public List<Role> findAllRole(String id);
+
+	public User getUser(String id);
+
 	 
 
 }

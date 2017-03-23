@@ -47,6 +47,23 @@ public interface OrganizationService {
 	  * @throws Exception
 	  */
 	 public int deleteOrganization(String orgId) throws Exception;
+	 
+	 /**
+	  * 查询全部公司
+	  * @param roleId
+	  * @return
+	  * @throws Exception
+	  */
+	 public List<Organization> findAllList(Boolean isAll );
+
+	 /**
+	  * 查询过滤公司
+	  * @param roleId
+	  * @return
+	  * @throws Exception
+	  */
+	 public List<Organization> findList(Boolean isAll ,String id);
+
 
 	
 	

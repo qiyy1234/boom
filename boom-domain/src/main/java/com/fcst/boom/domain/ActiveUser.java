@@ -3,19 +3,40 @@ package com.fcst.boom.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class ActiveUser extends BaseEntity  implements Serializable{
+import com.google.common.collect.Lists;
+
+public class ActiveUser extends BaseEntity<Object>  implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String userid;  //账号ID
-	private String usercode;//账号
-	private String name;    //用户名称
-	private String sceneid;
-	private List<Permission> menus;//菜单
-	private List<Permission> permissions;//权限
-		
+	private String userid;   //账号ID
+	private String usercode; //账号
+	private String name;     //用户名称
+	private String sceneid;  //用户标示ID
+	private Role role;
+	
+	private List<Permission> menus = Lists.newArrayList();//菜单
+	private List<Permission> permissions = Lists.newArrayList();//权限
+	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表(custom用)
+	
+	public boolean isAdmin(){
+		return isAdmin(this.userid);
+	}
+	
+	public static boolean isAdmin(String userid){
+		return userid != null && "1".equals(userid);
+	}
+	
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
+
 	public String getSceneid() {
 		return sceneid;
 	}
@@ -52,12 +73,13 @@ public class ActiveUser extends BaseEntity  implements Serializable{
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
 	}
-	public boolean isAdmin(){
-		return isAdmin(this.userid);
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
-	public static boolean isAdmin(String userid){
-		return userid != null && "1".equals(userid);
-	}
+
 	
 }
