@@ -140,12 +140,13 @@ Purchase: http://wrapbootstrap.com
 							<div class="widget-body">
 								<table width="100%">
 									<tr>
-										<td>登录名：<input type="text" name="loginName"
-											id="loginName"></td>
+										<td>登录名：<input type="text" name="loginName" id="loginName">
+										</td>
 										<td align="right"><a href="#" class="btn btn-blue btn-sm"
 											onclick="findUserList()">查询</a>&nbsp; <a href="#"
 											class="btn btn-blue btn-sm" data-toggle="modal"
-											data-target="#addUserDiv" onClick="addRoleReady();addOfficeReady();">添加</a></td>
+											data-target="#addUserDiv" onClick="addRoleReady();addOfficeReady();">添加</a>
+										</td>
 									</tr>
 								</table>
 								<br>
@@ -241,7 +242,7 @@ Purchase: http://wrapbootstrap.com
 				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
 				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTreeDept('parentTreeDept','parentTreeSelcDept','parentIdDept','orgNameDept')>确定</a>&nbsp;
 													<a align='right' class='btn btn-blue btn-xs'
-													onclick=clearZtree('orgNameDept','parent_id','parentTreeSelcDept')>清除</a>
+													onclick=clearZtree('orgNameDept','parentIdDept','parentTreeSelcDept')>清除</a>
 												</p>
 											</div>
 											"data-original-title="" title=""> GoTo </a> <input type="text"
@@ -346,7 +347,7 @@ Purchase: http://wrapbootstrap.com
 
 									<div class="col-sm-6">
 										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right">邮箱：</label>
+											<label class="col-sm-3 control-label no-padding-right">EMAIL：</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control" id="add_user_email"
 													name="email" />
@@ -433,6 +434,66 @@ Purchase: http://wrapbootstrap.com
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
 							<form class="form-horizontal" role="form" id="updateUserForm">
+							
+							<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-4 control-label no-padding-right">归属公司：</label>
+											<div class="col-sm-6">
+												<div class="input-group date date col-sm-16">
+													<input class="form-control" id="upDateOrgName" type="text"
+														value="" readonly> <span class="input-group-btn">
+														<a href="javascript:void(0);" id="updateParentTreeSelcCompany"
+														class="btn btn-default popover1" data-container="body"
+														data-titleclass="bordered-blue" data-toggle="popover"
+														data-placement="bottom" data-title="选择所属公司"
+														data-content="<div class='popover1 widget-body'>
+				                                   <ul id='parentTree' class='popover1 ztree'></ul>
+				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTree('parentTree','updateParentTreeSelcCompany','update_parent_id','upDateOrgName')>确定</a>&nbsp;
+														<a align='right' class='btn btn-blue btn-xs'
+														onclick=clearZtree('upDateOrgName','update_parent_id','updateParentTreeSelcCompany')>清除</a>
+													</p>
+												</div>
+												" data-original-title="" title=""> GoTo </a> 
+												<input type="text" id="update_parent_id" name="company_id" /> </span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							    <div class="col-sm-6">
+									<div class="form-group">
+										<label class="col-sm-4 control-label no-padding-right">归属部门：</label>
+										<div class="col-sm-6">
+											<div class="input-group date date col-sm-16">
+												<input class="form-control" id="upDateOrgNameDept" type="text"
+													value="" readonly> <span class="input-group-btn">
+													<a href="javascript:void(0);" id="updateParentTreeSelcDept"
+													class="btn btn-default popover1" data-container="body"
+													data-titleclass="bordered-blue" data-toggle="popover"
+													data-placement="bottom" data-title="选择所属部门"
+													data-content="<div class='popover1 widget-body'>
+				                                   <ul id='parentTreeDept' class='popover1 ztree'></ul>
+				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTreeDept('parentTreeDept','updateParentTreeSelcDept','update_parentIdDept','upDateOrgNameDept')>确定</a>&nbsp;
+													<a align='right' class='btn btn-blue btn-xs'
+													onclick=clearZtree('upDateOrgNameDept','update_parentIdDept','upDateOrgNameDept')>清除</a>
+												</p>
+											</div>
+											"data-original-title="" title=""> GoTo </a> <input type="text"
+												id="update_parentIdDept" name="office_id" /> </span>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+
+						</div>
+								
 								<div class="form-group">
 									<label class="col-sm-2 control-label no-padding-right">用户名称：</label>
 									<div class="col-sm-9">
@@ -449,7 +510,7 @@ Purchase: http://wrapbootstrap.com
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-2 control-label no-padding-right">移动-电话：</label>
+									<label class="col-sm-2 control-label no-padding-right">电话(mobile)：</label>
 									<div class="col-sm-9">
 										<input type="text" class="form-control"
 											id="update_user_mobile" name="mobile" />
@@ -653,7 +714,7 @@ var setting = {
 
 function zTreeOnDblClick(event, treeId, treeNode) {
 	
-   alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked); 
+/*    alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked);  */
   
 }
 
@@ -682,9 +743,8 @@ function addRoleReady(){
 	         		for(var ob in List){ //第二层循环取list中的对象 
 	         		  html += "<option value='" + List[ob ].id + "'>" + List[ob ].name + "</option>";
 	         		  
-	         		} 
-	         		} 
-	         	
+	         		     } 
+	         		   } 
 	        	    }   
 		            else { 
 		                html = "<option>网络异常</option>";  
@@ -990,6 +1050,22 @@ $('.form_date').datetimepicker({
 			}); 
 	    });
  
+ $("#updateParentTreeSelcCompany").click(function(){
+	 var treeId = 'parentTree';
+		$.ajax({
+			type:"post",
+			url:basePath+"rest/boom/organization/treeData?type=1",
+		    success:function(resultData){
+			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		
+			  	var zTreeNodes = eval(zTreeNodess);
+		
+				$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
+				zTree = $.fn.zTree.getZTreeObj(treeId);
+				},
+			}); 
+	    });
+ 
  $("#parentTreeSelcDept").click(function(){
 	 var treeId = 'parentTreeDept';
 		$.ajax({
@@ -1006,6 +1082,21 @@ $('.form_date').datetimepicker({
 			}); 
 	    });
  
+ $("#updateParentTreeSelcDept").click(function(){
+	 var treeId = 'parentTreeDept';
+		$.ajax({
+			type:"post",
+			url:basePath+"rest/boom/organization/treeData?type=2",
+		    success:function(resultData){
+			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		
+			  	var zTreeNodes = eval(zTreeNodess);
+	
+				$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
+				zTree = $.fn.zTree.getZTreeObj(treeId);
+				},
+			}); 
+	    });
  
  $("#parentTreeSelc").click(function(){
 	 	getAllOrgList('parentTree');
@@ -1046,16 +1137,71 @@ $('.form_date').datetimepicker({
 		
  function beforeClickSelect(treeId, treeNode){
 			var id = treeNode.id == '0' ? '' :treeNode.id;
-			alert(id);		alert(treeNode.name);
-/* 			$('#iframeId').attr("src",basePath+"/rest/boom/user/list?office.id="+id+"&office.name="+treeNode.name);  */
-		/* 	oTableInitiateUser.fnDraw();  */
-			
-			oTableInitiateUser.fnDestroy();
+			 $('#userdatatable').dataTable({
+				    "destroy":true,
+	                "sDom": "t<'row DTTTFooter'<'col-sm-6'i><'col-sm-6'p>>",
+	                "language": {
+	                    url: basePath+'resources/assets/internation/message_zh_CN.txt'
+	                },
+	                //自动列宽
+	                "bAutoWidth": false,
+	                //加载数据时显示正在加载信息
+	                "bProcessing": true,
+	                //分页
+	                "paging": true,
+	                //从服务器处理分页
+	                "bServerSide": true,
+	                //查询请求action url
+	                "ajax": {
+	                    "url": basePath+"/rest/boom/user/list?office.id="+id+"&office.name="+treeNode.name,
+	                    "dataSrc": "data",
+	                    "data": function ( d ) {
+	                    	//查询条件
+	                    	d.loginName = $("#loginName").val();
+	                    }
+	                },
+	                //本地搜索
+	                "searching": false,
+	                //每页显示多少条数据
+	                "lengthChange":false,
+	                //每页显示数量：5条记录
+	                "iDisplayLength": 5,
+	                "columns": [
+	                    {"data": "id"},
+	                    {"data": "companyName"},
+	                    {"data": "officeName"},
+	                    {"data": "name"},
+	                    {"data": "sex"},
+	                    {"data": "mobile"},
+	                    {"data": "state"},
+	                    {"data": "id"}
+	                ],
+	                "columnDefs": [
+						{
+						    "targets": 0,
+						    "render": function ( data, type, full, meta ) {
+						        return '<i class="fa fa-plus-square-o row-details"></i>';
+						    }
+						},
+	                    {
+	                        "targets": 7,
+	                        "render": function ( data, type, full, meta ) {
+	                        	var operation = '<a href="#" class="btn btn-success btn-sm" onclick="goUpdateRole(\''+full.id+'\');"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
+	                            '<a href="#" class="btn btn-danger btn-sm" onclick="deleteUser(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
+	                        	return operation;
+	                        }
+	                    }
+	                ],
+	                //排序
+	                "sort":false,
+	                "aaSorting": [],
+	            });
+ 			
 	}
  
  function zTreeOnDblClickSelect(event, treeId, treeNode) {
 		
-	   alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked); 
+/* 	   alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked); */ 
 	  
 	}
  
@@ -1090,6 +1236,42 @@ $('.form_date').datetimepicker({
 	    $("#"+ahrefId).click();
 	}
  
+ function goUpdateRole(userId){
+	 $.ajax({
+		  url: basePath+"rest/boom/user/detail?timestamp="+Date.parse(new Date()),
+		  data: {"userId":userId},
+		  success: function(resultData){
+			  $("#update_user_id").val(resultData.id);
+			  $("#update_user_name").val(resultData.name);
+			  $("#update_user_loginName").val(resultData.loginName);
+			  $("#update_user_mobile").val(resultData.mobile);
+			  $("#update_user_email").val(resultData.email);
+			  $("#upDateOrgName").val(resultData.companyName);
+			  $("#upDateOrgNameDept").val(resultData.officeName);
+			  $("#update_parent_id").val(resultData.company.id);
+			  $("#update_parentIdDept").val(resultData.office.id);
+		  },
+		  dataType: "json",
+		});
+	$('#userUpdateDiv').modal();
+ }
+ 
+ function detailUser(id){
+		$.ajax({
+			  url: basePath+"rest/boom/user/detail?timestamp="+Date.parse(new Date()),
+			  data: {"userId":id},
+			  success: function(resultData){
+				  $("#detail_user_name").val(resultData.name);
+				  $("#detail_user_loginName").val(resultData.loginName);
+				  $("#detail_user_sex").val(resultData.sex);
+				  $("#detail_user_birthday").val(resultData.birthday);
+				  $("#detail_user_mobile").val(resultData.mobile);
+				  $("#detail_user_email").val(resultData.email);
+			  },
+			  dataType: "json",
+			});
+		$('#userDetailDiv').modal();
+	}
 
 </script>
 

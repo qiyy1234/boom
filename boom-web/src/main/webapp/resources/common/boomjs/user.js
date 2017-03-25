@@ -55,8 +55,7 @@ var InitiateUserDataTable = function () {
                     {
                         "targets": 7,
                         "render": function ( data, type, full, meta ) {
-                        	var operation = '<a href="#" class="btn btn-blue btn-sm" onclick="detailUser(\''+full.id+'\')"><i class="fa fa-search-plus"></i>查看</a>&nbsp;'+
-                            '<a href="#" class="btn btn-success btn-sm" onclick="goUpdateRole(\''+full.id+'\');"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
+                        	var operation ='<a href="#" class="btn btn-success btn-sm" onclick="goUpdateRole(\''+full.id+'\');"><i class="fa fa-edit"></i>修改</a>&nbsp;'+
                             '<a href="#" class="btn btn-danger btn-sm" onclick="deleteUser(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
                         	return operation;
                         }
@@ -88,29 +87,12 @@ function fnFormatDetails(oTable, nTr) {
     var aData = oTable.fnGetData(nTr);
     var sOut = '<table>';
     sOut += '<tr><td rowspan="5" style="padding:0 10px 0 0;"><img width="120px" height="160px" src="'+basePath+'resources/fileupload/' + aData.photoName + '"/></td><td>登录名:</td><td>' + aData.loginName + '</td><td>姓名:</td><td>' + aData.name + '</td></tr>';
-    sOut += '<tr><td>性别:</td><td>' + aData.sex + '</td><td>出生日期1:</td><td>'+ aData.birthday +'</td></tr>';
+    sOut += '<tr><td>性别:</td><td>' + aData.sex + '</td><td>出生日期:</td><td>'+ aData.birthday +'</td></tr>';
     sOut += '<tr><td>邮箱:</td><td>'+ aData.email +'</td><td>状态:</td><td>'+ aData.state +'</td></tr>';
     sOut += '<tr><td>手机:</td><td>'+ aData.mobile +'</td><td>备注:</td><td>'+ aData.remark +'</td></tr>';
     sOut += '<tr><td>登录ip:</td><td>'+ aData.loginIp +'</td><td>最近登录时间:</td><td>'+ aData.lastDate +'</td></tr>';
     sOut += '</table>';
     return sOut;
-}
-
-function detailUser(id){
-	$.ajax({
-		  url: basePath+"rest/boom/user/detail?timestamp="+Date.parse(new Date()),
-		  data: {"userId":id},
-		  success: function(resultData){
-			  $("#detail_user_name").val(resultData.name);
-			  $("#detail_user_loginName").val(resultData.loginName);
-			  $("#detail_user_sex").val(resultData.sex);
-			  $("#detail_user_birthday").val(resultData.birthday);
-			  $("#detail_user_mobile").val(resultData.mobile);
-			  $("#detail_user_email").val(resultData.email);
-		  },
-		  dataType: "json"
-		});
-	$('#userDetailDiv').modal();
 }
 
 function deleteUser(id){
@@ -127,24 +109,9 @@ function deleteUser(id){
 	});
 }
 
-function goUpdateRole(userId){
-	$.ajax({
-		  url: basePath+"rest/boom/user/detail?timestamp="+Date.parse(new Date()),
-		  data: {"userId":userId},
-		  success: function(resultData){
-			  $("#update_user_id").val(resultData.id);
-			  $("#update_user_name").val(resultData.name);
-			  $("#update_user_loginName").val(resultData.loginName);
-			  $("#update_user_mobile").val(resultData.mobile);
-			  $("#update_user_email").val(resultData.email);
-		  },
-		  dataType: "json"
-		});
-	$('#userUpdateDiv').modal();
-}
-
 function updateUser(){
 	var formData=JSON.stringify($('#updateUserForm').serializeObject());
+	alert(formData);
 	$.ajax({
 		type:"post",
 		url:basePath+"rest/boom/user/update",
