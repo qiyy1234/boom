@@ -2,10 +2,8 @@ package com.fcst.boom.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
@@ -32,9 +30,19 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public PageList<Role> findRolePageList(Role role,PageArg pageArg) throws Exception {
-		PageList<Role> result = roleDao.getRoleList(role,pageArg);
-		return result;
+	public PageList<Role> findRolePageList(Role role ,PageArg pageArg ,String id) throws Exception {
+		   User user = new User();
+		   user.setId(id);
+		   user.setCurrentUser(userDao.getUser(id));
+		   List<Role> roleList =null;
+		   if (user.isAdmin()){
+				roleList = roleDao.findAllRoleList(role ,pageArg);
+			}else{
+				role.getSqlMap().put("dsf", dataScopeFilter(user.getCurrentUser(), "o", "u"));
+				roleList = roleDao.findRoleList(role ,pageArg);
+			}
+		
+		return (PageList<Role>) roleList;
 	}
 	
 	@Override
@@ -93,7 +101,7 @@ public class RoleServiceImpl implements RoleService {
 	    User user = new User();
 	    user.setCurrentUser(userDao.getUser(id));
 		user.setId(id);
-		user.getCurrentUser().setRoleList(roleDao.findList(new Role(user)));
+		user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
 		user.getSqlMap().put("dsf", dataScopeFilter(user.getCurrentUser(), "o", "a"));
 	  
 	      if (user.isAdmin()){

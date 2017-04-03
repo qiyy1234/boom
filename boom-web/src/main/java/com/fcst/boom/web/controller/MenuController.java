@@ -5,11 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.fastjson.JSON;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -24,6 +21,8 @@ import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.domain.Menu;
 import com.fcst.boom.domain.User;
 import com.fcst.boom.service.MenuService;
+import com.fcst.boom.service.UserService;
+import com.fcst.boom.web.shiro.CustomRealm.Principal;
 
 /**
  * 菜单管理controller
@@ -36,6 +35,9 @@ public class MenuController {
 	
 	@Autowired
 	private MenuService menuService;
+	
+	@Autowired
+	private UserService userService;
 
 	public MenuService getMenuService() {
 		return menuService;
@@ -45,34 +47,46 @@ public class MenuController {
 		this.menuService = menuService;
 	}
 	
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
 	/**
 	 * 进入菜单管理页面
 	 * @return
 	 */
 	@RequestMapping("/index")
-	public String index(Model model) {
-		
-		System.err.println("------menu.do基础-----开始-----");
+	public String index(Model model , User user) {
 		Subject subject = SecurityUtils.getSubject();
-		User user = (User) subject.getPrincipal();
-	    System.err.println("------menu.do基础-----开始-----"+user.getName());
-	    
-	    
-		model.addAttribute("user", user);
-		System.err.println("------menu.do基础-----结束-----");
+		Principal principal = (Principal)subject.getPrincipal();
+		if (principal!=null){
+		    user = userService.getUser(principal.getId());
+		}
+		model.addAttribute("user", user );
 	    return "/menu";
 	}
 	
 	@RequestMapping("/list")
 	@ResponseBody
-	public JsonResult list(){
+	public JsonResult list(User user){
 		JsonResult result = new JsonResult();
+/*		Subject subject = SecurityUtils.getSubject();
+		User user = (User) subject.getPrincipal();*/
 		
 		Subject subject = SecurityUtils.getSubject();
-		User user = (User) subject.getPrincipal();
+		Principal principal = (Principal)subject.getPrincipal();
+		if (principal!=null){
+	        user = userService.getUser(principal.getId());
+		}
+		
 		List<Menu> list = new ArrayList<Menu>();
 		List<Menu> sourcelist = null;
-		 if (user.isAdmin()){
+
+		if (user.isAdmin()){
 				sourcelist = menuService.findAllList(new Menu());
 				
 				String jsonSt1r=JSON.toJSONString(sourcelist);
@@ -101,10 +115,17 @@ public class MenuController {
 	 */
 	@RequestMapping("/powerMenuDG")
 	@ResponseBody
-	public JsonResult powerMenuDG(){
+	public JsonResult powerMenuDG(User user){
 		JsonResult result = new JsonResult();
+/*		Subject subject = SecurityUtils.getSubject();
+		User user = (User) subject.getPrincipal();*/
+		
 		Subject subject = SecurityUtils.getSubject();
-		User user = (User) subject.getPrincipal();
+		Principal principal = (Principal)subject.getPrincipal();
+		if (principal!=null){
+	        user = userService.getUser(principal.getId());
+		}
+		
 		List<Menu> sourceList = null;
 		 if (user.isAdmin()){
 			    sourceList = menuService.findAllList(new Menu());
@@ -120,12 +141,18 @@ public class MenuController {
 	
 	@RequestMapping("/saveMenu")
 	@ResponseBody
-	public JsonResult saveMenu(@RequestBody Menu menu){
+	public JsonResult saveMenu(@RequestBody Menu menu,User user){
 		JsonResult result = new JsonResult();
 		try {
 			// 这里可以写一获取时间与人物的构造方法
-			Subject subject = SecurityUtils.getSubject();
-			 User user = (User) subject.getPrincipal();
+	/*		Subject subject = SecurityUtils.getSubject();
+			 User user = (User) subject.getPrincipal();*/
+			 
+			 Subject subject = SecurityUtils.getSubject();
+			 Principal principal = (Principal)subject.getPrincipal();
+			 if (principal!=null){
+			    user = userService.getUser(principal.getId());
+			 }
 			 menu.setCreateBy(user.getId());
 			 menu.setUpdateDy(user.getId());
 			 menu.setCreateDate(new Date());
@@ -156,12 +183,19 @@ public class MenuController {
 	
 	@RequestMapping("/updateMenu")
 	@ResponseBody
-	public JsonResult updateMenu(@RequestBody Menu menu, Model model){
+	public JsonResult updateMenu(@RequestBody Menu menu, Model model, User user){
 		JsonResult result = new JsonResult();
 		try {
 			// 这里可以写一获取时间与人物的构造方法
+/*			Subject subject = SecurityUtils.getSubject();
+			User user = (User) subject.getPrincipal();*/
+			
 			Subject subject = SecurityUtils.getSubject();
-			User user = (User) subject.getPrincipal();
+			Principal principal = (Principal)subject.getPrincipal();
+			if (principal!=null){
+		        user = userService.getUser(principal.getId());
+			}
+			
 			menu.setCreateBy(user.getId());
 			menu.setUpdateDy(user.getId());
 			menu.setCreateDate(new Date());
@@ -232,11 +266,16 @@ public class MenuController {
 	 */
 	@RequestMapping(value = "upPowerMenuDG")
 	@ResponseBody
-	public List<Map<String, Object>> upPowerMenuDG(@RequestParam(required=false) String extId,@RequestParam(required=false) String isShowHide, HttpServletResponse response) {
-		System.out.println("--- 1 --- boom---"+extId);
-		System.out.println("--- 1 --- boom---"+isShowHide);
+	public List<Map<String, Object>> upPowerMenuDG(@RequestParam(required=false) String extId,@RequestParam(required=false) 
+	         String isShowHide, HttpServletResponse response, User user) {
+/*		Subject subject = SecurityUtils.getSubject();
+		User user = (User) subject.getPrincipal();*/
+		
 		Subject subject = SecurityUtils.getSubject();
-		User user = (User) subject.getPrincipal();
+		Principal principal = (Principal)subject.getPrincipal();
+		if (principal!=null){
+	        user = userService.getUser(principal.getId());
+		}
 		
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		List<Menu> list = null;

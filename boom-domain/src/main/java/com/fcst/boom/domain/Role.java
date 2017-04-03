@@ -20,8 +20,9 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	private String oldEnname;	// 原英文名称
 	private String sysData;     // 是否是系统数据
 	private String useable;     // 是否是可用
-	private String delFlag;
-	
+	private String delFlag;     // 是否显示
+	private String create_date; // 创建时间
+	private String create_user; // 创建人
 	
 	private Organization office;// 归属机构
 	
@@ -37,7 +38,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	}
 	
 	public Role(User user) {
-		super();
+		this();
 		this.user = user;
 	}
 
@@ -56,7 +57,6 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	public String getDelFlag() {
 		return delFlag;
 	}
-
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
 	}
@@ -137,6 +137,18 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	}
 	public void setEnname(String enname) {
 		this.enname = enname;
+	}
+	public String getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
+	}
+	public String getCreate_user() {
+		return create_user;
+	}
+	public void setCreate_user(String create_user) {
+		this.create_user = create_user;
 	}
 	
 	

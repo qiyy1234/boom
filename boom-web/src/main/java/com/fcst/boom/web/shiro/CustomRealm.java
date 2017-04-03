@@ -49,7 +49,8 @@ public class CustomRealm extends AuthorizingRealm{
 		User user=null;
 		try {
 			user=userService.getUserByUsername(userCode);
-			user.setRoleList(roleService.findList(new Role(user)));
+			System.out.println("----------------------------");
+			user.setRoleList(roleService.findList(new Role()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,7 +58,7 @@ public class CustomRealm extends AuthorizingRealm{
 			return null;
 		}
 		String password=user.getPassword();
-		ActiveUser activeUser=new ActiveUser();
+		  ActiveUser activeUser=new ActiveUser();
 		  activeUser.setUserid(user.getId());
 		  activeUser.setName(user.getName());
 		  activeUser.setUsercode(user.getLoginName());

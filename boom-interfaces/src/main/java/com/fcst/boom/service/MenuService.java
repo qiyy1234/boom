@@ -26,6 +26,9 @@ public interface MenuService {
 	public void updateMenu(Menu menu);
 
 	public int deleteMenu(String menuId);
+
+	// role 接口 List
+	public List<Menu> findAllMenu(Menu menu);
 	
 
 }

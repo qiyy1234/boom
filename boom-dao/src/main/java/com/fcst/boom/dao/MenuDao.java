@@ -37,6 +37,8 @@ public interface MenuDao {
 	public void updateParentIds(Menu e);
 
 	public int delete(String menuId);
+
+	public List<Menu> findAllList(Menu menu);
 	
 	
 }

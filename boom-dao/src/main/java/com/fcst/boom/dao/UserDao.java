@@ -17,7 +17,6 @@ public interface UserDao {
 	 * @return
 	 * @throws Exception
 	 */
-/*	public PageList<User> getUserList(@Param("user")User user,@Param("pageArg")PageArg pageArg) throws Exception;*/
 	public PageList<User> getUserList(@Param("user") User user ,@Param("pageArg") PageArg pageArg) throws Exception;
 	
 	/**

@@ -59,9 +59,6 @@ public class UserController {
 	 */
 	@RequestMapping("/index")
     public String index(Model model , @ModelAttribute("user") User user , BindingResult result) {
-    /*	Subject subject = SecurityUtils.getSubject();
-		user = (User) subject.getPrincipal();
-		String id =  user.getId();*/
 		Principal principal = getPrincipal();
 		if (principal!=null){
 		    user = userService.getUser(principal.getId());
@@ -78,7 +75,6 @@ public class UserController {
 			if (principal != null){
 				return principal;
 			}
-//			subject.logout();
 		}catch (UnavailableSecurityManagerException e) {
 			
 		}catch (InvalidSessionException e){

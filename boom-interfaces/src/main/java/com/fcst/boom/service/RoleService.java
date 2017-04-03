@@ -14,7 +14,7 @@ public interface RoleService {
 	 * @return
 	 * @throws Exception
 	 */
-	 public PageList<Role> findRolePageList(Role role,PageArg pageArg) throws Exception;
+	 public PageList<Role> findRolePageList(Role role ,PageArg pageArg ,String id) throws Exception;
 	 
 	 /**
 	  * 添加角色

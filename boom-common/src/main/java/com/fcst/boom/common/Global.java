@@ -3,11 +3,11 @@
  */
 package com.fcst.boom.common;
 
-import java.io.File;
+/*import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.DefaultResourceLoader;*/
 
 /**
  * 全局配置类
@@ -67,39 +67,39 @@ public class Global {
 	/**
 	 * 获取管理端根路径
 	 */
-	public static String getAdminPath() {
-		return getConfig("adminPath");
-	}
+/*	public static String getAdminPath() {
+		return getConst("adminPath");
+	}*/
 	
 	/**
 	 * 获取前端根路径
 	 */
-	public static String getFrontPath() {
-		return getConfig("frontPath");
-	}
+/*	public static String getFrontPath() {
+		return getConst("frontPath");
+	}*/
 	
 	/**
 	 * 获取URL后缀
 	 */
-	public static String getUrlSuffix() {
-		return getConfig("urlSuffix");
-	}
+/*	public static String getUrlSuffix() {
+		return getConst("urlSuffix");
+	}*/
 	
 	/**
 	 * 是否是演示模式，演示模式下不能修改用户、角色、密码、菜单、授权
 	 */
-	public static Boolean isDemoMode() {
-		String dm = getConfig("demoMode");
+/*	public static Boolean isDemoMode() {
+		String dm = getConst("demoMode");
 		return "true".equals(dm) || "1".equals(dm);
-	}
+	}*/
 	
 	/**
 	 * 在修改系统用户和角色时是否同步到Activiti
 	 */
-	public static Boolean isSynActivitiIndetity() {
-		String dm = getConfig("activiti.isSynActivitiIndetity");
+/*	public static Boolean isSynActivitiIndetity() {
+		String dm = getConst("activiti.isSynActivitiIndetity");
 		return "true".equals(dm) || "1".equals(dm);
-	}
+	}*/
     
 	/**
 	 * 页面获取常量
@@ -118,8 +118,8 @@ public class Global {
 	 * 获取上传文件的根目录
 	 * @return
 	 */
-	public static String getUserfilesBaseDir() {
-		String dir = getConfig("userfiles.basedir");
+/*	public static String getUserfilesBaseDir() {
+		String dir = getConst("userfiles.basedir");
 		if (StringUtils.isBlank(dir)){
 			try {
 				dir = ServletContextFactory.getServletContext().getRealPath("/");
@@ -132,15 +132,15 @@ public class Global {
 		}
 //		System.out.println("userfiles.basedir: " + dir);
 		return dir;
-	}
+	}*/
 	
     /**
      * 获取工程路径
      * @return
      */
-    public static String getProjectPath(){
+/*    public static String getProjectPath(){
     	// 如果配置了工程路径，则直接返回，否则自动获取。
-		String projectPath = Global.getConfig("projectPath");
+		String projectPath = Global.getConst("projectPath");
 		if (StringUtils.isNotBlank(projectPath)){
 			return projectPath;
 		}
@@ -164,6 +164,6 @@ public class Global {
 			e.printStackTrace();
 		}
 		return projectPath;
-    }
+    }*/
 	
 }

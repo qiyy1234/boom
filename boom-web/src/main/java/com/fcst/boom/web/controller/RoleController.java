@@ -3,9 +3,14 @@ package com.fcst.boom.web.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,10 +20,15 @@ import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.common.page.PageUtils;
+import com.fcst.boom.domain.Menu;
 import com.fcst.boom.domain.Permission;
 import com.fcst.boom.domain.Role;
+import com.fcst.boom.domain.User;
+import com.fcst.boom.service.MenuService;
 import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.service.RoleService;
+import com.fcst.boom.service.UserService;
+import com.fcst.boom.web.shiro.CustomRealm.Principal;
 
 /**
  * 角色管理controller
@@ -33,6 +43,12 @@ public class RoleController {
 	private RoleService roleService;
 	
 	@Autowired
+	private MenuService menuService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private PermissionService permissionService;
 	
 	/**
@@ -45,6 +61,58 @@ public class RoleController {
     }
 	
 	/**
+	 * 跳转到角色管理页面
+	 * @return
+	 */
+	@RequestMapping(value = "menuList")
+	@ResponseBody
+	public JsonResult menuList(Role role, Model model) {
+		JsonResult result = new JsonResult();
+		List<Menu> menuList = null;
+		Principal principal = getPrincipal();
+		User user = userService.getUser(principal.getId());
+		if (user.isAdmin()){
+			menuList = menuService.findAllMenu(new Menu());
+		}else{
+			Menu menu = new Menu();
+			menu.setUserId(user.getId());
+			menuList = menuService.findByUserId(menu);
+		}
+		result.put("zTreeNodes", menuList);
+		return result;
+	}
+	
+	/**
+	 * 查询所有角色
+	 * @return
+	 */
+	@RequestMapping("/list")
+	@ResponseBody
+	public JsonResult list(Role role){
+		JsonResult result = new JsonResult();
+		PageArg pageArg = PageUtils.getPageArg(role.getStart(), role.getLength());
+		PageList<Role> roleList = null; 
+		try {
+		Principal principal = getPrincipal();
+		roleList = roleService.findRolePageList(role,pageArg,principal.getId());
+
+			if(roleList!=null){
+				result.put("data", roleList);
+				result.put("recordsTotal", roleList.getTotalRow());
+				result.put("recordsFiltered", roleList.getTotalRow());
+			}else{
+				result.put("data", "[]");
+				result.put("recordsTotal", 0);
+				result.put("recordsFiltered", 0);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
 	 * 跳转权限菜单 递归java
 	 * @return
 	 */
@@ -52,12 +120,8 @@ public class RoleController {
 	@ResponseBody
 	public JsonResult powerRoleDG(String roleId){
 		JsonResult result = new JsonResult();
-		//List<Permission> list = new ArrayList<Permission>();
-		
 		List<Permission> sourcelist = permissionService.getAllMenuListDG();
-		
 		List<Permission> myPermissionList=permissionService.getMyPermissionListDG(roleId);
-		
 		for (Permission permission : sourcelist) {
 			for (Permission mypermission : myPermissionList) {
 				if(permission.getId().equals(mypermission.getId())){
@@ -138,33 +202,23 @@ public class RoleController {
 		return result;
 	}
 	
-	
 	/**
-	 * 查询所有角色
+	 * 权限引导方法
 	 * @return
 	 */
-	@RequestMapping("/list")
-	@ResponseBody
-	public JsonResult list(Role role){
-		JsonResult result = new JsonResult();
-		PageArg pageArg = PageUtils.getPageArg(role.getStart(), role.getLength());
-		PageList<Role> roleList = null; 
-		try {
-			roleList = roleService.findRolePageList(role,pageArg);
-			if(roleList!=null){
-				result.put("data", roleList);
-				result.put("recordsTotal", roleList.getTotalRow());
-				result.put("recordsFiltered", roleList.getTotalRow());
-			}else{
-				result.put("data", "[]");
-				result.put("recordsTotal", 0);
-				result.put("recordsFiltered", 0);
+	public static Principal getPrincipal(){
+		try{
+			Subject subject = SecurityUtils.getSubject();
+			Principal principal = (Principal)subject.getPrincipal();
+			if (principal != null){
+				return principal;
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}catch (UnavailableSecurityManagerException e) {
+			
+		}catch (InvalidSessionException e){
+			
 		}
-		return result;
+		return null;
 	}
 	
 	/**

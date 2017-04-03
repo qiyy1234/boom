@@ -79,7 +79,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 		User user = new User();
 		user = userDao.getUser(id);
 		user.setCurrentUser(user);
-		user.getCurrentUser().setRoleList(roleDao.findList(new Role(user)));
+		user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
 		organization.getSqlMap().put("dsf", dataScopeFilter(user.getCurrentUser(), "a", ""));
 		organization.setCurrentUser(user.getCurrentUser());
 		try {

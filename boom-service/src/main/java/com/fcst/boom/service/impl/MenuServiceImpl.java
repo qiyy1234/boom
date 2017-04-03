@@ -1,9 +1,7 @@
 package com.fcst.boom.service.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.dao.MenuDao;
 import com.fcst.boom.domain.Menu;
@@ -82,7 +80,6 @@ public class MenuServiceImpl implements MenuService {
 			e.setParentIds(e.getParentIds().replace(oldParentIds, menu.getParentIds()));
 			menuDao.updateParentIds(e);
 		}
-		
 	
 	}
 	
@@ -94,6 +91,12 @@ public class MenuServiceImpl implements MenuService {
 	public int deleteMenu(String menuId) {
 		// TODO Auto-generated method stub
 		return menuDao.delete(menuId);
+	}
+	
+	@Override
+	public List<Menu> findAllMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menuDao.findAllList(new Menu());
 	}
 	
 	

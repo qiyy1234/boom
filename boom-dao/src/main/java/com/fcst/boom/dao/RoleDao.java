@@ -75,6 +75,15 @@ public interface RoleDao {
 	 * @throws Exception
 	 */
 	public List findSelectRoleId() throws Exception;
+	
+	/**
+	 * select
+	 * @param user 与 role 的共用体
+	 * -Custom 中调用 findList
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<Role> findList(@Param("role")Role role);
 
 	/**
 	 * select
@@ -83,7 +92,16 @@ public interface RoleDao {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List<Role> findList(Role role);
+	public List<Role> findRoleList(@Param("role")Role role,@Param("pageArg")PageArg pageArg);
+	
+	/**
+	 * select
+	 * @param user 与 role 的共用体
+	 * -Custom 中调用 findAllList
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<Role> findAllList(@Param("role")Role role);
 
 	/**
 	 * select
@@ -92,7 +110,7 @@ public interface RoleDao {
 	 * @return list
 	 * @throws Exception
 	 */
-	public List<Role> findAllList(Role role);
+	public List<Role> findAllRoleList(@Param("role")Role role,@Param("pageArg")PageArg pageArg);
 
 	
 	

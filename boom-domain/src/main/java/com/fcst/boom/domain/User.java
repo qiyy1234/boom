@@ -220,8 +220,6 @@ public class User extends BaseEntity<User> implements Serializable {
 		this.mobile = mobile;
 	}
 
-	
-
 	public String getLoginIp() {
 		return loginIp;
 	}

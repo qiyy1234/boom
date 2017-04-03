@@ -1,12 +1,9 @@
 package com.fcst.boom.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
@@ -90,11 +87,10 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 	   user.setCurrentUser(userDao.getUser(id));
 	   user.setId(id);
-	   user.getCurrentUser().setRoleList(roleDao.findList(new Role(user)));
+	   user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
 	   user.getSqlMap().put("dsf", dataScopeFilter(user.getCurrentUser(), "o", "a"));
 		// 设置分页参数
 	   List<User> list = userDao.getUserList(user,pageArg);
-		
 	return (PageList<User>) list;
 }
 
@@ -179,7 +175,7 @@ public class UserServiceImpl implements UserService {
 		List<Role> roleList = null;
 		User user = userDao.getUser(id);
 		user.setCurrentUser(user);
-		user.getCurrentUser().setRoleList(roleDao.findList(new Role(user)));
+		user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
 		
 		if (user.isAdmin()){
 			roleList = roleDao.findAllList(new Role());
@@ -204,7 +200,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		User user = userDao.getUser(id);
 		user.setCurrentUser(user);
-		user.getCurrentUser().setRoleList(roleDao.findList(new Role(user)));
+		user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
 		return user;
 	}
 
