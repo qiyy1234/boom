@@ -686,7 +686,7 @@ $("#updateParentTreeSelc").click(function(){
          	$("#orgtreeTable").treetable({ expandable: true });
          	
          },
-         dataType: "json"
+         dataType: "json",
      });
  }
 
@@ -702,7 +702,7 @@ $("#updateParentTreeSelc").click(function(){
 	              //treeObj.refresh();
 	          }
 		  },
-		  dataType: "json"
+		  dataType: "json",
 	});
  }
  
@@ -724,9 +724,8 @@ $("#updateParentTreeSelc").click(function(){
 			  $("#update_fax").val(resultData.fax);
 			  $("#update_email").val(resultData.email);
 			  $("#update_remarks").val(resultData.remarks);
-			  
 		  },
-		  dataType: "json"
+		  dataType: "json",
 		});
 	$('#updateOrgDiv').modal();
 	 
@@ -751,7 +750,7 @@ $("#updateParentTreeSelc").click(function(){
 				  $("#detail_remarks").val(resultData.remarks);
 				  
 			  },
-			  dataType: "json"
+			  dataType: "json",
 			});
 		$('#detailOrgDiv').modal();
 	}

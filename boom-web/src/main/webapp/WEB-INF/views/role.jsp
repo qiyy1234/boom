@@ -34,6 +34,7 @@ Purchase: http://wrapbootstrap.com
     <!--Beyond styles-->
     <link id="beyond-link" href="<%=basePath %>resources/assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
     <link href="<%=basePath %>resources/assets/css/typicons.min.css" rel="stylesheet" />
+    
     <link href="<%=basePath %>resources/assets/css/animate.min.css" rel="stylesheet" />
     <link id="skin-link" href="#" rel="stylesheet" type="text/css" />
 
@@ -139,14 +140,14 @@ Purchase: http://wrapbootstrap.com
 													<a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('orgNameDept','parentIdDept','parentTreeSelcDept')>清除</a>
 											       </span>
 											"data-original-title="" title=""> GoTo </a> 
-												<input type="text" id="parentIdDept" name="office_id" /> 
+												<input type="text" id="parentIdDept" name="officeId" /> 
 											</div>
 										</div>
 									</div>
                             	
                             	
                             	<div class="form-group">
-		                        	<label  class="col-sm-2 control-label no-padding-right">角色职位：</label>
+		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
 		                            <div class="col-sm-9">
 		                            	<input type="text" class="form-control" id="add_role_name" name="name" />
 		                            </div>
@@ -189,7 +190,8 @@ Purchase: http://wrapbootstrap.com
 		                                                        <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">数据范围：</label>
 		                            <div class="col-sm-9">
-		                            	<input type="text" class="form-control" id="" name="" />
+		                            	<!-- <input type="text" class="form-control" id="dataScope" name="dataScope" /> -->
+		                            	<select class="form-control" id="dataScope" name="dataScope"></select>
 		                            </div>
 		                        </div>
 		                                                         <div class="form-group">
@@ -211,7 +213,7 @@ Purchase: http://wrapbootstrap.com
                                         <div class="widget-body" style="display: block;">
                                              <div id="ztree_select" class="ztree"></div>
                                         </div><!--Widget Body-->
-                                        
+                                        <input type="text" class="form-control" id="menuIds" name="menuIds" />
                                     </div><!--Widget-->
                                 </div>
                               	</div>  
@@ -259,7 +261,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="col-xs-12 col-md-12">
                             <form class="form-horizontal" role="form" id="updateRoleForm">
                                 <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色职位：</label>
+                                    <label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
                                     <div class="col-sm-9">
                                     	<input type="text" class="form-control" id="update_role_id" name="id" style="display: none"/>
                                         <input type="text" class="form-control" id="update_role_name" name="name" />
@@ -505,22 +507,18 @@ Purchase: http://wrapbootstrap.com
     <script src="<%=basePath %>resources/assets/js/datatable/dataTables.bootstrap.min.js"></script>
 
 	<script src="<%=basePath %>resources/common/boomjs/role.js"></script>
-	<!--treeTable用到的js-->
-<%--     <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script> --%>
 	
- 	<!--ztree用到的js-->
-   
-<%--    <script type="text/javascript" src="<%=basePath %>resources/assets/zTree/2.6/jquery.ztree-2.6.min.js"></script>
-    --%> 
+	<!--treeTable用到的js-->
     <script type="text/javascript" src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
 
 <script>
-/* InitiateRoleDataTable.init(); 加载 boomjs 的驱动程序  */
+
  InitiateRoleDataTable.init(); 
 
 /**
  * 将from转换为json格式封装
  */
+ var tree;
  $(function(){
 	 $.fn.serializeObject = function() {  
 		    var o = {};  
@@ -541,17 +539,20 @@ Purchase: http://wrapbootstrap.com
  });
  
   function getAllRoleList(treeId){
-	 alert("111");
 	 var setting = {
 				view: {
 					dblClickExpand: false,
 					showLine: true,
-					selectedMulti: false
+					selectedMulti: false,
 				},
+	            check: {    
+                    enable: true,
+                },
 				callback: {
 					beforeClick: beforeClickSelect,
 					onDblClick: zTreeOnDblClickSelect,
 				},
+
 				data:{
 					simpleData:{
 						enable:true,
@@ -568,10 +569,9 @@ Purchase: http://wrapbootstrap.com
 		url:basePath+"rest/boom/role/menuList", 
 	    success:function(resultData){
 		 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
-		 	alert(zTreeNodess);
 		  	var zTreeNodes = eval(zTreeNodess);
 			$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
-			zTree = $.fn.zTree.getZTreeObj(treeId);
+			tree = $.fn.zTree.getZTreeObj(treeId);
 			},
 		}); 
  }
@@ -585,7 +585,14 @@ Purchase: http://wrapbootstrap.com
  } 
  
  function addRole(){
-		var formData=JSON.stringify($('#roleForm').serializeObject());
+		var ids = [], 
+		nodes = tree.getCheckedNodes(true);
+		for(var i=0; i<nodes.length; i++) {
+			ids.push(nodes[i].id);
+		}
+		$("#menuIds").val(ids);
+	 
+		var formData = JSON.stringify($('#roleForm').serializeObject());
 		$.ajax({
 			type:"post",
 			url:basePath+"rest/boom/role/add",
@@ -675,9 +682,7 @@ Purchase: http://wrapbootstrap.com
 					url:basePath+"rest/boom/organization/treeData?type=2",
 				    success:function(resultData){
 					 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
-				
 					  	var zTreeNodes = eval(zTreeNodess);
-			
 						$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
 						zTree = $.fn.zTree.getZTreeObj(treeId);
 						},
@@ -728,16 +733,40 @@ Purchase: http://wrapbootstrap.com
 	 }
 
 	 function beforeClick(treeId, treeNode) {
-/* 	 	var check = (treeNode && !treeNode.isParent);
+     /* var check = (treeNode && !treeNode.isParent);
 	 	if (!check) 
 	 	  Notify('父节点不可以选择....', 'top-right', '2000', 'danger', 'fa-tag', true);
 	 	return check; */
 	 }
 	  
 	 function addFrom(){
-		 
-		 alert("111222333");
-	 }
+			$("#dataScope").text('');
+			 var html = "";  
+			    $.ajax({  
+			        type: "post",  
+			        async: false,  
+			        url: basePath+"rest/boom/role/selectDataScope",   // basePath+"boom/user/upload",
+			        data: "",  
+			        dataType: "json",  
+			        success: function(data) {
+			        	if (data != 0) {  
+			         	var obj = eval(data);
+			         	for(var key in obj){ //第一层循环取到各个list 
+			         		var List = obj[key]; 
+			         		for(var ob in List){ //第二层循环取list中的对象 
+			         		  html += "<option value='" + List[ob ].id + "'>" + List[ob ].name + "</option>";
+			         		  
+			         		     } 
+			         		   } 
+			        	    }   
+				            else { 
+				                html = "<option>网络异常</option>";  
+				            } 
+			        }  
+			    });  
+			    $(html).appendTo("#dataScope");
+		}
+	 
 </script>
 
 </body>
