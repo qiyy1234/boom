@@ -39,10 +39,7 @@ Purchase: http://wrapbootstrap.com
 
     <link href="<%=basePath %>resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
 
-    <!--ztree用到的css-->
- <%--   <link type="text/css" rel="stylesheet" href="<%=basePath %>resources/assets/zTree/2.6/zTreeStyle.css"/>
-     --%>
-     <link href="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css"/>
 
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="<%=basePath %>resources/assets/js/skins.min.js"></script>
@@ -80,7 +77,7 @@ Purchase: http://wrapbootstrap.com
                         	<td>名称：<input type="text" name="find_name" id="find_name"></td>
                             <td align="right">
                             	<a href="#" class="btn btn-blue btn-sm" onclick="findRoleList()">查询</a>&nbsp;
-                                <%-- <shiro:hasPermission name="role:add"> --%><a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv">添加</a><%-- </shiro:hasPermission> --%> 
+                                <%-- <shiro:hasPermission name="role:add"> --%><a href="#" class="btn btn-blue btn-sm" data-toggle="modal" data-target="#roleAddDiv" onClick="addFrom();" >添加</a><%-- </shiro:hasPermission> --%> 
                             </td>
                         </tr>
 					</table>
@@ -90,6 +87,8 @@ Purchase: http://wrapbootstrap.com
                         	<tr>
                             	<th width="15%">角色职位</th>
                                 <th width="10%">英文名称</th>
+                                <th width="10%">归属机构</th>
+                                <th width="10%">数据范围</th>
                                 <th width="10%">创建人</th>
                                 <th width="15%">创建时间</th>
                                 <th width="30%">操作</th>
@@ -121,7 +120,31 @@ Purchase: http://wrapbootstrap.com
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
-                            <form class="form-horizontal" role="form" id="roleForm">
+                            <form class="form-horizontal" role="form" id="roleForm">     
+                                                   
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right">归属部门：</label>
+										<div class="col-sm-8">
+											<div class="input-group col-sm-16">
+												<input class="form-control" id="orgNameDept" type="text" value="" readonly> 
+												    <span class="input-group-btn">
+													<a href="javascript:void(0);" id="parentTreeSelcDept"
+													class="btn btn-default popover1" data-container="body"
+													data-titleclass="bordered-blue" data-toggle="popover"
+													data-placement="bottom" data-title="选择所属部门"
+													data-content="<div class='popover1 widget-body'>
+				                                   <ul id='parentTreeDept' class='popover1 ztree'></ul>
+				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTreeDept('parentTreeDept','parentTreeSelcDept','parentIdDept','orgNameDept')>确定</a>&nbsp;
+													<a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('orgNameDept','parentIdDept','parentTreeSelcDept')>清除</a>
+											       </span>
+											"data-original-title="" title=""> GoTo </a> 
+												<input type="text" id="parentIdDept" name="office_id" /> 
+											</div>
+										</div>
+									</div>
+                            	
+                            	
                             	<div class="form-group">
 		                        	<label  class="col-sm-2 control-label no-padding-right">角色职位：</label>
 		                            <div class="col-sm-9">
@@ -134,6 +157,67 @@ Purchase: http://wrapbootstrap.com
 		                            	<input type="text" class="form-control" id="add_role_enname" name="enname" />
 		                            </div>
 		                        </div>
+
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">角色类型：</label>
+		                            <div class="col-sm-9">
+		                            	<select name="roleType" id="roleType" style="width:100%;">
+                                                <option value="assignment" >任务分配</option>
+                                                <option value="security-role" >管理角色</option>
+                                                <option value="user" >普通角色</option>
+                                            </select>
+		                            </div>
+		                        </div>
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">是否系统数据：</label>
+		                            <div class="col-sm-9">
+		                         		<select name="sysData" id="sysData" style="width:100%;">
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+		                            </div>
+		                        </div>
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">是否可用：</label>
+		                            <div class="col-sm-9">
+		                            	<select name="useable" id="useable" style="width:100%;">
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+		                            </div>
+		                        </div>
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">数据范围：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="" name="" />
+		                            </div>
+		                        </div>
+		                                                         <div class="form-group">
+		                                                                       	<label class="col-sm-2 control-label no-padding-right">角色授权：</label>
+<div class="col-lg-9 col-sm-9 col-xs-9">
+                                    <div class="widget transparent">
+                                        <div class="widget-header">
+                                            <span class="widget-caption" >Transparent Widget 角色授权</span>
+                                            <div class="widget-buttons">
+                                                <a href="#" data-toggle="collapse">
+                                                    <i class="fa blue  fa-minus"></i>
+                                                </a>
+                                                <a href="#" data-toggle="dispose">
+                                                    <i class="fa fa-times danger"></i>
+                                                </a>
+                                            </div><!--Widget Buttons-->
+                                        </div><!--Widget Header-->
+                                        
+                                        <div class="widget-body" style="display: block;">
+                                             <div id="ztree_select" class="ztree"></div>
+                                        </div><!--Widget Body-->
+                                        
+                                    </div><!--Widget-->
+                                </div>
+                              	</div>  
+                                
+                                
+		                        
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
 		                            <div class="col-sm-9">
@@ -422,7 +506,7 @@ Purchase: http://wrapbootstrap.com
 
 	<script src="<%=basePath %>resources/common/boomjs/role.js"></script>
 	<!--treeTable用到的js-->
-    <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script>
+<%--     <script src="<%=request.getContextPath()%>/resources/assets/js/treeTable/jquery.treeTable.min.js"></script> --%>
 	
  	<!--ztree用到的js-->
    
@@ -453,8 +537,52 @@ Purchase: http://wrapbootstrap.com
 		    });  
 		    return o;  
 		}; 
-		
+ 	getAllRoleList('ztree_select'); 
  });
+ 
+  function getAllRoleList(treeId){
+	 alert("111");
+	 var setting = {
+				view: {
+					dblClickExpand: false,
+					showLine: true,
+					selectedMulti: false
+				},
+				callback: {
+					beforeClick: beforeClickSelect,
+					onDblClick: zTreeOnDblClickSelect,
+				},
+				data:{
+					simpleData:{
+						enable:true,
+						idKey:"id",
+						pIdKey:"pId",
+						rootPId:'0',
+						}
+		             },
+		};		
+		
+	$.ajax({
+		type:"post",
+		/* url:basePath+"rest/boom/menu/powerMenuDG", */
+		url:basePath+"rest/boom/role/menuList", 
+	    success:function(resultData){
+		 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		 	alert(zTreeNodess);
+		  	var zTreeNodes = eval(zTreeNodess);
+			$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
+			zTree = $.fn.zTree.getZTreeObj(treeId);
+			},
+		}); 
+ }
+ 
+ function beforeClickSelect(){
+   alert("112233");
+ }
+ 
+ function zTreeOnDblClickSelect(){
+   alert("334455");
+ } 
  
  function addRole(){
 		var formData=JSON.stringify($('#roleForm').serializeObject());
@@ -476,7 +604,7 @@ Purchase: http://wrapbootstrap.com
 		
 	}	
  
-	var zTree;
+/* 	var zTree;
 		    var setting = {
 					view: {
 						dblClickExpand: false,
@@ -504,19 +632,14 @@ Purchase: http://wrapbootstrap.com
 			data: {"roleId":roleId},
 		    success:function(resultData){
 			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
-			 	
-		        alert("____---1----____"+zTreeNodess);
 			    var zT  = zTreeNodess.replace(/subsetPermission/gm,'nodes');  
-			    
-		        alert("____---2----____"+zT);
-		        
 			  	var zTreeNodes = eval(zT);
 			  	$("#ZT").val(JSON.stringify(zTreeNodes));
 			 	 $.fn.zTree.init($("#ztree"), setting, zTreeNodes).expandAll(true);
 				},
 			}); 
 			$('#powerDetailDiv').modal();
-		} 
+		}  */
   
   function savePower(){
       var treeObj=$.fn.zTree.getZTreeObj("ztree");
@@ -544,8 +667,77 @@ Purchase: http://wrapbootstrap.com
 			//}
 		});
   }
-  
+		
+	$("#parentTreeSelcDept").click(function(){
+			 var treeId = 'parentTreeDept';
+				$.ajax({
+					type:"post",
+					url:basePath+"rest/boom/organization/treeData?type=2",
+				    success:function(resultData){
+					 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+				
+					  	var zTreeNodes = eval(zTreeNodess);
+			
+						$.fn.zTree.init($("#"+treeId), setting, zTreeNodes).expandAll(true);
+						zTree = $.fn.zTree.getZTreeObj(treeId);
+						},
+					}); 
+			    });
+	
+	  function seleteParentTreeDept(treeId,ahrefId,parentId,orgNameId){
+			var treeObj = $.fn.zTree.getZTreeObj(treeId);
+		    var nodes = treeObj.getSelectedNodes();
+		    var ab =JSON.stringify(nodes);
+		    json = eval(ab);
+		    var id = json[0].id;
+		    var name = json[0].name;
+			 $("#"+parentId).val(id);
+			 $("#"+orgNameId).val(name);
+			 $("#"+ahrefId).click();
+		} 
+	 
+	 function clearZtree(aid,valueid,ahrefId){
+		    $("#"+aid).val("");
+		    $("#"+valueid).val("");
+		    $("#"+ahrefId).click();
+		}
+	 
+	 var zTree;
+	 var setting = {
+	 		view: {
+	 			dblClickExpand: false,
+	 			showLine: true,
+	 			selectedMulti: false
+	 		},
+	 		callback: {
+	 			beforeClick: beforeClick,
+	 			onDblClick: zTreeOnDblClick
+	 		},
+	 		data:{
+	 			simpleData:{
+	 				enable:true,
+	 				idKey:"id",
+	 				pIdKey:"parentId",
+	 				rootPId:'0'
+	 				}
+	              },
+	 };
+
+	 function zTreeOnDblClick(event, treeId, treeNode) {
+	 /*    alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked);  */
+	 }
+
+	 function beforeClick(treeId, treeNode) {
+/* 	 	var check = (treeNode && !treeNode.isParent);
+	 	if (!check) 
+	 	  Notify('父节点不可以选择....', 'top-right', '2000', 'danger', 'fa-tag', true);
+	 	return check; */
+	 }
 	  
+	 function addFrom(){
+		 
+		 alert("111222333");
+	 }
 </script>
 
 </body>
