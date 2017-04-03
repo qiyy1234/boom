@@ -112,6 +112,18 @@ public interface RoleDao {
 	 */
 	public List<Role> findAllRoleList(@Param("role")Role role,@Param("pageArg")PageArg pageArg);
 
+	/**
+	 * select
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public List<?> findSelectDataScope();
+
+	public void deleteRoleMenu(Role role);
+
+	public void insertRoleMenu(Role role);
+
 	
 	
 }

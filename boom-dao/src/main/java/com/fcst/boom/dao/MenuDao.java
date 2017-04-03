@@ -39,6 +39,8 @@ public interface MenuDao {
 	public int delete(String menuId);
 
 	public List<Menu> findAllList(Menu menu);
+
+	public List<Menu> findByUserMenuId(Menu menu);
 	
 	
 }

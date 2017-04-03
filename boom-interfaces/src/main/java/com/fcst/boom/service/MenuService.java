@@ -29,6 +29,8 @@ public interface MenuService {
 
 	// role 接口 List
 	public List<Menu> findAllMenu(Menu menu);
+
+	public List<Menu> findByUserIdMenu(Menu menu);
 	
 
 }

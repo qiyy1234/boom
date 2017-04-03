@@ -98,6 +98,11 @@ public class MenuServiceImpl implements MenuService {
 		// TODO Auto-generated method stub
 		return menuDao.findAllList(new Menu());
 	}
+	@Override
+	public List<Menu> findByUserIdMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menuDao.findByUserMenuId(menu);
+	}
 	
 	
 

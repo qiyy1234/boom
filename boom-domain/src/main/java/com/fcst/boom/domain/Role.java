@@ -3,6 +3,8 @@ package com.fcst.boom.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.Lists;
 
 public class Role extends BaseEntity<Object> implements Serializable {
@@ -23,6 +25,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	private String delFlag;     // 是否显示
 	private String create_date; // 创建时间
 	private String create_user; // 创建人
+	private String officeId;   // 部门Id
 	
 	private Organization office;// 归属机构
 	
@@ -35,6 +38,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 		super();
 		this.dataScope = DATA_SCOPE_SELF;
 		this.useable="1";
+		this.delFlag = DEL_FLAG_NORMAL;
 	}
 	
 	public Role(User user) {
@@ -53,6 +57,36 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	public static final String DATA_SCOPE_OFFICE = "5";
 	public static final String DATA_SCOPE_SELF = "8";
 	public static final String DATA_SCOPE_CUSTOM = "9";
+	
+	
+	public List<String> getMenuIdList() {
+		List<String> menuIdList = Lists.newArrayList();
+		for (Menu menu : menuList) {
+			menuIdList.add(menu.getId());
+		}
+		return menuIdList;
+	}
+
+	public void setMenuIdList(List<String> menuIdList) {
+		menuList = Lists.newArrayList();
+		for (String menuId : menuIdList) {
+			Menu menu = new Menu();
+			menu.setId(menuId);
+			menuList.add(menu);
+		}
+	}
+	
+	public String getMenuIds() {
+		return StringUtils.join(getMenuIdList(), ",");
+	}
+	
+	public void setMenuIds(String menuIds) {
+		menuList = Lists.newArrayList();
+		if (menuIds != null){
+			String[] ids = StringUtils.split(menuIds, ",");
+			setMenuIdList(Lists.newArrayList(ids));
+		}
+	}
 	
 	public String getDelFlag() {
 		return delFlag;
@@ -150,7 +184,12 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	public void setCreate_user(String create_user) {
 		this.create_user = create_user;
 	}
-	
+	public String getOfficeId() {
+		return officeId;
+	}
+	public void setOfficeId(String officeId) {
+		this.officeId = officeId;
+	}
 	
 
 }

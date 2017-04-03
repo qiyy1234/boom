@@ -21,7 +21,7 @@ public interface RoleService {
 	  * @param role
 	  * @throws Exception
 	  */
-	 public int addRole(Role role) throws Exception;
+	 public void addRole(Role role) throws Exception;
 	 
 	 /**
 	  * 角色详情
@@ -74,6 +74,8 @@ public interface RoleService {
 	public List<Role> findList(Role role);
 
 	public List<Role> findAllRole(String id);
+
+	public List<?> findSelectDataScope();
 	
 	
 	

@@ -111,9 +111,6 @@ public class UserController {
 		return result;
 	}
 	
-	
-	
-	
 	/**
 	 * 查询所有用用
 	 * @return
@@ -281,7 +278,6 @@ public class UserController {
 			user.setCreateUser("qiyy");
 			user.setCreateDate(new Date());
 			user.setDelFlag("0");
-			
 			// 角色数据有效性验证，过滤不在授权内的角色
 			List<Role> roleList = Lists.newArrayList();
 			List<String> roleIdList = user.getRoleIdLists();

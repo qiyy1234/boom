@@ -46,9 +46,15 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	@Override
-	public int addRole(Role role) throws Exception {
+	public void addRole(Role role) throws Exception {
 		role.setId(GenerationUUID.getUUID());
-		return roleDao.addRole(role);
+	        roleDao.addRole(role);
+		// 更新角色与菜单关联
+		    roleDao.deleteRoleMenu(role);
+		if (role.getMenuList().size() > 0){
+			roleDao.insertRoleMenu(role);
+		   }
+		
 	}
 
 	@Override
@@ -186,6 +192,11 @@ public class RoleServiceImpl implements RoleService {
 		}
 		System.out.println("------- end ----dataScopeFilter --- 数据范围果壳滤 -- ------");
 		return "";
+	}
+	@Override
+	public List<?> findSelectDataScope() {
+		// TODO Auto-generated method stub
+	 	return roleDao.findSelectDataScope();
 	}
 	
 	

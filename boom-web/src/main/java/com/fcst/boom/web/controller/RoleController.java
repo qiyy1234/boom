@@ -76,7 +76,7 @@ public class RoleController {
 		}else{
 			Menu menu = new Menu();
 			menu.setUserId(user.getId());
-			menuList = menuService.findByUserId(menu);
+			menuList = menuService.findByUserIdMenu(menu);
 		}
 		result.put("zTreeNodes", menuList);
 		return result;
@@ -159,12 +159,29 @@ public class RoleController {
 		return result;
 	}
 	
+	@RequestMapping("/selectDataScope")
+	@ResponseBody
+	public JsonResult selectDataScope(){
+		JsonResult result = new JsonResult();
+		try {
+			List<?> dataScopeList = roleService.findSelectDataScope();
+			if(dataScopeList!=null){
+				result.put("data", dataScopeList);
+			}else{
+				result.put("data", 0);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}	
+	
 	
 	/**
 	 * doAuthSave 保存权限菜单
 	 * @return 
 	 */
-	
 	@RequestMapping("/doAuthSave")
 	@RequiresPermissions("role:add")
 	public void doAuthSave(String roleId,String ids){
@@ -232,6 +249,8 @@ public class RoleController {
 		try {
 			role.setCreateUser("qiyy");
 			role.setCreateDate(new Date());
+			role.setDelFlag("0");
+			role.setUseable("1");
 			roleService.addRole(role);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
