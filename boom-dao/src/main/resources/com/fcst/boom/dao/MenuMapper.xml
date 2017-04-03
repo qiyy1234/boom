@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fcst.boom.dao.MenuDao" >
-    <resultMap id="menuResult" type="Menu">
+<!--     <resultMap id="menuResult" type="Menu">
 	 		<result column="id" property="id"></result>
 	 		<result column="name" property="name"></result>
 	 		<result column="pId" property="pId"></result>
-	</resultMap>
+	</resultMap> -->
+	
+	<select id="findAllList" resultType="com.fcst.boom.domain.Menu">
+	   SELECT
+		a.id,
+		a.parent_id AS "parent.id",
+		a.parent_ids,
+		a.name,
+		a.href,
+		a.target,
+		a.icon,
+		a.sort,
+		a.is_show,
+		a.permission,
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		p.name AS "parent.name"
+		FROM sys_menu a
+		LEFT JOIN sys_menu p ON p.id = a.parent_id
+		WHERE a.del_flag = '0'
+		ORDER BY a.sort
+	</select>
 	
   	<select id="getAllMenuList" resultType="com.fcst.boom.domain.Menu" >
 		SELECT 
@@ -70,7 +95,8 @@
 			)
 	</insert>
 	
-	<select id="selectAllMenuListDG" resultMap="menuResult" parameterType="hashMap">
+	<!-- resultMap="menuResult" -->
+	<select id="selectAllMenuListDG" resultType="com.fcst.boom.domain.Menu" parameterType="hashMap">
 			SELECT DISTINCT
 				a.id,
 				a.parent_id AS "pId",
@@ -95,8 +121,8 @@
 			JOIN sys_role_menu rm ON rm.menu_id = a.id
 			JOIN sys_role r ON r.id = rm.role_id
 			AND r.useable =  '1'
-			JOIN sys_user_role ur ON ur.sys_role_id = r.id
-			JOIN sys_user u ON u.id = ur.sys_user_id
+			JOIN sys_user_role ur ON ur.role_id = r.id
+			JOIN sys_user u ON u.id = ur.user_id
 			AND u.id = #{roleId}
 			WHERE
 				a.del_flag = '0'
@@ -160,8 +186,8 @@ LEFT JOIN sys_menu p ON p.id = a.parent_id
 JOIN sys_role_menu rm ON rm.menu_id = a.id
 JOIN sys_role r ON r.id = rm.role_id
 AND r.useable = '1'
-JOIN sys_user_role ur ON ur.sys_role_id = r.id
-JOIN sys_user u ON u.id = ur.sys_user_id
+JOIN sys_user_role ur ON ur.role_id = r.id
+JOIN sys_user u ON u.id = ur.user_id
 JOIN sys_dictionary d ON  a.is_show = d.dict_value and d.dict_type = 'status'
 AND u.id = #{userId}
 WHERE
@@ -263,7 +289,36 @@ WHERE
 	
 	<delete id="delete" parameterType="java.lang.String">
 	  delete from sys_menu where id = #{id} OR parent_ids LIKE CONCAT('%,', #{id}, ',%')
-	
 	</delete>
-		
+	
+	<select id="findByUserMenuId" resultType="com.fcst.boom.domain.Menu">
+	  SELECT DISTINCT
+				a.id,
+		a.parent_id AS "parent.id",
+		a.parent_id AS "pId",
+		a.parent_ids,
+		a.name,
+		a.href,
+		a.target,
+		a.icon,
+		a.sort,
+		a.is_show,
+		a.permission,
+		a.remarks,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+		p.name AS "parent.name"
+		FROM sys_menu a
+		LEFT JOIN sys_menu p ON p.id = a.parent_id
+		JOIN sys_role_menu rm ON rm.menu_id = a.id
+		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
+		JOIN sys_user_role ur ON ur.role_id = r.id
+		JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
+		WHERE a.del_flag = '0' AND r.del_flag = '0' AND u.del_flag = '0'
+		ORDER BY a.sort
+	</select>
+	
 </mapper>

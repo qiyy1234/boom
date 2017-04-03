@@ -22,7 +22,8 @@
 	</sql>
   
 	<select id="selectPermissionByRoleId" resultMap="permissionResult" parameterType="hashMap">
-		SELECT <include refid="permissionCloumn"></include> FROM sys_permission WHERE id in(SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id=#{roleId})
+		SELECT <include refid="permissionCloumn"></include> 
+		FROM sys_permission WHERE id in(SELECT sys_permission_id FROM sys_role_permission WHERE sys_role_id=#{roleId})
 	</select>
 	
 	<select id="selectPermissionByParentid" resultMap="permissionResult" parameterType="hashMap">
@@ -34,7 +35,7 @@
 		SELECT <include refid="permissionCloumn"></include> FROM sys_permission
 		WHERE type='menu' AND parentid=1 AND id IN
 		(SELECT sys_permission_id  FROM sys_role_permission WHERE sys_role_id IN
-			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
+			(SELECT sys_role_id FROM sys_user_role ur WHERE ur.user_id = #{userid})
 		)
 	</select>	
 	
@@ -42,7 +43,7 @@
 		SELECT <include refid="permissionCloumn"></include> FROM sys_permission WHERE parentid=#{parentid} AND parentid!=1
 		AND id IN
 			(SELECT sys_permission_id  FROM sys_role_permission WHERE sys_role_id IN
-			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
+			(SELECT sys_role_id FROM sys_user_role ur WHERE ur.user_id = #{userid})
 			)
 	</select>
 	
@@ -51,7 +52,7 @@
 		SELECT <include refid="permissionCloumn"></include> FROM sys_permission
 		WHERE type='permission' AND id IN
 		(SELECT sys_permission_id  FROM sys_role_permission WHERE sys_role_id IN
-			(SELECT sys_role_id FROM sys_user_role WHERE sys_user_id = #{userid})
+			(SELECT sys_role_id FROM sys_user_role ur WHERE ur.user_id = #{userid})
 		)
 	</select>	
 	

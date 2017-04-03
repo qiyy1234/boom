@@ -2,17 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fcst.boom.dao.RoleDao" >
   <resultMap id="roleResult" type="Role">
-		  <id property="id" column="id" />
+		<id property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="enname" column="enname" />
 		<result property="roleType" column="roleType" />
 		<result property="dataScope" column="dataScope" />
 		<result property="remark" column="remark" />
 		<result property="useable" column="useable" />
-		<result property="createUser" column="createUser" />
-		<result property="createDateStr" column="createDate" />
+		<result property="create_user" column="create_user" />
+		<result property="create_date" column="create_date" />
 		<result property="updateUser" column="updateUser" />
-		<result property="updateDateStr" column="updateDate" />
+		<result property="updateDate" column="updateDate" />
+		<result property="sysData" column="sysData" />
+		<result property="office.name" column="office.name" />
 		
 		<collection property="officeList" ofType="Office">
 		  <id property="id" column="officeList.id" />		
@@ -33,8 +35,8 @@
 	a.role_type AS roleType,
 	a.data_scope AS dataScope,
 	a.remark,
-	a.create_user AS "createBy.id",
-	a.create_date createDate,
+	a.create_user ,
+	DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%s') AS create_date ,
 	a.update_user AS "updateBy.id",
 	a.update_date updateData,
 	a.del_flag AS "delFlag",
@@ -44,22 +46,57 @@
 	ro.office_id AS "officeList.id"
 		FROM sys_role a
 	      LEFT JOIN sys_office o ON o.id = a.office_id
-	      LEFT JOIN sys_user_role  ur ON   ur.sys_role_id = a.id
-	      LEFT JOIN sys_user u ON u.id = ur.sys_user_id
+	      LEFT JOIN sys_user_role  ur ON   ur.role_id = a.id
+	      LEFT JOIN sys_user u ON u.id = ur.user_id
 	      LEFT JOIN sys_role_office ro ON ro.role_id = a.id
-		WHERE a.del_flag = "0" AND a.useable= "1" 
- 		<if test="user != null and user.id != null and user.id != ''">
+		WHERE a.del_flag = "0"  
+ 		<if test="role.user != null and role.user.id != null and role.user.id != ''">
 			AND u.id = #{user.id}
 		</if>
-		<if test="user != null and user.loginName != null and user.loginName != ''">
+		<if test="role.user != null and role.user.loginName != null and role.user.loginName != ''">
 			AND u.login_name = #{user.loginName}
 		</if>
 			<!-- 数据范围过滤 -->
-		${sqlMap.dsf}
+		${role.sqlMap.dsf}
 		ORDER BY o.code, a.name 
 	</select>
 	
-	<select id="findAllList" resultType="Role">
+		<select id="findRoleList" resultMap="roleResult" >
+	  SELECT
+	a.id,
+	a.office_id AS "office.id",
+	a. NAME,
+	a.enname,
+	a.role_type AS roleType,
+	a.data_scope AS dataScope,
+	a.remark,
+	a.create_user ,
+	DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%s') AS create_date ,
+	a.update_user AS "updateBy.id",
+	a.update_date updateData,
+	a.del_flag AS "delFlag",
+	o. NAME AS "office.name",
+	o. CODE,
+	a.useable AS useable  ,
+	ro.office_id AS "officeList.id"
+		FROM sys_role a
+	      LEFT JOIN sys_office o ON o.id = a.office_id
+	      LEFT JOIN sys_user_role  ur ON   ur.role_id = a.id
+	      LEFT JOIN sys_user u ON u.id = ur.user_id
+	      LEFT JOIN sys_role_office ro ON ro.role_id = a.id
+		WHERE a.del_flag = "0"
+ 		<if test="role.user != null and role.user.id != null and role.user.id != ''">
+			AND u.id = #{user.id}
+		</if>
+		<if test="role.user != null and role.user.loginName != null and role.user.loginName != ''">
+			AND u.login_name = #{user.loginName}
+		</if>
+			<!-- 数据范围过滤 -->
+		${role.sqlMap.dsf}
+		ORDER BY o.code, a.name 
+	</select>
+	
+	<select id="findAllRoleList" resultMap="roleResult">
 		SELECT
 	a.id,
 	a.office_id AS "office.id",
@@ -68,8 +105,30 @@
 	a.role_type AS roleType,
 	a.data_scope AS dataScope,
 	a.remark,
-	a.create_user AS "createBy.id",
-	a.create_date createDate,
+	a.create_user ,
+	DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%s') AS create_date ,
+	a.update_user AS "updateBy.id",
+	a.update_date updateData,
+	a.del_flag AS "delFlag",
+	o. NAME AS "office.name",
+	o. CODE,
+	a.useable AS useable 
+		FROM sys_role a
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		ORDER BY o.code, a.name
+	</select>
+	
+	<select id="findAllList" resultMap="roleResult">
+		SELECT
+	a.id,
+	a.office_id AS "office.id",
+	a. NAME,
+	a.enname,
+	a.role_type AS roleType,
+	a.data_scope AS dataScope,
+	a.remark,
+	a.create_user ,
+	DATE_FORMAT(a.create_date,'%Y-%m-%d %H:%i:%s') AS create_date ,
 	a.update_user AS "updateBy.id",
 	a.update_date updateData,
 	a.del_flag AS "delFlag",
@@ -97,9 +156,23 @@
 		order by r.create_date desc
 	</select>
 	
-	<insert id="addRole" parameterType="com.fcst.boom.dao.RoleDao">
-		INSERT INTO sys_role (id,name,enname,create_user,create_date,update_user,update_date,remark) 
-		values (#{id},#{name},#{enname},#{createUser},#{createDate},#{createUser},#{createDate},#{remark})
+	<insert id="addRole" parameterType="com.fcst.boom.domain.Role">
+		INSERT INTO sys_role (
+	id,
+	office_id,
+	NAME,
+	enname,
+	role_type,
+	data_scope,
+	create_user,
+	create_date,
+	update_user,
+	update_date,
+    del_flag,
+	remark
+)
+VALUES
+	(#{id},#{officeId},#{name},#{enname},#{roleType},#{dataScope},#{createUser},#{createDate},#{createUser},#{createDate},#{delFlag},#{remark})
 	</insert>
 	
 	<select id="getRoleById" resultMap="roleResult">
@@ -155,8 +228,22 @@
 			r.id,
     		r.name
 		FROM sys_role r order by r.id desc
-
 	</select>
 	
+	<select id="findSelectDataScope" resultMap="roleResult">
+	    select value as "id" , label as "name" from sys_dict where type = 'sys_data_scope'
+	</select>
+	
+	<delete id="deleteRoleMenu">
+		DELETE FROM sys_role_menu WHERE role_id = #{id}
+	</delete>
+	
+	<insert id="insertRoleMenu">
+		INSERT INTO sys_role_menu(role_id, menu_id)
+		<foreach collection="menuList" item="menu" separator=" union all ">
+			SELECT #{id}, #{menu.id} FROM dual
+
+		</foreach>
+	</insert>
 		
 </mapper>
