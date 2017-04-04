@@ -87,12 +87,12 @@ Purchase: http://wrapbootstrap.com
                     	<thead>
                         	<tr>
                             	<th width="15%">角色职位</th>
-                                <th width="10%">英文名称</th>
+                                <th width="15%">英文名称</th>
                                 <th width="10%">归属机构</th>
-                                <th width="10%">数据范围</th>
+                                <th width="15%">数据范围</th>
                                 <th width="10%">创建人</th>
                                 <th width="15%">创建时间</th>
-                                <th width="30%">操作</th>
+                                <th width="20%">操作</th>
                              </tr>
                          </thead>
                          <tbody>
@@ -199,7 +199,7 @@ Purchase: http://wrapbootstrap.com
 <div class="col-lg-9 col-sm-9 col-xs-9">
                                     <div class="widget transparent">
                                         <div class="widget-header">
-                                            <span class="widget-caption" >Transparent Widget 角色授权</span>
+                                            <span class="widget-caption" >角色授权  Transparent Widget </span>
                                             <div class="widget-buttons">
                                                 <a href="#" data-toggle="collapse">
                                                     <i class="fa blue  fa-minus"></i>
@@ -213,7 +213,7 @@ Purchase: http://wrapbootstrap.com
                                         <div class="widget-body" style="display: block;">
                                              <div id="ztree_select" class="ztree"></div>
                                         </div><!--Widget Body-->
-                                        <input type="text" class="form-control" id="menuIds" name="menuIds" />
+                                        <input type="hidden" class="form-control" id="menuIds" name="menuIds" />
                                     </div><!--Widget-->
                                 </div>
                               	</div>  
@@ -611,7 +611,9 @@ Purchase: http://wrapbootstrap.com
 		
 	}	
  
-/* 	var zTree;
+/* 	
+ * +'<a href="#" class="btn btn-primary btn-sm" onclick="powerRoleDG(\''+full.id+'\')"><i class="fa fa-gift"></i>菜单赋权</a>&nbsp;'
+ var zTree;
 		    var setting = {
 					view: {
 						dblClickExpand: false,
@@ -648,7 +650,7 @@ Purchase: http://wrapbootstrap.com
 			$('#powerDetailDiv').modal();
 		}  */
   
-  function savePower(){
+<%--   function savePower(){
       var treeObj=$.fn.zTree.getZTreeObj("ztree");
       var nodes=treeObj.getCheckedNodes(true);
 		alert(nodes);
@@ -673,7 +675,7 @@ Purchase: http://wrapbootstrap.com
 				top.Dialog.close();
 			//}
 		});
-  }
+  } --%>
 		
 	$("#parentTreeSelcDept").click(function(){
 			 var treeId = 'parentTreeDept';
