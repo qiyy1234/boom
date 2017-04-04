@@ -2,6 +2,7 @@ package com.fcst.boom.web.shiro;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -49,7 +50,6 @@ public class CustomRealm extends AuthorizingRealm{
 		User user=null;
 		try {
 			user=userService.getUserByUsername(userCode);
-			System.out.println("----------------------------");
 			user.setRoleList(roleService.findList(new Role()));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +74,6 @@ public class CustomRealm extends AuthorizingRealm{
 		user.setMenus(menus);
 		
 		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(new Principal(user), password, this.getName());
-		System.err.println("------realm.do 验证结束---------");
 		return simpleAuthenticationInfo;
 	}
 	
@@ -82,7 +81,6 @@ public class CustomRealm extends AuthorizingRealm{
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
-		System.err.println("------realm.do 授权开始开始---------");
 		ActiveUser activeUser =  (ActiveUser) principals.getPrimaryPrincipal();
 		List<Permission> permissionList=null;
 		try {
@@ -94,14 +92,12 @@ public class CustomRealm extends AuthorizingRealm{
 		List<String> permissions=new ArrayList<String>();
 		if(permissionList!=null){
 			for(Permission permission:permissionList){
-				System.err.println("------realm.do 授权---permissionList------"+permission.getName());
 				permissions.add(permission.getPercode());
 			}
 		}
 		
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 		simpleAuthorizationInfo.addStringPermissions(permissions);
-		System.err.println("------realm.do 授权结束结束---------");
 		return simpleAuthorizationInfo;
 	}
 	
@@ -134,17 +130,20 @@ public class CustomRealm extends AuthorizingRealm{
 		private String id;           // 编号
 		private String loginName;    // 登录名
 		private String name;         // 姓名
-		private List<Permission> menus = Lists.newArrayList();//菜单
+		private Date   updateDate;   // 创建时间
+		private Date   createDate;   // 修改时间
+		private String createUser;   // 创建人
 		private boolean mobileLogin; // 是否手机登录
+		private List<Permission> menus = Lists.newArrayList(); //菜单集合
 		
 		public Principal(User user) {
 			this.id = user.getId();
 			this.loginName = user.getLoginName();
 			this.name = user.getName();
 			this.menus = user.getMenus();
+			this.createDate = new Date(); 
+			
 		}
-		
-		
 		
 		public String getId() {
 			return id;
@@ -176,12 +175,27 @@ public class CustomRealm extends AuthorizingRealm{
 		public void setMenus(List<Permission> menus) {
 			this.menus = menus;
 		}
+		public Date getUpdateDate() {
+			return updateDate;
+		}
+		public void setUpdateDate(Date updateDate) {
+			this.updateDate = updateDate;
+		}
+		public Date getCreateDate() {
+			return createDate;
+		}
+		public void setCreateDate(Date createDate) {
+			this.createDate = createDate;
+		}
+		public String getCreateUser() {
+			return createUser;
+		}
+		public void setCreateUser(String createUser) {
+			this.createUser = createUser;
+		}
 		
-		
-
-    
-    
     }
 		
     //--------end-------
+    
 }

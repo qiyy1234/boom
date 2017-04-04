@@ -2,9 +2,7 @@ package com.fcst.boom.domain;
 
 import java.io.Serializable;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.Lists;
 
 public class Role extends BaseEntity<Object> implements Serializable {
@@ -25,8 +23,10 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	private String delFlag;     // 是否显示
 	private String create_date; // 创建时间
 	private String create_user; // 创建人
-	private String officeId;   // 部门Id
-	
+	private String update_user; // 修改人
+	private String update_date; // 修改时间
+	private String officeId;    // 部门Id
+	private String dataScopeName;//数据过滤名称
 	private Organization office;// 归属机构
 	
 	private User user;		    // 根据用户ID查询角色列表
@@ -37,7 +37,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	public Role() {
 		super();
 		this.dataScope = DATA_SCOPE_SELF;
-		this.useable="1";
+		this.useable= DEL_FLAG_DELETE;
 		this.delFlag = DEL_FLAG_NORMAL;
 	}
 	
@@ -189,6 +189,24 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	}
 	public void setOfficeId(String officeId) {
 		this.officeId = officeId;
+	}
+	public String getUpdate_user() {
+		return update_user;
+	}
+	public void setUpdate_user(String update_user) {
+		this.update_user = update_user;
+	}
+	public String getUpdate_date() {
+		return update_date;
+	}
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
+	}
+	public String getDataScopeName() {
+		return dataScopeName;
+	}
+	public void setDataScopeName(String dataScopeName) {
+		this.dataScopeName = dataScopeName;
 	}
 	
 

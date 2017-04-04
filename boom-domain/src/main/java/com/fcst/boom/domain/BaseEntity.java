@@ -3,9 +3,7 @@ package com.fcst.boom.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
-
 import javax.xml.bind.annotation.XmlTransient;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 
@@ -21,7 +19,6 @@ public abstract class BaseEntity<T> implements Serializable {
      * 删除
      */
 	protected String delFlag; 	// 删除标记（0：正常；1：删除；2：审核）
-	
 	
 	public BaseEntity() {
 		super();
@@ -55,7 +52,6 @@ public abstract class BaseEntity<T> implements Serializable {
 	 * 每页显示多少条
 	 */
     private String length;
-	
 
 	/**
 	 * 当前用户
@@ -106,7 +102,6 @@ public abstract class BaseEntity<T> implements Serializable {
 	 * 自定义SQL（SQL标识，SQL内容）
 	 */
 	protected Map<String, String> sqlMap;
-	
 
 	@JsonIgnore
 	@XmlTransient
@@ -216,9 +211,5 @@ public abstract class BaseEntity<T> implements Serializable {
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
-	
-	
-	
-	
 
 }
