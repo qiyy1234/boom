@@ -62,7 +62,7 @@ public class LoginController {
 		}else{
 			//Shiro 加入身份验证
 			Subject subject = SecurityUtils.getSubject(); 
-			String passwordMd5=new MD5().getMD5ofStr(password);
+			String passwordMd5 = new MD5().getMD5ofStr(password);
 		    UsernamePasswordToken token = new UsernamePasswordToken(loginName,password); 
 		    try { 
 		        subject.login(token); 
