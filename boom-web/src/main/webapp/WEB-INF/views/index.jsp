@@ -7,6 +7,7 @@ Purchase: http://wrapbootstrap.com
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%
 	String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ request.getContextPath()+"/";
 	
@@ -488,7 +489,7 @@ Purchase: http://wrapbootstrap.com
 					<li class="active" id="fhindex">
 					  <a href="<%=request.getContextPath()%>/rest/page/index">
 					  <i  class="menu-icon glyphicon glyphicon-home"></i>
-					  <span  class="menu-text" > Boom Shiro 首页</span>
+					  <span  class="menu-text" > Boom Shiro 首页  Testing</span>
 					  </a>
 					</li>
                     
@@ -772,11 +773,10 @@ Purchase: http://wrapbootstrap.com
             <!-- /Chat Bar -->
             <!-- Page Content -->
             <div class="page-content">
-            <div class="widget-body">
-               <iframe id="mainframe" name="mainframe" width="100%" height="650" frameborder="no" scrolling="no" ></iframe>
+            <div class="widget-body"><!-- onload="changeFrameHeight()" -->
+                <iframe id="mainframe" name="mainframe" width="100%" height="558" frameborder="no" scrolling="auto" allowtransparency="true" ></iframe>
             </div>
             <!-- /Page Content -->
-
         </div>
         <!-- /Page Container -->
         <!-- Main Container -->
@@ -850,9 +850,7 @@ InitiateRoleDataTable.init();
             $(submenu).slideToggle(200).parent().toggleClass("open");
             return false;
         });
-        //End Sidebar Menu Handle
-
-  
+        //End Sidebar Menu Handle mainframe
 
     </script>
 

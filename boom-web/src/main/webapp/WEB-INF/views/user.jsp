@@ -7,8 +7,8 @@ Purchase: http://wrapbootstrap.com
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%
 	String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ request.getContextPath()+"/";
 	
@@ -403,6 +403,10 @@ Purchase: http://wrapbootstrap.com
 
 						<table class="table">
 							<tr>
+							<shiro:hasPermission name="sys:user:edit">
+							  <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+							</shiro:hasPermission>
+							
 								<td align="center"><a href="#" id="userAddBtn"
 									onclick="addUser()" class="btn btn-azure">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;
 									<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal"

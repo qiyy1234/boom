@@ -36,6 +36,7 @@ Purchase: http://wrapbootstrap.com
     <link href="<%=basePath %>resources/assets/css/typicons.min.css" rel="stylesheet" />
     
     <link href="<%=basePath %>resources/assets/css/animate.min.css" rel="stylesheet" />
+    
     <link id="skin-link" href="#" rel="stylesheet" type="text/css" />
 
     <link href="<%=basePath %>resources/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
@@ -67,12 +68,27 @@ Purchase: http://wrapbootstrap.com
 
             <!-- Page Content -->
             <div class="page-body">
-            	<div class="widget-header bg-blue">
-	                <span class="widget-caption">角色管理</span>
-	                <div class="widget-buttons">
-	                </div>
-                </div>
-            	<div class="widget-body">
+            
+              <div class="row">
+               <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                
+                		<div class="widget-header bg-blue">
+								<i class="widget-icon fa fa-arrow-down"></i> <span
+									class="widget-caption">Colored Header <input type="hidden" id="roleParam" /></span>
+								<div class="widget-buttons">
+									<a href="#" data-toggle="config"> <i class="fa fa-cog"></i>
+									</a> <a href="#" data-toggle="maximize"> <i
+										class="fa fa-expand"></i>
+									</a> <a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+									</a> <a href="#" data-toggle="dispose"> <i class="fa fa-times"></i>
+									</a>
+								</div>
+								<!--Widget Buttons-->
+							</div>
+                
+                
+            	<div  class="widget-body" id="collapseTwo" >
                 	<table width="100%">
                     	<tr>
                         	<td>名称：<input type="text" name="find_name" id="find_name"></td>
@@ -86,13 +102,13 @@ Purchase: http://wrapbootstrap.com
                     <table class="table table-striped table-bordered table-hover" id="roledatatable">
                     	<thead>
                         	<tr>
-                            	<th width="15%">角色职位</th>
-                                <th width="15%">英文名称</th>
+                            	<th width="15%">角色名称</th>
+                                <th width="10%">英文名称</th>
                                 <th width="10%">归属机构</th>
-                                <th width="15%">数据范围</th>
+                                <th width="10%">数据范围</th>
                                 <th width="10%">创建人</th>
                                 <th width="15%">创建时间</th>
-                                <th width="20%">操作</th>
+                                <th width="30%">操作</th>
                              </tr>
                          </thead>
                          <tbody>
@@ -105,7 +121,9 @@ Purchase: http://wrapbootstrap.com
         </div>
         <!-- /Page Container -->
         <!-- Main Container -->
-
+		  </div>
+		</div>
+	  </div>
     </div>
     
     <!--角色添加-->
@@ -232,7 +250,7 @@ Purchase: http://wrapbootstrap.com
                                		<tr>
                                     	<td align="center">
                                         	<a href="#" id="roleAddBtn" onclick="addRole()"  class="btn btn-azure">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                       		<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
+                                       		<a href="#" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
                                         </td>
                                     </tr>
                                </table>
@@ -466,31 +484,166 @@ Purchase: http://wrapbootstrap.com
             </div>
         </div>
     </div>
-    
-    
-    <!-- 测试页  -->
-    <div class="col-lg-8 col-sm-8 col-xs-12">
-                                    <div class="widget">
-                                        <div class="widget-header bordered-bottom bordered-white bg-sky">
-                                            <span class="widget-caption">Bordered and Colored Widget</span>
-                                            <div class="widget-buttons">
-                                                <a href="#" data-toggle="maximize">
-                                                    <i class="fa fa-expand"></i>
+               
+                                
+    <div class="col-lg-12 col-sm-12 col-xs-12" id="pageBody">
+
+                                    <div class="tabbable">
+                                        <ul class="nav nav-tabs" id="myTab">
+                                            <li class="active">
+                                                <a data-toggle="tab" href="#home"  aria-expanded="true">
+                                                                                                                                                            角色分配明细
                                                 </a>
-                                                <a href="#" data-toggle="collapse">
-                                                    <i class="fa fa-minus"></i>
+                                            </li>
+
+                                            <li class="tab-red">
+                                                <a data-toggle="tab" href="#profile" onClick="proDept();proPeople();" aria-expanded="false">
+                                                                                                                                                              角色分配
                                                 </a>
-                                            </div><!--Widget Buttons-->
-                                        </div><!--Widget Header-->
-                                        <div class="widget-body bg-sky bordered-bottom bordered-white">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                        </div><!--Widget Body-->
-                                    </div><!--Widget-->
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="home" class="tab-pane active">
+                    <div class="grid-example">
+            <div class="row">
+            <div class="form-group">
+            
+              <div class="col-sm-2 text-right">
+                     <label class="control-label no-padding-right">角色名称:</label></div>
+              <div class="col-sm-2"><span id="nameSee"></span></div>
+              
+              <div class="col-sm-2 text-right">
+                     <label class="control-label no-padding-right">英文名称:</label></div>
+              <div class="col-sm-2"><span id="ennameSee"></span></div>
+              
+              <div class="col-sm-2 text-right">
+                     <label class="control-label no-padding-right">归属机构:</label></div>
+              <div class="col-sm-2"><span id="officeNameSee"></span></div>
+             </div>
+             </div> 
+             
+                         <div class="row">
+            <div class="form-group">
+              <div class="col-sm-2 text-right">
+                     <label class="control-label no-padding-right">角色类型:</label></div>
+              <div class="col-sm-2"><span id="roleTypeSee"></span></div>
+              <div class="col-sm-2 text-right">
+                     <label class="control-label no-padding-right">数据范围:</label></div>
+              <div class="col-sm-2"><span id="dataScopeNameSee"></span></div>
+             </div>
+             </div> 
+                                                                                                                        
+                    </div>
+                    
+                    <table class="table table-striped table-bordered table-hover" id="roledatatableselect">
+                    	<thead>
+                        	<tr>
+                            	<td width="20%">归属公司</td>
+                                <td width="20%">归属部门</td>
+                                <td width="15%">登录名称</td>
+                                <td width="15%">姓名</td>
+                                <td width="15%">电话</td>
+                            <!--     <td width="15%">手机</td> -->
+                                <td width="15%">操作</td>
+                             </tr>
+                         </thead>
+                         <tbody>
+                         </tbody>
+                     </table>
+                                            </div>
+
+                                            <div id="profile" class="tab-pane">
+                                                
+                                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h10>所在部门</h10>
+                                            </div>
+                                            <div class="panel-body">
+                                       <!--          <ul>
+                                                    <li>
+                                                        Your Name: Mr zhan
+                                                    </li>
+                                                    <li>Bank Name: Example Bank</li>
+                                                    <li>SWIFT : 000-111-234</li>
+                                                    <li>Account Number : 22-33-44-009</li>
+                                                </ul> -->
+                                                <ul>
+                                                <li>
+								                <div id="ztreeSelect" class="ztree"></div>
+                                                </li>
+                                                </ul>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="span7">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h10>待选人员</h10>
+                                                </div>
+                                                <div class="panel-body">
+                                          <!--           <ul>
+                                                        <li>
+                                                            Email : you@example.com
+                                                        </li>
+                                                        <li>Mobile : 888-555-2311</li>
+                                                        <li>Email  : <a href="#">yourname@mail.com</a></li>
+                                                    </ul> -->
+                                                    <ul>
+                                                      <li>
+                                                      <div id="ztreeWait" class="ztree"></div>
+                                                      </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                     <div class="col-xs-4">
+                                        <div class="span7">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h10>选定人员</h10>
+                                                </div>
+                                                <div class="panel-body">
+                                          <!--           <ul>
+                                                        <li>
+                                                            Email : you@example.com
+                                                        </li>
+                                                        <li>Mobile : 888-555-2311</li>
+                                                        <li>Email  : <a href="#">yourname@mail.com</a></li>
+                                                    </ul> -->
+                                                    <ul>
+                                                      <li>
+                                                      <div id="ztreePeople" class="ztree"></div>
+                                                      </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-    
-    
-    
-    
+                                   <hr class="wide">  
+                            <h5>Popover On Buttons</h5>       
+                                   
+                                   <div class="col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="buttons-preview text-align-center">
+                                               <a href="javascript:void(0);" class="btn btn-darkorange shiny" onClick="saveDark();" >Dark Orange</a>
+                                            </div>
+                                        </div>
+                                   
+                                   <hr class="wide">             
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                  <div class="horizontal-space"></div>
+                                </div>
     
     
     <!--Basic Scripts-->     
@@ -510,7 +663,8 @@ Purchase: http://wrapbootstrap.com
 	
 	<!--treeTable用到的js-->
     <script type="text/javascript" src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"></script>
-
+    
+    <script type="text/javascript" src="<%=basePath %>resources/assets/js/jquery-ztree/3.5.12/js/jquery.ztree.exedit-3.5.min.js"></script>
 <script>
 
  InitiateRoleDataTable.init(); 
@@ -535,6 +689,7 @@ Purchase: http://wrapbootstrap.com
 		    });  
 		    return o;  
 		}; 
+	$("#pageBody").hide();	
  	getAllRoleList('ztree_select'); 
  });
  
@@ -548,11 +703,6 @@ Purchase: http://wrapbootstrap.com
 	            check: {    
                     enable: true,
                 },
-				callback: {
-					beforeClick: beforeClickSelect,
-					onDblClick: zTreeOnDblClickSelect,
-				},
-
 				data:{
 					simpleData:{
 						enable:true,
@@ -565,7 +715,6 @@ Purchase: http://wrapbootstrap.com
 		
 	$.ajax({
 		type:"post",
-		/* url:basePath+"rest/boom/menu/powerMenuDG", */
 		url:basePath+"rest/boom/role/menuList", 
 	    success:function(resultData){
 		 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
@@ -575,14 +724,6 @@ Purchase: http://wrapbootstrap.com
 			},
 		}); 
  }
- 
- function beforeClickSelect(){
-   alert("112233");
- }
- 
- function zTreeOnDblClickSelect(){
-   alert("334455");
- } 
  
  function addRole(){
 		var ids = [], 
@@ -768,6 +909,313 @@ Purchase: http://wrapbootstrap.com
 			    });  
 			    $(html).appendTo("#dataScope");
 		}
+	 
+	 function powerRole(roleId){
+		 $("#roleParam").val(roleId);
+		 $("#pageBody").show();
+			$.ajax({
+				type:"post",
+				url:basePath+"rest/boom/role/assign",
+				data: {"roleId":roleId},
+				dataType: "json",  
+		        success:function(resultData){
+		        	if(resultData.result){
+		        		var name = JSON.stringify(resultData.role.name);
+			        	$("#nameSee").html(name);
+			        	var enname = JSON.stringify(resultData.role.enname);
+			        	$("#ennameSee").html(enname);
+			        	var officeName = JSON.stringify(resultData.role.office.name);
+			        	$("#officeNameSee").html(officeName);
+			        	var roleType = JSON.stringify(resultData.role.roleType);
+			        	$("#roleTypeSee").html(roleType);
+			        	var dataScopeName = JSON.stringify(resultData.role.dataScopeName);
+			        	$("#dataScopeNameSee").html(dataScopeName);
+			        	
+		            	findUserList(roleId);
+		        	}
+		        	
+				}
+			});
+	    }
+	 
+	 function findUserList(roleId){
+	 $('#roledatatableselect').dataTable({
+		 "destroy":true,
+         "sDom": "t<'row DTTTFooter'<'col-sm-6'i><'col-sm-6'p>>",
+         "language": {
+             url: basePath+'resources/assets/internation/message_zh_CN.txt'
+         },
+         //自动列宽
+         "bAutoWidth": false,
+         //加载数据时显示正在加载信息
+         "bProcessing": true,
+         //分页
+         "paging": true,
+         //从服务器处理分页
+         "bServerSide": true,
+         //查询请求action url
+         "ajax": {
+             "url": basePath+"/rest/boom/role/assignList?roleId="+roleId,
+             "dataSrc": "data",
+             "data": function ( d ) {
+             	//查询条件
+             	d.loginName = $("#loginName").val();
+             }
+         },
+         //本地搜索
+         "searching": false,
+         //每页显示多少条数据
+         "lengthChange":false,
+         //每页显示数量：5条记录
+         "iDisplayLength": 5,
+         "columns": [
+             {"data": "companyName"},
+             {"data": "officeName"},
+             {"data": "loginName"},
+             {"data": "name"},
+             {"data": "mobile"},
+  /*            {"data": "state"}, */
+             {"data": "id"}
+         ],
+         "columnDefs": [
+		/* 		{
+				    "targets": 0,
+				    "render": function ( data, type, full, meta ) {
+				        return '<i class="fa fa-plus-square-o row-details"></i>';
+				    }
+				}, */
+             {
+                 "targets": 5,
+                 "render": function ( data, type, full, meta ) {
+                 	var operation = '<a href="#" class="btn btn-danger btn-sm" onclick="deleteUser(\''+full.id+'\')"><i class="fa fa-trash-o"></i>删除</a>';
+                 	return operation;
+                 }
+             }
+         ],
+         //排序
+         "sort":false,
+         "aaSorting": [],
+       });
+	 }
+	 
+	 function proDept(ztreeSelect){
+		 var  ztreeSelect = 'ztreeSelect';
+		 
+				var setting = {
+						view: {
+							dblClickExpand: false,
+							showLine: true,
+							selectedMulti: false
+						},
+						callback: {
+							beforeClick: beforeClickOffice,
+							onDblClick: zTreeOnDblClickOffice,
+						},
+						data:{
+							simpleData:{
+								enable:true,
+								idKey:"id",
+								pIdKey:"parentId",
+								rootPId:'0',
+								}
+				             },
+				};		
+				
+			$.ajax({
+				type:"post",
+				url:basePath+"rest/boom/organization/treeData",
+			    success:function(resultData){
+				 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+				  	var zTreeNodes = eval(zTreeNodess);
+					$.fn.zTree.init($("#"+ztreeSelect), setting, zTreeNodes).expandAll(false);
+					zTree = $.fn.zTree.getZTreeObj(ztreeSelect);
+					},
+				}); 
+		 
+	 }
+	 
+	 function beforeClickOffice(treeId, treeNode){
+	   var id = treeNode.id == '0' ? '' :treeNode.id;
+	   var name = treeNode.name;
+	   var setting = {
+				view: {
+					dblClickExpand: false,
+					showLine: true,
+					selectedMulti: false
+					
+					
+				},
+				callback: {
+					beforeClick: beforeOnClick,
+					beforeDrag: beforeDrag,
+					beforeDrop: beforeDrop
+				},
+				edit: {
+					enable: true,
+					showRemoveBtn: false,
+					showRenameBtn: false
+				},
+				data:{
+					simpleData:{
+						enable:true,
+						idKey:"id",
+						pIdKey:"parentId",
+						rootPId:'0',
+						}
+		             },
+		};		
+		
+	$.ajax({
+		type:"post",
+		url: basePath+"/rest/boom/user/list?office.id="+id+"&office.name="+name,
+	    success:function(resultData){
+ 		 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+		  	var zTreeNodes = eval(zTreeNodess);
+			$.fn.zTree.init($("#ztreeWait"), setting, zTreeNodes).expandAll(false);
+			zTree = $.fn.zTree.getZTreeObj(ztreeWait); 
+			},
+		}); 
+	   
+	 }
+
+	 function beforeOnClick(treeId, treeNodes){
+		 var orgId = treeNodes.id;
+		 var parentOrgId = "0";
+		 var name = treeNodes.name;
+		 var treeObj = $.fn.zTree.getZTreeObj("ztreePeople");//获取ztree对象  
+		 var childZNode = new ZtreeNode(orgId, parentOrgId, name); //构造子节点
+		 treeObj.addNodes(null, childZNode, true); 
+		
+	 }
+	 
+	 function ZtreeNode(id, parentId, name){
+		    this.id = id;  
+		    this.parentId = parentId;  
+		    this.name = name;
+	 }
+	 
+	 function beforeDrag(treeId, treeNodes) {
+				for (var i=0,l=treeNodes.length; i<l; i++) {
+					if (treeNodes[i].drag === false) {
+						return false;
+					}
+				}
+				return true;
+	 }
+	 
+	 function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+				return targetNode ? targetNode.drop !== false : true;
+	 }
+	 
+	 function zTreeOnDblClickOffice(){
+		 
+	 }
+	 
+	 function beforeClickPeople(treeId, treeNode){
+		var id = treeNode.id == '0' ? '' :treeNode.id;
+		var name = treeNode.name;
+		alert(id +" --people-  "+name);
+		
+	 }
+		 
+	 function proPeople(ztreePeople){
+	   var roleParamId = $("#roleParam").val();
+	   var ztreePeople = 'ztreePeople';
+	   var setting = {
+			   view: {
+				   selectedMulti: false,
+				   fontCss: { 'color': 'red', 'font-family': '微软雅黑' }
+				   //fontCss : {"font-family": "微软雅黑", "font-size": "14px"}
+				},
+				edit: {
+					enable: true,
+					showRenameBtn : false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},	
+				callback: {
+					beforeClick: beforeClickPeople,
+					beforeDrag: beforeDrag
+				}
+			};
+		
+		$.ajax({
+			type:"post",
+			url:basePath+"rest/boom/role/assignList?roleId="+roleParamId,
+		    success:function(resultData){
+			 	var zTreeNodess = JSON.stringify(resultData.zTreeNodes);
+			  	var zTreeNodes = eval(zTreeNodess);
+				$.fn.zTree.init($("#ztreePeople"), setting, zTreeNodes);
+				setEdit();
+				$("#remove").bind("change", setEdit);
+				$("#rename").bind("change", setEdit);
+				$("#removeTitle").bind("propertychange", setEdit)
+				.bind("input", setEdit);
+				$("#renameTitle").bind("propertychange", setEdit)
+				.bind("input", setEdit);
+				},
+			}); 
+
+			function beforeDrag(treeId, treeNodes) {
+				return false;
+			}
+			
+			function setEdit() {
+				var zTree = $.fn.zTree.getZTreeObj("ztreePeople"),
+				remove = $("#remove").attr("checked"),
+				rename = $("#rename").attr("checked"),
+				removeTitle = $.trim($("#removeTitle").get(0).value),
+				renameTitle = $.trim($("#renameTitle").get(0).value);
+				zTree.setting.edit.showRemoveBtn = remove;
+				zTree.setting.edit.showRenameBtn = rename;
+				zTree.setting.edit.removeTitle = removeTitle;
+				zTree.setting.edit.renameTitle = renameTitle;
+				showCode(['setting.edit.showRemoveBtn = ' + remove, 'setting.edit.showRenameBtn = ' + rename,
+					'setting.edit.removeTitle = "' + removeTitle +'"', 'setting.edit.renameTitle = "' + renameTitle + '"']);
+			}
+			
+			function showCode(str) {
+				var code = $("#code");
+				code.empty();
+				for (var i=0, l=str.length; i<l; i++) {
+					code.append("<li>"+str[i]+"</li>");
+				}
+			}
+	 }
+	 
+	 function saveDark(){
+		 var roleId = $("#roleParam").val();
+		 var treeObj = $.fn.zTree.getZTreeObj("ztreePeople");
+		 var nodes = treeObj.getNodes();
+		 var tmpNode;
+		 var ids = "";
+			for(var i=0; i<nodes.length; i++){
+				tmpNode = nodes[i];
+				if(i!=nodes.length-1){
+					ids += tmpNode.id+",";
+				}else{
+					ids += tmpNode.id;
+				}
+			}
+			 $.ajax({
+				  type:"post",
+				  url: basePath+"rest/boom/role/saveTree?timestamp="+Date.parse(new Date()),
+				  data: {"roleId":roleId,"ids":ids},
+			      success:function(resultData){
+			        if(resultData.result){
+			        	alert(resultData.msg);
+			        	alert(resultData.result);
+			        	findUserList(roleId);
+			        	$('#myTab a:first').tab('show');
+			        	}
+					}
+				});
+		 
+	 }
+	 
 	 
 </script>
 
