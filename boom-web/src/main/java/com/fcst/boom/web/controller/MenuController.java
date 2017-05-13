@@ -74,9 +74,6 @@ public class MenuController {
 	@ResponseBody
 	public JsonResult list(User user){
 		JsonResult result = new JsonResult();
-/*		Subject subject = SecurityUtils.getSubject();
-		User user = (User) subject.getPrincipal();*/
-		
 		Subject subject = SecurityUtils.getSubject();
 		Principal principal = (Principal)subject.getPrincipal();
 		if (principal!=null){

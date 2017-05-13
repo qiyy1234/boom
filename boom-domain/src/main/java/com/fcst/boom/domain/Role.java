@@ -32,7 +32,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	private User user;		    // 根据用户ID查询角色列表
 	
 	public Role(String id){
-		super();
+		super(id);
 	}
 	public Role() {
 		super();

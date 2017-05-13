@@ -130,8 +130,6 @@ public class Menu extends PageBean implements Serializable {
 	public void setDictName(String dictName) {
 		this.dictName = dictName;
 	}
-	
-
 
 	public String getPermission() {
 		return permission;

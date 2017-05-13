@@ -1,7 +1,9 @@
 package com.fcst.boom.web.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.page.PageArg;
@@ -59,6 +62,50 @@ public class RoleController {
 	public String index() {
 		return "/role";
 	}
+	
+	/**
+	 * 配置角色保存
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "saveTree")
+	@ResponseBody
+	public JsonResult saveTree(Role role, User user ,String roleId ,String ids ) {
+		JsonResult result = new JsonResult();
+		Integer id = null;
+		List<User> list = new ArrayList<User>();
+	    List<String> praList = new ArrayList<String>();
+	    String[] objectIds = ids.substring(0, ids.length()).split(",");
+	    List<Role> arr = roleService.findUserRoleList(roleId);
+	    if(arr!=null && !arr.isEmpty()){
+	      //循环get值
+		  for(Role my : arr) {
+				praList.add(my.getId());
+				  }
+	      
+          for(int j = 0; j < objectIds.length; j++){
+              if(!praList.contains(objectIds[j])){
+            	  String userId = objectIds[j];
+                    id  = roleService.insertUserRole(userId,roleId);
+                  }
+             }
+	    }else{
+	       for(int j = 0; j < objectIds.length; j++){
+	    		  String userId = objectIds[j];
+	    		    id  = roleService.insertUserRole(userId,roleId);
+              }
+	    }
+	    if(id!=null){
+			result.put("msg", "保存成功");
+			result.put("result", true);
+	    	
+	    }else {
+			result.put("msg", "数据异常");
+			result.put("result", false);
+		}
+
+		return result;
+	}
 
 	/**
 	 * 跳转到角色管理页面
@@ -69,9 +116,9 @@ public class RoleController {
 	@ResponseBody
 	public JsonResult menuList(Role role, Model model) {
 		JsonResult result = new JsonResult();
-		List<Menu> menuList = null;
 		Principal principal = getPrincipal();
 		User user = userService.getUser(principal.getId());
+		List<Menu> menuList = null;		
 		if (user.isAdmin()) {
 			menuList = menuService.findAllMenu(new Menu());
 		} else {
@@ -115,6 +162,41 @@ public class RoleController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 角色分配查询
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/assignList")
+	@ResponseBody
+	public JsonResult assignList(User user , Role role,String roleId) {
+		JsonResult result = new JsonResult();
+		PageArg pageArg = PageUtils.getPageArg(user.getStart(),
+				user.getLength());
+		PageList<User> userList = null;
+		try {
+			Principal principal = getPrincipal();
+			role.setId(roleId);
+			userList = userService.findUser(new User(role), pageArg,
+					principal.getId());
+			if (userList != null) {
+				result.put("data", userList);
+				result.put("zTreeNodes", userList);
+				result.put("recordsTotal", userList.getTotalRow());
+				result.put("recordsFiltered", userList.getTotalRow());
+			} else {
+				result.put("data", "[]");
+				result.put("recordsTotal", 0);
+				result.put("recordsFiltered", 0);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 
 	/**
 	 * 跳转权限菜单 递归java
@@ -192,9 +274,7 @@ public class RoleController {
 	@RequiresPermissions("role:add")
 	public void doAuthSave(String roleId, String ids) {
 		try {
-
 			roleService.deleteRolePermissionByRoleId(roleId);
-
 			String[] idStr = ids.split(",");
 			for (int i = 0; i < idStr.length; i++) {
 				roleService.addRolePermission(roleId, Long.parseLong(idStr[i]));
@@ -275,7 +355,39 @@ public class RoleController {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 新增角色
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/assign")
+	@ResponseBody
+	public JsonResult assign(String roleId) {
+		JsonResult result = new JsonResult();
+		try {
+			Role role = new Role();
+                role = roleService.detailRole(roleId);
+               if(role!=null){
+				result.put("role", role);
+				result.put("result", true);
+               }else {
+            	result.put("msg", "查询失败");
+    			result.put("result", false);
+			}  
+				
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 修改角色
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/update")
 	@ResponseBody
 	public JsonResult update(@RequestBody Role role) {

@@ -9,19 +9,23 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fcst.boom.common.Constant;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.MD5;
@@ -49,9 +53,9 @@ public class LoginController {
 		Session session = currentUser.getSession();
 		//获取Session 中的验证码
 		String validateCode = ((String)session.getAttribute(Constant.SESSION_VALIDATE_CODE)).toLowerCase();		
-		String randomcode=(request.getParameter("randomcode")).toLowerCase();
-		String password=request.getParameter("password");
-		String loginName=request.getParameter("loginName");
+		String randomcode= (request.getParameter("randomcode")).toLowerCase();
+		String password= request.getParameter("password");
+		String loginName= request.getParameter("loginName");
 		if(validateCode!=null&&randomcode!=null&&!validateCode.equals(randomcode)){			
 			/* ResponseUtils.renderJson(response, backSuccessJson("codeerror", "验证码输入错误"));	*/
 		        result.put("codeerror", "codeerror");
@@ -87,17 +91,12 @@ public class LoginController {
 		return "login";
 	}
 	
+	@RequiresPermissions("user")
 	@RequestMapping("/index") 
 	public String index(Model model){
 		System.err.println("------index.do基础-----开始-----");
 		Subject subject = SecurityUtils.getSubject();
-/*		ActiveUser activeUser = (ActiveUser) subject.getPrincipal();
-		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
-		model.addAttribute("activeUser", activeUser);*/
-		
-/*		User user = (User) subject.getPrincipal();*/
 		Principal principal = (Principal) subject.getPrincipal();
-		//System.err.println("------index.do基础-----开始-----"+activeUser.getMenus().get(0).getSubsetPermission());
 		model.addAttribute("user", principal);
 		
 		System.err.println("------index.do基础-----结束-----");

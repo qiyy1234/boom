@@ -1,7 +1,7 @@
 package com.fcst.boom.service;
 
 import java.util.List;
-
+import org.apache.ibatis.annotations.Param;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.domain.Role;
@@ -71,11 +71,19 @@ public interface RoleService {
 	  */
 	public List<?> findSelectRoleId() throws Exception;
 
-	public List<Role> findList(Role role);
+	public List<Role> findList(@Param(value = "role")Role role);
 
 	public List<Role> findAllRole(String id);
 
 	public List<?> findSelectDataScope();
+
+	public Role findRole(String roleId);
+
+	public List<Role> findUserRoleList(String roleId);
+
+	public Integer insertUserRole(@Param(value = "userId")String userId ,@Param(value = "roleId")String roleId);
+
+	public List<Role> findPrepareList(Role role);
 	
 	
 	

@@ -31,6 +31,8 @@ public interface MenuService {
 	public List<Menu> findAllMenu(Menu menu);
 
 	public List<Menu> findByUserIdMenu(Menu menu);
+
+	public List<Menu> getMenuList(String id);
 	
 
 }

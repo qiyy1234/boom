@@ -2,9 +2,7 @@ package com.fcst.boom.dao;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.domain.Role;
@@ -84,7 +82,7 @@ public interface RoleDao {
 	 * @throws Exception
 	 */
 	public List<Role> findList(@Param("role")Role role);
-
+	
 	/**
 	 * select
 	 * @param user 与 role 的共用体
@@ -123,6 +121,16 @@ public interface RoleDao {
 	public void deleteRoleMenu(Role role);
 
 	public void insertRoleMenu(Role role);
+
+	public Role findRole(String id);
+
+	public List<Role> findUserRoleList(String roleId);
+
+	public Integer addUserRole(@Param(value = "userId")String userId ,@Param(value = "roleId")String roleId);
+
+	public void deleteUserRole(String userId);
+
+	public List<Role> findPrepareList(@Param("role")Role role);
 
 	
 	

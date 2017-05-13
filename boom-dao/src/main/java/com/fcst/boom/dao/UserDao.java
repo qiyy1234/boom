@@ -1,6 +1,7 @@
 package com.fcst.boom.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -75,5 +76,7 @@ public interface UserDao {
 	public int deleteUserRole(User user);
 
 	public int insertUserRole(User user);
+
+	public List<User> findList(@Param("user") User user ,@Param("pageArg") PageArg pageArg);
 
 }

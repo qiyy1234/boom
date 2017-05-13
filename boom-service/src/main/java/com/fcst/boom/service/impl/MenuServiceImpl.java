@@ -1,10 +1,15 @@
 package com.fcst.boom.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.dao.MenuDao;
+import com.fcst.boom.dao.UserDao;
 import com.fcst.boom.domain.Menu;
+import com.fcst.boom.domain.Role;
+import com.fcst.boom.domain.User;
 import com.fcst.boom.service.MenuService;
 
 public class MenuServiceImpl implements MenuService {
@@ -12,11 +17,20 @@ public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private MenuDao menuDao;
 	
+	@Autowired
+	private UserDao userDao;
+	
 	public MenuDao getMenuDao() {
 		return menuDao;
 	}
 	public void setMenuDao(MenuDao menuDao) {
 		this.menuDao = menuDao;
+	}
+	public UserDao getUserDao() {
+		return userDao;
+	}
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 	
 	@Override
@@ -103,7 +117,21 @@ public class MenuServiceImpl implements MenuService {
 		// TODO Auto-generated method stub
 		return menuDao.findByUserMenuId(menu);
 	}
-	
+	@Override
+	public List<Menu> getMenuList(String id) {
+		// TODO Auto-generated method stub
+		List<Menu> menuList = null;
+		User user = userDao.getUser(id);
+		if (user.isAdmin()){
+			menuList = menuDao.findAllList(new Menu());
+		}else{
+			Menu menu = new Menu();
+			menu.setUserId(user.getId());
+			menuList = menuDao.findByUserMenuId(menu);
+		}
+
+	    return menuList;
+	}
 	
 
 }

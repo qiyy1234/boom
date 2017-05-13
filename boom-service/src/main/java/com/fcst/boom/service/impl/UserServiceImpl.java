@@ -1,9 +1,11 @@
 package com.fcst.boom.service.impl;
 
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUsername(String userCode) {
 		// TODO Auto-generated method stub
 		return userDao.getUserByUserByCode(userCode);
-		}
+	}
 
 	@Override
 	public PageList<User> findList(User user,PageArg pageArg,String id) throws Exception {
@@ -92,7 +94,7 @@ public class UserServiceImpl implements UserService {
 		// 设置分页参数
 	   List<User> list = userDao.getUserList(user,pageArg);
 	return (PageList<User>) list;
-}
+    }
 
 	private static String dataScopeFilter(User user, String officeAlias, String userAlias) {
 		// TODO Auto-generated method stub
@@ -200,17 +202,19 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		User user = userDao.getUser(id);
 		user.setCurrentUser(user);
-		user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
+		user.getCurrentUser().setRoleList(roleDao.findPrepareList(new Role(user)));
 		return user;
 	}
 
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public PageList<User> findUser(User user, PageArg pageArg, String id) {
+		// TODO Auto-generated method stub
+		user.setCurrentUser(userDao.getUser(id));
+		user.getCurrentUser().setRoleList(roleDao.findList(new Role()));
+		user.getSqlMap().put("dsf", dataScopeFilter(user.getCurrentUser(), "o", "a"));
+		List<User> list = userDao.findList(user,pageArg);
+		return (PageList<User>)  list;
+	}
 	
 	
 	

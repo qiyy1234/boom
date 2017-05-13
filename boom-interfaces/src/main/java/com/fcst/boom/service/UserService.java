@@ -65,9 +65,11 @@ public interface UserService {
 	  */
 	 public PageList<User> findList(User user,PageArg pageArg,String id) throws Exception ;
 
-	public List<Role> findAllRole(String id);
+	 public List<Role> findAllRole(String id);
 
-	public User getUser(String id);
+	 public User getUser(String id);
+
+	public PageList<User> findUser(User user, PageArg pageArg, String id);
 
 	 
 

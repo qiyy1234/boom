@@ -3,10 +3,11 @@ package com.fcst.boom.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+
 import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
-
 public abstract class BaseEntity<T> implements Serializable {
 	
 	/**
@@ -198,18 +199,26 @@ public abstract class BaseEntity<T> implements Serializable {
 		this.updateUser = updateUser;
 	}
 
-	@JsonIgnore
-	@XmlTransient
 	public User getCurrentUser() {
-	/*	System.out.println("---- baseEntity getCurrentUser ----");
-		if(currentUser == null){
-			currentUser = UserUtils.getUser();
-		}*/
 		return currentUser;
 	}
 
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
+	
+/*	@JsonIgnore
+	@XmlTransient
+	public User getCurrentUser() {
+				System.out.println("---- baseEntity getCurrentUser ----");
+		if(currentUser == null){
+			currentUser = UserUtils.getUser();
+		}
+		return currentUser;
+	}*/
+/*
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}*/
 
 }

@@ -396,8 +396,6 @@ public class User extends BaseEntity<User> implements Serializable {
 		this.roleIdLists = roleIdLists;
 	}
 
-
-
 	
 
 }

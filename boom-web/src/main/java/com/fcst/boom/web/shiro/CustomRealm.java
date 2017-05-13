@@ -2,9 +2,11 @@ package com.fcst.boom.web.shiro;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -20,9 +22,11 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fcst.boom.domain.ActiveUser;
+import com.fcst.boom.domain.Menu;
 import com.fcst.boom.domain.Permission;
 import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
+import com.fcst.boom.service.MenuService;
 import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.service.RoleService;
 import com.fcst.boom.service.UserService;
@@ -35,6 +39,8 @@ public class CustomRealm extends AuthorizingRealm{
 	@Autowired
 	private RoleService roleService;
 	@Autowired
+	private MenuService menuService;
+	@Autowired
 	private PermissionService permissionService;
 	
 	@Override
@@ -45,16 +51,24 @@ public class CustomRealm extends AuthorizingRealm{
 	//Shiro realm 的认证方法，从数据库查询用户信息;
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-
+		System.out.println("---------test  @RequiresPermissions---------1----");
 		String userCode = (String) token.getPrincipal();
 		User user=null;
 		try {
 			user=userService.getUserByUsername(userCode);
-			user.setRoleList(roleService.findList(new Role()));
+			/*user.setRoleList(roleService.findPrepareList(new Role(user)));*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(null==user){
+		
+		if (user != null) {
+			SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(new Principal(user), user.getPassword(), this.getName());
+			return simpleAuthenticationInfo;
+		} else {
+			return null;
+		}
+		
+/*		if(null==user){
 			return null;
 		}
 		String password=user.getPassword();
@@ -74,14 +88,14 @@ public class CustomRealm extends AuthorizingRealm{
 		user.setMenus(menus);
 		
 		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(new Principal(user), password, this.getName());
-		return simpleAuthenticationInfo;
+		return simpleAuthenticationInfo;*/
 	}
 	
 	// 授权
 	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(
-			PrincipalCollection principals) {
-		ActiveUser activeUser =  (ActiveUser) principals.getPrimaryPrincipal();
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+		System.out.println("---------test  @RequiresPermissions---------2----");
+		/*ActiveUser activeUser =  (ActiveUser) principals.getPrimaryPrincipal();
 		List<Permission> permissionList=null;
 		try {
 			permissionList=permissionService.getPermissionByUserId(activeUser.getUserid());
@@ -98,7 +112,38 @@ public class CustomRealm extends AuthorizingRealm{
 		
 		SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 		simpleAuthorizationInfo.addStringPermissions(permissions);
-		return simpleAuthorizationInfo;
+		return simpleAuthorizationInfo;*/
+		
+		Principal principal = (Principal) getAvailablePrincipal(principals);
+		// 获取当前已登录的用户
+		User user=userService.getUserByUsername(principal.getLoginName());
+		if (user != null) {
+			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+			List<Menu> list = menuService.getMenuList(principal.getId());
+			for (Menu menu : list){
+				if (StringUtils.isNotBlank(menu.getPermission())){
+					// 添加基于Permission的权限信息
+					for (String permission : StringUtils.split(menu.getPermission(),",")){
+						info.addStringPermission(permission);
+					}
+				}
+			}
+			// 添加用户权限
+			info.addStringPermission("user");
+			// 添加用户角色信息
+			for (Role role : user.getRoleList()){
+				info.addRole(role.getEnname());
+			}
+			// 更新登录IP和时间
+/*			getSystemService().updateUserLoginInfo(user);*/
+			// 记录登录日志
+/*			LogUtils.saveLog(Servlets.getRequest(), "系统登录");*/
+			System.out.println("---------test  @RequiresPermissions---------2 结束 ----");
+			return info;
+		} else {
+			return null;
+		}
+		
 	}
 	
 	//清除缓存

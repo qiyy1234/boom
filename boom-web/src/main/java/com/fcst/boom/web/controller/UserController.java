@@ -127,6 +127,7 @@ public class UserController {
 			userList = userService.findList(user,pageArg,principal.getId());
 			if(userList!=null){
 				result.put("data", userList);
+				result.put("zTreeNodes", userList);
 				result.put("recordsTotal", userList.getTotalRow());
 				result.put("recordsFiltered", userList.getTotalRow());
 			}else{

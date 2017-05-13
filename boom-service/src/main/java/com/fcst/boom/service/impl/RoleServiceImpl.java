@@ -3,6 +3,7 @@ package com.fcst.boom.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fcst.boom.common.mybatis.GenerationUUID;
 import com.fcst.boom.common.page.PageArg;
@@ -31,10 +32,11 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public PageList<Role> findRolePageList(Role role ,PageArg pageArg ,String id) throws Exception {
-		   User user = new User();
-		   user.setId(id);
-		   user.setCurrentUser(userDao.getUser(id));
-		   List<Role> roleList =null;
+		   User user = userDao.getUser(id);
+		   user.setRoleList(roleDao.findPrepareList(new Role(user)));
+		   user.setCurrentUser(user);
+		   user.getCurrentUser().setRoleList(user.getRoleList());
+		   List<Role> roleList = null;
 		   if (user.isAdmin()){
 				roleList = roleDao.findAllRoleList(role ,pageArg);
 			}else{
@@ -49,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
 	public void addRole(Role role) throws Exception {
 		role.setId(GenerationUUID.getUUID());
 	        roleDao.addRole(role);
-		// 更新角色与菜单关联
+		    // 更新角色与菜单关联
 		    roleDao.deleteRoleMenu(role);
 		if (role.getMenuList().size() > 0){
 			roleDao.insertRoleMenu(role);
@@ -95,7 +97,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	@Override
-	public List<Role> findList(Role role) {
+	public List<Role> findList(@Param(value = "role")Role role) {
 		// TODO Auto-generated method stub
 		return roleDao.findList(role);
 	}
@@ -197,6 +199,28 @@ public class RoleServiceImpl implements RoleService {
 	public List<?> findSelectDataScope() {
 		// TODO Auto-generated method stub
 	 	return roleDao.findSelectDataScope();
+	}
+	@Override
+	public Role findRole(String roleId) {
+		// TODO Auto-generated method stub
+		return roleDao.findRole(roleId);
+	}
+	@Override
+	public List<Role> findUserRoleList(String roleId) {
+		// TODO Auto-generated method stub
+		return roleDao.findUserRoleList(roleId);
+	}
+	@Override
+	public Integer insertUserRole(@Param(value = "userId")String userId ,@Param(value = "roleId")String roleId) {
+		// TODO Auto-generated method stub
+		roleDao.deleteUserRole(userId);
+		int id = roleDao.addUserRole(userId ,roleId);
+		return id;
+	}
+	@Override
+	public List<Role> findPrepareList(Role role) {
+		// TODO Auto-generated method stub
+		return  roleDao.findPrepareList(role);
 	}
 	
 	
