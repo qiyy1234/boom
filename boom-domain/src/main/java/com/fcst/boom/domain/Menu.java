@@ -17,21 +17,20 @@ public class Menu extends PageBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String superiorId;  // Meger做的牺牲
-	private String pId;         // 父级编号缩写为Ztree做的牺牲
-	
+	private String superiorId;  //Meger做的牺牲
+	private String pId;         //父级编号缩写为Ztree做的牺牲
 	private String id;          //Id
 	private Menu parent;	    //父级菜单
 	private String parentId;    //父级编号
 	private String parentIds;   //所有父级编号
 	private String permission;  //权限标识
-	private String name; 	    // 功能菜单名称
-	private String href; 	    // 链接
-	private String target; 	    // 目标（ mainFrame、_blank、_self、_parent、_top）
-	private String icon; 	    // 图标
-	private Integer sort; 	    // 排序
-	private String isShow; 	    // 是否在菜单中显示（1：显示；0：不显示）
-	private String dictName;    // 是否在菜单中显示（1：显示；0：不显示）
+	private String name; 	    //功能菜单名称
+	private String href; 	    //链接
+	private String target; 	    //目标（ mainFrame、_blank、_self、_parent、_top）
+	private String icon; 	    //图标
+	private Integer sort; 	    //排序
+	private String isShow; 	    //是否在菜单中显示（1：显示；0：不显示）
+	private String dictName;    //是否在菜单中显示（1：显示；0：不显示）
 	
 	private String createBy;    //创建者
 	private Date   createDate;  //创建时间
@@ -41,7 +40,16 @@ public class Menu extends PageBean implements Serializable {
 	private String delFlag;     //删除标记
 	private String userId;      //用户ID
 	
+	private List<Menu> subsetPermission;
 	
+	public List<Menu> getSubsetPermission() {
+		return subsetPermission;
+	}
+
+	public void setSubsetPermission(List<Menu> subsetPermission) {
+		this.subsetPermission = subsetPermission;
+	}
+
 	public String getId() {
 		return id;
 	}

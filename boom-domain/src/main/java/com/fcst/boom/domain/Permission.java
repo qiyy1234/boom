@@ -3,7 +3,7 @@ package com.fcst.boom.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class Permission extends BaseEntity implements Serializable {
+public class Permission extends BaseEntity<Object> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

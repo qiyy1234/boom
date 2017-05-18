@@ -3,7 +3,6 @@ package com.fcst.boom.web.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,17 +14,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
 import com.fcst.boom.common.page.PageUtils;
 import com.fcst.boom.domain.Menu;
+import com.fcst.boom.domain.Office;
 import com.fcst.boom.domain.Permission;
 import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
 import com.fcst.boom.service.MenuService;
+import com.fcst.boom.service.OrganizationService;
 import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.service.RoleService;
 import com.fcst.boom.service.UserService;
@@ -47,6 +47,9 @@ public class RoleController {
 	@Autowired
 	private MenuService menuService;
 
+	@Autowired
+	private OrganizationService organizationService;
+	
 	@Autowired
 	private UserService userService;
 
@@ -408,15 +411,28 @@ public class RoleController {
 
 	@RequestMapping("/detail")
 	@ResponseBody
-	public Role detail(String roleId) {
+	public JsonResult detail(String roleId) {
+		JsonResult result = new JsonResult();
+		Principal principal = getPrincipal();
 		Role role = null;
-		try {
-			role = roleService.detailRole(roleId);
+		User user = null;
+		try {	
+		    role = roleService.detailRole(roleId);
+			user = userService.getUser(principal.getId());
+			if (role.getOffice()==null){
+				role.setOfficeTest(user.getOffice());
+			}
+			List<Menu> menuList = menuService.findAllMenu(user);
+			List<Office> officeList	= 	organizationService.findAll(user);
+			result.put("role", role);
+			result.put("menuList", menuList);
+			result.put("officeList", officeList);
+			result.put("result", true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return role;
+		return result;
 	}
 
 	@RequestMapping("/delete")

@@ -103,7 +103,7 @@ public class PermissionServiceImpl implements PermissionService {
 			map.put("userid", userid);
 			p.setSubsetPermission(permissionDao.selectPermissionByParentidNotOne(map));
 		}
-		return permissionDao.selectPermissionMenuByUserId(userid);
+		return permissionList;
 	}
 
 	@Override

@@ -28,6 +28,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	private String officeId;    // 部门Id
 	private String dataScopeName;//数据过滤名称
 	private Organization office;// 归属机构
+	private Office officeTest;// 归属机构
 	
 	private User user;		    // 根据用户ID查询角色列表
 	
@@ -207,6 +208,12 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	}
 	public void setDataScopeName(String dataScopeName) {
 		this.dataScopeName = dataScopeName;
+	}
+	public Office getOfficeTest() {
+		return officeTest;
+	}
+	public void setOfficeTest(Office officeTest) {
+		this.officeTest = officeTest;
 	}
 	
 

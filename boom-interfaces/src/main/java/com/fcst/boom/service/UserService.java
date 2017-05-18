@@ -69,7 +69,7 @@ public interface UserService {
 
 	 public User getUser(String id);
 
-	public PageList<User> findUser(User user, PageArg pageArg, String id);
+	 public PageList<User> findUser(User user, PageArg pageArg, String id);
 
 	 
 

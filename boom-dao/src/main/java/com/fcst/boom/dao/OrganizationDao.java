@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.fcst.boom.domain.Office;
 import com.fcst.boom.domain.Organization;
 
 public interface OrganizationDao {
@@ -65,6 +66,20 @@ public interface OrganizationDao {
 	 */
 	public List<Organization> findAllList(Organization organization) throws Exception;
 	
+	/**
+	 * 查看全部机构
+	 * @param Office
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Office> findAllOfficeList(Office office) throws Exception;
 	
+	/**
+	 * 查看全部机构
+	 * @param Office
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Office> findOfficeList(Office office) throws Exception;
 	
 }

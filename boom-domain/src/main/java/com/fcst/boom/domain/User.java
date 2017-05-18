@@ -79,6 +79,8 @@ public class User extends BaseEntity<User> implements Serializable {
 	
 	private List<Permission> menus = Lists.newArrayList();//菜单
 	
+	private List<Menu> menuLists = Lists.newArrayList();//菜单
+	
 	private List<Permission> permissions = Lists.newArrayList();//权限
 	
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
@@ -103,7 +105,7 @@ public class User extends BaseEntity<User> implements Serializable {
 		super();
 		this.role = role;
 	}
-	
+
 	@JsonIgnore
 	public List<String> getRoleIdList() {
 		
@@ -394,6 +396,14 @@ public class User extends BaseEntity<User> implements Serializable {
 
 	public void setRoleIdLists(List<String> roleIdLists) {
 		this.roleIdLists = roleIdLists;
+	}
+
+	public List<Menu> getMenuLists() {
+		return menuLists;
+	}
+
+	public void setMenuLists(List<Menu> menuLists) {
+		this.menuLists = menuLists;
 	}
 
 	

@@ -3,6 +3,7 @@ package com.fcst.boom.service;
 import java.util.List;
 
 import com.fcst.boom.domain.Menu;
+import com.fcst.boom.domain.User;
 
 public interface MenuService {
 	
@@ -33,6 +34,8 @@ public interface MenuService {
 	public List<Menu> findByUserIdMenu(Menu menu);
 
 	public List<Menu> getMenuList(String id);
+
+	public List<Menu> findAllMenu(User user);
 	
 
 }

@@ -1,11 +1,8 @@
 package com.fcst.boom.web.shiro;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -20,8 +17,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.fcst.boom.domain.ActiveUser;
 import com.fcst.boom.domain.Menu;
 import com.fcst.boom.domain.Permission;
 import com.fcst.boom.domain.Role;
@@ -56,7 +51,7 @@ public class CustomRealm extends AuthorizingRealm{
 		User user=null;
 		try {
 			user=userService.getUserByUsername(userCode);
-			/*user.setRoleList(roleService.findPrepareList(new Role(user)));*/
+			user.setMenuLists(menuService.getMenuList(user.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -180,13 +175,15 @@ public class CustomRealm extends AuthorizingRealm{
 		private String createUser;   // 创建人
 		private boolean mobileLogin; // 是否手机登录
 		private List<Permission> menus = Lists.newArrayList(); //菜单集合
+		private List<Menu> menuLists = Lists.newArrayList();   //菜单集合
 		
 		public Principal(User user) {
 			this.id = user.getId();
 			this.loginName = user.getLoginName();
 			this.name = user.getName();
 			this.menus = user.getMenus();
-			this.createDate = new Date(); 
+			this.createDate = new Date();
+			this.menuLists = user.getMenuLists();
 			
 		}
 		
@@ -238,6 +235,16 @@ public class CustomRealm extends AuthorizingRealm{
 		public void setCreateUser(String createUser) {
 			this.createUser = createUser;
 		}
+
+		public List<Menu> getMenuLists() {
+			return menuLists;
+		}
+
+		public void setMenuLists(List<Menu> menuLists) {
+			this.menuLists = menuLists;
+		}
+		
+		
 		
     }
 		

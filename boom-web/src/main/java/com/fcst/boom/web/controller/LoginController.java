@@ -9,31 +9,37 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.fcst.boom.common.Constant;
 import com.fcst.boom.common.JsonResult;
 import com.fcst.boom.common.MD5;
+import com.fcst.boom.service.MenuService;
+import com.fcst.boom.service.PermissionService;
 import com.fcst.boom.web.shiro.CustomRealm.Principal;
 
 @Controller
 @RequestMapping("/page")
 public class LoginController {
+	
+	@Autowired
+	private MenuService menuService;
+	
+	@Autowired
+	private PermissionService permissionService;
 	
 	@RequestMapping("/login")
 	public String login(){
@@ -77,6 +83,20 @@ public class LoginController {
 	    
 	}
 	
+	/**
+	 * 成功跳转
+	 * @return
+	 */
+	@RequiresPermissions("user")
+	@RequestMapping("/index") 
+	public String index(Model model){
+		System.err.println("------index.do基础-----开始-----");
+		Subject subject = SecurityUtils.getSubject();
+		Principal principal = (Principal) subject.getPrincipal();
+/*		List<Menu> list = menuService.getMenuList(principal.getId());*/
+		model.addAttribute("user", principal);
+		return "index";
+	}
 	
 	/**
 	 * 用户注销
@@ -90,19 +110,6 @@ public class LoginController {
 		subject.logout();
 		return "login";
 	}
-	
-	@RequiresPermissions("user")
-	@RequestMapping("/index") 
-	public String index(Model model){
-		System.err.println("------index.do基础-----开始-----");
-		Subject subject = SecurityUtils.getSubject();
-		Principal principal = (Principal) subject.getPrincipal();
-		model.addAttribute("user", principal);
-		
-		System.err.println("------index.do基础-----结束-----");
-		return "index";
-	}
-	
 	
 /*	*//**
 	 * 给man端使用登陆接口
@@ -182,4 +189,5 @@ public class LoginController {
 		String s = "ABCDEFGHJKLMNPRSTUVWXYZ0123456789";
 		return s.charAt(r.nextInt(s.length()));
 	}
+	
 }

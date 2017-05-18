@@ -1,5 +1,6 @@
 package com.fcst.boom.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.fcst.boom.domain.Menu;
@@ -41,6 +42,14 @@ public interface MenuDao {
 	public List<Menu> findAllList(Menu menu);
 
 	public List<Menu> findByUserMenuId(Menu menu);
+
+	public List<Menu> findByPermissionMenuId(String userId);
+
+	public List<Menu> selectPermissionByParentidNotOne(HashMap<?, ?> map);
+
+	public List<Menu> findPermissionMenuAllList(Menu menu);
+
+	public List<Menu> findByUserId(Menu menu);
 	
 	
 }

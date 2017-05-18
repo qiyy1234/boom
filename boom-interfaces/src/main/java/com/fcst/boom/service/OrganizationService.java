@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.fcst.boom.common.page.PageArg;
 import com.fcst.boom.common.page.PageList;
+import com.fcst.boom.domain.Office;
 import com.fcst.boom.domain.Organization;
 import com.fcst.boom.domain.Role;
+import com.fcst.boom.domain.User;
 
 public interface OrganizationService {
 
@@ -63,6 +65,8 @@ public interface OrganizationService {
 	  * @throws Exception
 	  */
 	 public List<Organization> findList(Boolean isAll ,String id);
+
+	 public List<Office> findAll(User user);
 
 
 	
