@@ -277,49 +277,122 @@ Purchase: http://wrapbootstrap.com
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
-                            <form class="form-horizontal" role="form" id="updateRoleForm">
-                                <div class="form-group">
-                                    <label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
-                                    <div class="col-sm-9">
-                                    	<input type="text" class="form-control" id="update_role_id" name="id" style="display: none"/>
-                                        <input type="text" class="form-control" id="update_role_name" name="name" />
-                                    </div>
+                            <form class="form-horizontal" role="form" id="roleForm">     
+                                                   
+									<div class="form-group">
+										<label class="col-sm-2 control-label no-padding-right">归属部门：</label>
+										<div class="col-sm-8">
+											<div class="input-group col-sm-16">
+												<input class="form-control" id="orgNameDept" type="text" value="" readonly> 
+												    <span class="input-group-btn">
+													<a href="javascript:void(0);" id="parentTreeSelcDept"
+													class="btn btn-default popover1" data-container="body"
+													data-titleclass="bordered-blue" data-toggle="popover"
+													data-placement="bottom" data-title="选择所属部门"
+													data-content="<div class='popover1 widget-body'>
+				                                   <ul id='parentTreeDept' class='popover1 ztree'></ul>
+				                                   <p class='text-right' style='margin-top:5px;margin-bottom:-3px;'>
+				                                   <a align='right' class='btn btn-blue btn-xs' onclick=seleteParentTreeDept('parentTreeDept','parentTreeSelcDept','parentIdDept','orgNameDept')>确定</a>&nbsp;
+													<a align='right' class='btn btn-blue btn-xs' onclick=clearZtree('orgNameDept','parentIdDept','parentTreeSelcDept')>清除</a>
+											       </span>
+											"data-original-title="" title=""> GoTo </a> 
+												<input type="text" id="parentIdDept" name="officeId" /> 
+											</div>
+										</div>
+									</div>
+                            	
+                            	
+                            	<div class="form-group">
+		                        	<label  class="col-sm-2 control-label no-padding-right">角色名称：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="add_role_name" name="name" />
+		                            </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">英文名称：</label>
-                                    <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="update_role_enname" name="enname" />
-                                    </div>
+		                        	<label class="col-sm-2 control-label no-padding-right">英文名称：</label>
+		                            <div class="col-sm-9">
+		                            	<input type="text" class="form-control" id="add_role_enname" name="enname" />
+		                            </div>
+		                        </div>
+
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">角色类型：</label>
+		                            <div class="col-sm-9">
+		                            	<select name="roleType" id="roleType" style="width:100%;">
+                                                <option value="assignment" >任务分配</option>
+                                                <option value="security-role" >管理角色</option>
+                                                <option value="user" >普通角色</option>
+                                            </select>
+		                            </div>
+		                        </div>
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">是否系统数据：</label>
+		                            <div class="col-sm-9">
+		                         		<select name="sysData" id="sysData" style="width:100%;">
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+		                            </div>
+		                        </div>
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">是否可用：</label>
+		                            <div class="col-sm-9">
+		                            	<select name="useable" id="useable" style="width:100%;">
+                                                <option value="1" >是</option>
+                                                <option value="0" >否</option>
+                                            </select>
+		                            </div>
+		                        </div>
+		                                                        <div class="form-group">
+		                        	<label class="col-sm-2 control-label no-padding-right">数据范围：</label>
+		                            <div class="col-sm-9">
+		                            	<!-- <input type="text" class="form-control" id="dataScope" name="dataScope" /> -->
+		                            	<select class="form-control" id="dataScopeUpdate" name="dataScopeUpdate"></select>
+		                            </div>
+		                        </div>
+		                                                         <div class="form-group">
+		                                                                       	<label class="col-sm-2 control-label no-padding-right">角色授权：</label>
+<div class="col-lg-9 col-sm-9 col-xs-9">
+                                    <div class="widget transparent">
+                                        <div class="widget-header">
+                                            <span class="widget-caption" >角色授权  Transparent Widget </span>
+                                            <div class="widget-buttons">
+                                                <a href="#" data-toggle="collapse">
+                                                    <i class="fa blue  fa-minus"></i>
+                                                </a>
+                                                <a href="#" data-toggle="dispose">
+                                                    <i class="fa fa-times danger"></i>
+                                                </a>
+                                            </div><!--Widget Buttons-->
+                                        </div><!--Widget Header-->
+                                        
+                                        <div class="widget-body" style="display: block;">
+                                             <div id="ztree_selectUpdate" class="ztree"></div>
+                                        </div><!--Widget Body-->
+                                        <input type="hidden" class="form-control" id="menuIds" name="menuIds" />
+                                    </div><!--Widget-->
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">创建人：</label>
-                                    <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="update_role_create_user" disabled="disabled" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label no-padding-right">创建时间：</label>
-                                    <div class="col-sm-9">
-                                       <input type="text" class="form-control" id="update_role_create_date" disabled="disabled"/>
-                                    </div>
-                                </div>
+                              	</div>  
+                                
+                                
+		                        
                                 <div class="form-group">
 		                        	<label class="col-sm-2 control-label no-padding-right">备注：</label>
 		                            <div class="col-sm-9">
-		                            	<textarea class="form-control" id="update_role_remark" name="remark">
+		                            	<textarea class="form-control" id="add_role_remark" name="remark">
 		                            	</textarea>
 		                            </div>
                                 </div>
 
-                                <table class="table">
-                                	<tr>
+                               <table class="table" >
+                               		<tr>
                                     	<td align="center">
-                                        	<a href="#" id="roleUpdateBtn" onclick="updateRole()"  class="btn btn-azure">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                       		<a href="#" onclick="closeUpdateDiv()" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
+                                        	<a href="#" id="roleAddBtn" onclick="addRole()"  class="btn btn-azure">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                       		<a href="#" data-dismiss="modal" aria-hidden="true"  class="btn btn-azure">取消</a>
                                         </td>
                                     </tr>
-                                </table>
-                               
+                               </table>
+                                   
 
                             </form>
                         </div>
@@ -691,6 +764,7 @@ Purchase: http://wrapbootstrap.com
 		}; 
 	$("#pageBody").hide();	
  	getAllRoleList('ztree_select'); 
+ 	getAllRoleList('ztree_selectUpdate'); 
  });
  
   function getAllRoleList(treeId){
@@ -884,6 +958,7 @@ Purchase: http://wrapbootstrap.com
 	  
 	 function addFrom(){
 			$("#dataScope").text('');
+			$("#dataScopeUpdate").text('');
 			 var html = "";  
 			    $.ajax({  
 			        type: "post",  
@@ -897,7 +972,7 @@ Purchase: http://wrapbootstrap.com
 			         	for(var key in obj){ //第一层循环取到各个list 
 			         		var List = obj[key]; 
 			         		for(var ob in List){ //第二层循环取list中的对象 
-			         		  html += "<option value='" + List[ob ].id + "'>" + List[ob ].name + "</option>";
+			         		  html += "<option  value='" + List[ob ].id + "'>" + List[ob ].name + "</option>";
 			         		  
 			         		     } 
 			         		   } 
@@ -908,6 +983,7 @@ Purchase: http://wrapbootstrap.com
 			        }  
 			    });  
 			    $(html).appendTo("#dataScope");
+			    $(html).appendTo("#dataScopeUpdate");
 		}
 	 
 	 function powerRole(roleId){

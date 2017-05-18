@@ -398,7 +398,7 @@ Purchase: http://wrapbootstrap.com
                 </div>
                 <!-- /Page Sidebar Header -->
                 <!-- Sidebar Menu -->
-                <ul class="nav sidebar-menu">
+                <%-- <ul class="nav sidebar-menu">
                     <!--Dashboard-->
                     <li class="active">
                          <a href="<%=request.getContextPath()%>/rest/page/index">
@@ -447,7 +447,7 @@ Purchase: http://wrapbootstrap.com
                             </li>
                             
                             <!-- In -->
-                            <li>
+                            <!-- <li>
                                 <a href="#" class="menu-dropdown">
                                     <span class="menu-text">
                                         Icons
@@ -475,12 +475,12 @@ Purchase: http://wrapbootstrap.com
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                             
                         </ul>
                     </li>
 
-                </ul>
+                </ul> --%>
                 <!-- /Sidebar Menu -->
                 
                            <!-- shiro --> 
@@ -489,39 +489,29 @@ Purchase: http://wrapbootstrap.com
 					<li class="active" id="fhindex">
 					  <a href="<%=request.getContextPath()%>/rest/page/index">
 					  <i  class="menu-icon glyphicon glyphicon-home"></i>
-					  <span  class="menu-text" > Boom Shiro 首页  Testing</span>
+					  <span  class="menu-text" > Boom Shiro Testing</span>
 					  </a>
 					</li>
-                    
-			<c:forEach items="${user.menus}" var="menu">
-				
+			<c:forEach items="${user.menuLists}" var="menu">
 				<li id="lm${menu.id}">
 					  <a href="#" style="cursor:pointer;" class="menu-dropdown" >
 						<i class="menu-icon fa fa-desktop"></i>
-						<span class="menu-text">${menu.name}</span>
+						<span class="menu-text">${menu.name} </span>
 						<b class="menu-expand"></b>
 					  </a>
 					  <ul class="submenu">
 							<c:forEach items="${menu.subsetPermission}" var="sub">
-								
-								<c:choose>
-									<c:when test="${not empty sub.url}">
+								 <c:choose>
+									<c:when test="${not empty sub.href}">
 									 <li>
-									 <a  href="<%=request.getContextPath()%>/${sub.url }" target="mainframe" style="cursor:pointer;" target="mainFrame"  onclick="siMenu('z${sub.id }','lm${menu.id }','${sub.name }','${sub.url }')">
+									 <a  href="<%=request.getContextPath()%>/${sub.href }" target="mainframe" style="cursor:pointer;" target="mainFrame"  onclick="siMenu('z${sub.id }','lm${menu.id }','${sub.name }','${sub.href }')">
 									 <span href="#" value="menu.jsp" class="menu-text">${sub.name}</span>
 									 </a>
-									 </li>
+									 </li> 
 									</c:when>
 									<c:otherwise>
-									
-<%-- 						    <li>
-                                <a href="boom/menu/index" target="mainframe">
-                                    <span href="#" value="menu.jsp" class="menu-text">${sub.name }</span>
-                                </a>
-                            </li>  --%>
 									</c:otherwise>
-								</c:choose>
-							
+								</c:choose> 
 							</c:forEach>
 				  		</ul>
 				</li>
@@ -812,13 +802,11 @@ InitiateRoleDataTable.init();
     <script>
         $(function(){
             $("#page_body_div").load("/boom/menu/menu");
-
             $(".menu_a").click(function(){
                 var loadHtml = $(this).attr("value");
                 $("#page_body_div").load(loadHtml);
-            });
+            }); 
         });
-
 
         //Sidebar Menu Handle
         $(".sidebar-menu").on('click', function (e) {

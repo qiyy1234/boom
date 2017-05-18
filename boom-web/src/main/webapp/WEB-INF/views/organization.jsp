@@ -607,7 +607,6 @@ $("#updateParentTreeSelc").click(function(){
 				contentType:"application/json; charset=utf-8",
 		        dataType:"json",
 		        success:function(resultData){
-		        	alert(resultData.msg);
 		        	if(resultData.result){
 		        		//cleanAddForm();
 		            	$('#addOrgDiv').modal('hide');
@@ -633,7 +632,6 @@ $("#updateParentTreeSelc").click(function(){
 					contentType:"application/json; charset=utf-8",
 			        dataType:"json",
 			        success:function(resultData){
-			        	alert(resultData.msg);
 			        	if(resultData.result){
 			        		//cleanAddForm();
 			            	$('#updateOrgDiv').modal('hide');
@@ -695,7 +693,6 @@ $("#updateParentTreeSelc").click(function(){
 		  url: basePath+"rest/boom/organization/delete",
 		  data: {"orgId":id},
 		  success: function(resultData){
-			  alert(resultData.msg);
 	          if(resultData.result){
 	        	  findOrganizationList();
 	        	  //var treeObj = $.fn.zTree.getZTreeObj('ztree');

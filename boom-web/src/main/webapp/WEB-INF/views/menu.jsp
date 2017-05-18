@@ -73,7 +73,7 @@ Purchase: http://wrapbootstrap.com
                             </table>
                             <br>
                             <table id="menutreeTable" class=" treetable table table-striped table-bordered table-condensed">
-                            <thead><tr><th width="20%">名称</th><th width="10%">链接</th><th width="10%" style="text-align:center;">排序</th><th width="10%">状态</th><th width="10%">权限标识</th><th width="20%">操作</th></tr></thead>
+                            <thead><tr><th width="15%">名称</th><th width="15%">链接</th><th width="10%" style="text-align:center;">排序</th><th width="10%">状态</th><th width="10%">权限标识</th><th width="20%">操作</th></tr></thead>
                             <tbody id="menuTableBody">
         
                            		
