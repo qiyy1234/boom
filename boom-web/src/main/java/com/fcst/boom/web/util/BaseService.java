@@ -13,10 +13,6 @@ import com.fcst.boom.domain.BaseEntity;
 import com.fcst.boom.domain.Role;
 import com.fcst.boom.domain.User;
 import com.google.common.collect.Lists;
-/*import com.thinkgem.jeesite.common.persistence.BaseEntity;*/
-/*import com.thinkgem.jeesite.common.utils.StringUtils;*/
-/*import com.thinkgem.jeesite.modules.sys.entity.Role;*/
-/*import com.thinkgem.jeesite.modules.sys.entity.User;*/
 
 /**
  * Service基类

@@ -50,6 +50,34 @@ public class LoginController {
 		return "login";
 	}
 	
+	/**
+	 * 管理登录
+	 */
+/*	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login() {
+		System.out.println(" ---  -- - - - -- -- jeesite/a/logen--s-------------------------");
+		Subject subject = SecurityUtils.getSubject();
+		Principal principal = (Principal) subject.getPrincipal();
+		
+		
+		// 如果已登录，再次访问主页，则退出原账号。
+		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
+			CookieUtils.setCookie(response, "LOGINED", "false");
+		}
+		
+		// 如果已经登录，则跳转到管理首页
+		if(principal != null && !principal.isMobileLogin()){
+			return "redirect:" + adminPath;
+		}
+		
+		System.out.println(" ---  -- - - - -- -- jeesite/a/logen--end-------------------------");
+		return "login";
+		
+	}*/
+	
+	
+	
+	
 	@RequestMapping("/validateLogin")
 	@ResponseBody
 	public JsonResult validateLogin( Model model, HttpServletRequest request,HttpServletResponse response, Object handler, Exception ex){
@@ -90,10 +118,8 @@ public class LoginController {
 	@RequiresPermissions("user")
 	@RequestMapping("/index") 
 	public String index(Model model){
-		System.err.println("------index.do基础-----开始-----");
 		Subject subject = SecurityUtils.getSubject();
 		Principal principal = (Principal) subject.getPrincipal();
-/*		List<Menu> list = menuService.getMenuList(principal.getId());*/
 		model.addAttribute("user", principal);
 		return "index";
 	}
@@ -104,8 +130,6 @@ public class LoginController {
 	 */
 	@RequestMapping("/loginOut")
 	public String doLoginOut(){
-		System.err.println("------loginOUT-----销毁-----");
-		//shiro销毁登录
 		Subject subject = SecurityUtils.getSubject(); 
 		subject.logout();
 		return "login";

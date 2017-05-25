@@ -31,7 +31,7 @@ public class Menu extends PageBean implements Serializable {
 	private Integer sort; 	    //排序
 	private String isShow; 	    //是否在菜单中显示（1：显示；0：不显示）
 	private String dictName;    //是否在菜单中显示（1：显示；0：不显示）
-	
+
 	private String createBy;    //创建者
 	private Date   createDate;  //创建时间
 	private String updateDy;    //更新者
@@ -39,6 +39,7 @@ public class Menu extends PageBean implements Serializable {
 	private String remarks;     //备注信息
 	private String delFlag;     //删除标记
 	private String userId;      //用户ID
+	private boolean checked;    //定位选择
 	
 	private List<Menu> subsetPermission;
 	
@@ -217,6 +218,14 @@ public class Menu extends PageBean implements Serializable {
 
 	public void setSuperiorId(String superiorId) {
 		this.superiorId = superiorId;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 	public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId, boolean cascade){

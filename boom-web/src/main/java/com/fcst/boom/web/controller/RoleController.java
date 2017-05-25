@@ -199,33 +199,6 @@ public class RoleController {
 		}
 		return result;
 	}
-	
-
-	/**
-	 * 跳转权限菜单 递归java
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/powerRoleDG")
-	@ResponseBody
-	public JsonResult powerRoleDG(String roleId) {
-		JsonResult result = new JsonResult();
-		List<Permission> sourcelist = permissionService.getAllMenuListDG();
-		List<Permission> myPermissionList = permissionService
-				.getMyPermissionListDG(roleId);
-		for (Permission permission : sourcelist) {
-			for (Permission mypermission : myPermissionList) {
-				if (permission.getId().equals(mypermission.getId())) {
-					permission.setChecked(true);
-					continue;
-				}
-			}
-		}
-
-		result.put("zTreeNodes", sourcelist);
-		result.put("roleId", roleId);
-		return result;
-	}
 
 	/**
 	 * 查询下拉列表
@@ -423,7 +396,17 @@ public class RoleController {
 				role.setOfficeTest(user.getOffice());
 			}
 			List<Menu> menuList = menuService.findAllMenu(user);
-			List<Office> officeList	= 	organizationService.findAll(user);
+			
+			for (Menu menu : menuList) {
+				for (Menu myMenu : role.getMenuList()) {
+					if (menu.getId().equals(myMenu.getId())) {
+						menu.setChecked(true);
+						continue;
+					}
+				}
+			}
+			
+			List<Office> officeList	= organizationService.findAll(user);
 			result.put("role", role);
 			result.put("menuList", menuList);
 			result.put("officeList", officeList);
@@ -434,6 +417,33 @@ public class RoleController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 跳转权限菜单 递归java
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/powerRoleDG")
+	@ResponseBody
+	public JsonResult powerRoleDG(String roleId) {
+		JsonResult result = new JsonResult();
+		List<Permission> sourcelist = permissionService.getAllMenuListDG();
+		List<Permission> myPermissionList = permissionService.getMyPermissionListDG(roleId);
+		for (Permission permission : sourcelist) {
+			for (Permission mypermission : myPermissionList) {
+				if (permission.getId().equals(mypermission.getId())) {
+					permission.setChecked(true);
+					continue;
+				}
+			}
+		}
+
+		result.put("zTreeNodes", sourcelist);
+		result.put("roleId", roleId);
+		return result;
+	}
+
+	
 
 	@RequestMapping("/delete")
 	@ResponseBody

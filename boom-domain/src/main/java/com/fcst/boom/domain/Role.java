@@ -19,6 +19,7 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	private String oldName; 	// 原角色名称
 	private String oldEnname;	// 原英文名称
 	private String sysData;     // 是否是系统数据
+	private String isSys;       // 是否是系统数据 up
 	private String useable;     // 是否是可用
 	private String delFlag;     // 是否显示
 	private String create_date; // 创建时间
@@ -214,6 +215,12 @@ public class Role extends BaseEntity<Object> implements Serializable {
 	}
 	public void setOfficeTest(Office officeTest) {
 		this.officeTest = officeTest;
+	}
+	public String getIsSys() {
+		return isSys;
+	}
+	public void setIsSys(String isSys) {
+		this.isSys = isSys;
 	}
 	
 
