@@ -114,7 +114,7 @@
 		name,code,grade,address,zip_code zipCode,master,phone,fax,email,remarks from sys_organization o where id = #{id}
 	</select>
 	
-	<select id="findList" resultType="Organization">
+	<select id="findOfficeList" resultType="Organization">
 		SELECT
 			<include refid="officeColumns"/>
 		FROM sys_office a
@@ -123,6 +123,15 @@
 		<!-- 数据范围过滤 -->
 		${sqlMap.dsf}
 		OR a.id = #{currentUser.office.id}
+		ORDER BY a.code
+	</select>
+	
+	<select id="findAllOfficeList" resultType="Organization">
+		SELECT
+			<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		ORDER BY a.code
 	</select>
 	
@@ -135,5 +144,16 @@
 		ORDER BY a.code
 	</select>
 	
+	<select id="findList" resultType="Organization">
+		SELECT
+			<include refid="officeColumns"/>
+		FROM sys_office a
+		<include refid="officeJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<!-- 数据范围过滤 -->
+		${sqlMap.dsf}
+		OR a.id = #{currentUser.office.id}
+		ORDER BY a.code
+	</select>
 		
 </mapper>
